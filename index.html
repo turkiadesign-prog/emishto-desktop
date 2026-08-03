@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#401020"/><text x="150" y="110" font-family="serif" font-size="34" fill="#FBFAF8" text-anchor="middle">É·M</text></svg></template>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>É-MISHTO — Objects with soul</title>
@@ -74,7 +75,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   pointer-events: none;
   z-index: 200;
   opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIyIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxNjAiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC41NSIvPjwvc3ZnPg==');
   animation: grain-shift 7s steps(8) infinite;
 }
 body[data-grain="off"] .grain { display: none; }
@@ -704,7 +705,7 @@ h1.hero-title .upright { font-style: normal; }
   text-wrap: pretty;
 }
 .entry-dek { font-size: 16px; color: var(--ink); margin-top: 10px; max-width: 40ch; text-wrap: pretty; }
-.entry-sign { display: block; margin-top: 16px; font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--coffee); }
+.entry-sign { display: block; margin-top: 16px; font-family: var(--serif); font-style: italic; font-size: 18px; color: #5a4326; }
 .entry-read { display: flex; align-items: baseline; gap: 6px; width: fit-content; margin-top: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--aubergine); border-bottom: 1px solid var(--aubergine); padding-bottom: 3px; transition: gap var(--t) var(--ease); clear: both; }
 .entry:hover .entry-read { gap: 12px; }
 .entry:hover .entry-read { gap: 12px; }
@@ -2524,12 +2525,12 @@ textarea.field-input:focus { border-color: var(--ink); }
           <span class="micro">Interview</span>
           <span class="micro">06 min</span>
         </div>
-        <div class="ph has-img" data-label="laurence at work — studio floor"><img src="assets/shelf/front/laurence-studio-crouch.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div class="ph has-img" data-label="laurence at work — studio floor"><img src="assets/shelf/front/laurence-studio-crouch.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% 55%;transform:scale(1.7);transform-origin:35% 55%">
           <div class="ph-inner" data-speed="0.98"></div>
         </div>
         <h3 class="entry-title">The magic lies in combining colors.</h3>
         <p class="entry-dek">Laurence Leenaert on leaving Belgium for Marrakech, founding LRNCE, and painting with clay, wool and sun.</p>
-        <span class="entry-sign">by the curators · 12 June 2026</span>
+        <span class="entry-sign" style="color:#5a4326;">by the curators · 12 June 2026</span>
         <span class="entry-read">Read story <span>→</span></span>
       </a>
       <a class="entry fade-up" href="#">
@@ -2537,7 +2538,7 @@ textarea.field-input:focus { border-color: var(--ink); }
           <span class="micro">How to collect</span>
           <span class="micro">04 min</span>
         </div>
-        <div class="ph tone-coffee has-img" data-label="single painting on a wall"><img src="assets/shelf/front/painting-on-wall.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div class="ph tone-coffee has-img" data-label="single painting on a wall"><img src="assets/shelf/front/painting-on-wall.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% center;transform:scale(2.6)">
           <div class="ph-inner" data-speed="1.02"></div>
         </div>
         <h3 class="entry-title">How to live with one painting</h3>
@@ -2550,7 +2551,7 @@ textarea.field-input:focus { border-color: var(--ink); }
           <span class="micro">Behind the shelf</span>
           <span class="micro">03 min</span>
         </div>
-        <div class="ph tone-lavender has-img" data-label="curation table — objects &amp; notes"><img src="assets/shelf/front/curation-table.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div class="ph tone-lavender has-img" data-label="curation table — objects &amp; notes"><img src="assets/shelf/front/curation-table-journal.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.5)">
           <div class="ph-inner" data-speed="0.97"></div>
         </div>
         <h3 class="entry-title">How we curate the week</h3>
@@ -3477,7 +3478,7 @@ textarea.field-input:focus { border-color: var(--ink); }
         <span class="rv-line">combining colors.</span>
       </h1>
       <p class="fade-up">Laurence Leenaert, founder of LRNCE, on leaving the Flemish countryside for Marrakech — and why she paints with clay, wool and whatever the sun leaves behind.</p>
-      <span class="entry-sign" style="margin-top:18px;display:block;">by the curators · 12 June 2026</span>
+      <span class="entry-sign" style="margin-top:18px;display:block;color:#5a4326;">by the curators · 12 June 2026</span>
     </div>
   </article>
 
@@ -3713,7 +3714,7 @@ textarea.field-input:focus { border-color: var(--ink); }
           <span class="micro">How to collect</span>
           <span class="micro">04 min</span>
         </div>
-        <div class="ph tone-coffee has-img" data-label="single painting on a wall"><img src="assets/shelf/front/painting-on-wall.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div class="ph tone-coffee has-img" data-label="single painting on a wall"><img src="assets/shelf/front/painting-on-wall.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% center;transform:scale(2.6)">
           <div class="ph-inner" data-speed="1.02"></div>
         </div>
         <h3 class="entry-title">How to live with one painting</h3>
@@ -3726,7 +3727,7 @@ textarea.field-input:focus { border-color: var(--ink); }
           <span class="micro">Behind the shelf</span>
           <span class="micro">03 min</span>
         </div>
-        <div class="ph tone-lavender has-img" data-label="curation table — objects &amp; notes"><img src="assets/shelf/front/curation-table.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div class="ph tone-lavender has-img" data-label="curation table — objects &amp; notes"><img src="assets/shelf/front/curation-table-journal.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.5)">
           <div class="ph-inner" data-speed="0.97"></div>
         </div>
         <h3 class="entry-title">How we curate the week</h3>
@@ -5888,6 +5889,26 @@ textarea.field-input:focus { border-color: var(--ink); }
 
   <!-- ============ PUBLIC SPOTLIGHT PREVIEW ============ -->
   <section class="view-panel public-frame" data-view="public" data-screen-label="Public spotlight preview">
+
+    <section class="profile-fold" data-invert="" style="background:var(--aubergine); color:var(--cream); padding: clamp(64px,9vh,110px) 0 clamp(48px,7vh,80px);">
+      <div class="profile-head">
+        <figure class="spotlight-portrait">
+          <div class="ph ph-reveal has-img" data-label="laurence leenaert — studio portrait"><img src="assets/shelf/front/artist-spotlight-portrait.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+        </figure>
+        <div>
+          <span class="script-name fade-up" style="margin-top: 22px; font-size: clamp(30px, 3.6vw, 50px); transform: none;">Laurence Leenaert</span>
+          <blockquote class="profile-quote">
+            <span class="rv-line">“The magic lies in</span>
+            <span class="rv-line">combining the right colors.”</span>
+          </blockquote>
+          <dl class="profile-meta fade-up">
+            <div><dt class="micro">Category</dt><dd>Home · Décor</dd></div>
+            <div><dt class="micro">With É-mishto since</dt><dd>Spring 2025</dd></div>
+            <div><dt class="micro">Works available</dt><dd>Six, one of one</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
 
     <div class="studio-strip" style="margin-top:0; padding-top:56px;">
       <div class="ph ph-reveal has-img" data-label="the studio — one north window, four o'clock"><img src="assets/shelf/front/lrnce-studio-1.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
