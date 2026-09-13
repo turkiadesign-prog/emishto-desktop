@@ -714,7 +714,9 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
 .piece-add { display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--aubergine); background:none; border:1px solid var(--aubergine); padding:9px 14px; cursor:pointer; transition:background var(--t) var(--ease), color var(--t) var(--ease); }
 .piece-add:hover { background:var(--aubergine); color:var(--white); }
 .piece .ph { transition: opacity var(--t) var(--ease); }
-.piece:hover .ph { opacity: 0.85; }
+/* no hover dim on product images — the slide to the second image is the
+   whole interaction; a 0.85 fade over it read as a grey shadow overlay. */
+.piece:hover .ph { opacity: 1; }
 .shelf-small .piece-name { font-size: 20px; }
 
 .shelf-foot {
@@ -1499,9 +1501,53 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
   .spotlight-grid > div { display: contents; }
 
   .spotlight .micro { order: 1; white-space: nowrap; }
-  .spotlight-quote { order: 2; margin: 20px 0 34px; }
+  .spotlight-quote { order: 2; margin: 20px 0 4px; }
   .spotlight-portrait { order: 3; }
-  .spotlight-bio { order: 4; max-width: none; margin-top: 34px; }
+  /* negative margin pulls the copy up into the collage frame's empty lower
+     band — the second photo is absolutely placed, so the frame runs taller
+     than the visible imagery. */
+  /* the collage frame runs ~40px taller than its visible imagery (the second
+     photo is absolutely placed), so the negative margin cancels that overhang
+     and leaves an even 18px of air above and below the pictures. */
+  .spotlight-bio { order: 4; max-width: none; margin-top: -8px; }
+
+  /* the Spotlight page hero stayed a two-column grid on phone, squeezing the
+     text into ~190px — "É-MISHTO" broke mid-word and the quote wrapped badly.
+     Stacks to one column; layout order is unchanged. */
+  /* the desktop padding (a gutter plus an extra indent on the left) ate 198 of
+     390px, leaving a 192px text column. Phone uses one plain gutter. */
+  /* the base rule sits later in the sheet (a media query adds no specificity),
+     so this needs the body class to win. Desktop padding put a 164px indent on
+     the left, leaving a 192px text column out of 390. */
+  body.spotlight-page .profile-head {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 34px var(--gutter) 44px;
+  }
+  .profile-bio p { max-width: none; }
+  /* portrait moves below the quote: the head is dissolved into the fold so the
+     figure (its own child) can sit between the quote and the bio. */
+  body.spotlight-page .profile-head { display: contents; }
+  body.spotlight-page .profile-head > div { display: contents; }
+  body.spotlight-page .profile-fold {
+    display: flex;
+    flex-direction: column;
+    padding: 34px var(--gutter) 44px;
+  }
+  .profile-fold .crumbs { order: 1; }
+  .profile-fold .script-name { order: 2; }
+  .profile-fold .profile-quote { order: 3; }
+  .profile-fold .spotlight-portrait { order: 4; width: 100%; aspect-ratio: auto; margin: 4px 0 0; }
+  /* the portrait photo is landscape; a 3:4 frame left ~110px of empty ground
+     above and below it, which read as a huge gap on both sides. */
+  .profile-fold .spotlight-portrait .ph { aspect-ratio: 3 / 2; }
+  .profile-fold .profile-bio { order: 5; margin-top: 28px; }
+  .profile-fold .profile-meta { order: 6; margin-top: 28px; }
+  /* label/value pairs read like the Account page's .info-k / .info-v:
+     11px mono uppercase label over a serif value at body size. */
+  .profile-fold .profile-meta dt { font-size: 11px; letter-spacing: 0.16em; }
+  .profile-fold .profile-meta dd { font-size: 14px; line-height: 1.5; }
+
   .spotlight-name { order: 5; margin-top: 30px; }
   .spotlight-grid > br { display: none; }
   .spotlight-cta { order: 6; margin-top: 26px; }
@@ -1622,6 +1668,9 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    /* centred between the last card and the next band's title, which carries
+       its own 34px of space below the foot */
+    margin-top: -18px;
   }
   .shelf-foot .micro {
     white-space: nowrap;
@@ -2174,6 +2223,10 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .about-section.alt .sec-head .micro { color:rgba(241,235,222,0.45); }
 .about-section.alt .partner-grid { background:rgba(241,235,222,0.18); border-color:rgba(241,235,222,0.18); }
 .about-section.alt .partner-cell { background:var(--aubergine); }
+/* the Two-ways section sits on the Account gate's warm ground */
+.about-section.two-ways { background:#F5F2ED; }
+.about-section.two-ways .sec-head h2 { font-size:30px; }
+.about-section.alt .sec-head h2 { font-size:30px; }
 .about-section.alt .partner-cell .partner-role { color:rgba(241,235,222,0.6); }
 .partner-role { font-family:var(--mono); font-size: 14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); }
 .faq-wrap .faq-group > .micro { color: #5a595a; }
@@ -3170,7 +3223,8 @@ textarea.field-input:focus { border-color: var(--ink); }
   /* SUBSCRIBE → joins the 11px action tier with the other buttons and arrow
      CTAs; the email field stays at body size. */
   .subscribe-form button { font-size: 11px; }
-  .world-name { font-size: 27px; line-height: 1.05; }
+  /* joins the 30px editorial-statement tier — was the last 27px stray */
+  .world-name { font-size: 30px; line-height: 1.12; }
   .shelf-title { font-size: 26px; line-height: 1.15; }
   .entry-title { font-size: 20px; line-height: 1.2; }
   .world-cat-names button { font-size: 18px; line-height: 1.25; }
@@ -3220,6 +3274,13 @@ textarea.field-input:focus { border-color: var(--ink); }
   #obj-related-shelf, #archive-shelf, .creator-grid, .maker-grid,
   .journal-grid, #artist-role-grid, .public-frame .shelf, .ws-grid,
   .shelf-band .shelf:not(.shelf-small) { row-gap: 40px; }
+  /* the two Home shelves stack into one column on phone, so the junction between
+     them must read as an ordinary card gap. Was ~200px from the second shelf's
+     own top spacing (which only makes sense when it sits beside a heading). */
+  #edit .shelf.shelf-small { margin-top: 40px; padding-top: 0; border-top: 0; }
+  #edit .shelf.shelf-small > .piece:first-child { margin-top: 0; padding-top: 0; }
+  /* the "Selected for you" band follows the same rule at its junction */
+  #edit .shelf-band, #edit .shelf-band .shelf { margin-top: 40px; padding-top: 0; }
   .about-maker .micro { margin-top: 0; }
   /* the text column was vertically centred against the tall editorial image,
      which on phone reads as dead space above the label. */
@@ -3234,6 +3295,9 @@ textarea.field-input:focus { border-color: var(--ink); }
   .shelf-band .shelf-head .shelf-title { order: 1; margin-bottom: 30px; }
   .shelf-band .shelf { order: 2; }
   .shelf-band .shelf-head .world-view-all { order: 3; margin-top: 26px; }
+  /* the band is a flex column here, so an unordered child defaults to 0 and
+     jumps above the cards — the foot must be ordered after the shelf. */
+  .shelf-band .shelf-foot { order: 4; margin-top: 34px; }
   .about-maker h2 { margin: 12px 0 30px; }
   /* TAKE IT HOME joins the 11px action tier like every other button */
   .commerce .btn-solid, .commerce button, .commerce a.btn-solid { font-size: 11px; }
@@ -3428,12 +3492,12 @@ textarea.field-input:focus { border-color: var(--ink); }
   .about-section p { font-family: var(--sans); font-size: 14px; line-height: 1.5; font-weight: 300; }
   .world-row .world-name { grid-column: 2; grid-row: 1; }
   /* row number matches the subcategory line (.world-meta) on phone */
-  .world-row .num { font-size: 11px; padding-left: 10px; }
+  .world-row .num { font-size: 10px; padding-left: 10px; }
   .world-meta {
     grid-column: 2;
     grid-row: 2;
     text-align: left;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.12em;   /* eased so long groups wrap naturally */
     line-height: 1.5;
     white-space: normal;
@@ -3989,6 +4053,10 @@ slow();
       <span class="micro" id="shelf-count" hidden>06 works</span>
     </div>
     <div class="shelf" id="world-shelf"></div>
+    <div class="shelf-foot fade-up">
+      <span class="micro">Every object ships with its maker’s note</span>
+      <a class="hero-cta" href="#/object" style="margin-top: 0;">View more <span>→</span></a>
+    </div>
   </section>
 
   <section class="edit-break" data-invert="" data-screen-label="Editorial break" hidden>
@@ -3999,8 +4067,7 @@ slow();
 
   <section class="shelf-band" data-screen-label="Second shelf">
     <div class="shelf-head" hidden>
-      <h2 class="shelf-title">Smaller, still soulful</h2>
-      <span class="micro">Under €200</span>
+      <h2 class="shelf-title" style="margin-top:34px;">Smaller, still soulful</h2>
     </div>
     <div class="shelf shelf-small" id="world-shelf-small" style="margin-top: 0;"></div>
     <div class="shelf-foot fade-up">
@@ -5846,7 +5913,7 @@ slow();
 </section>
 
 <section class="about-section alt" data-screen-label="Partners">
-  <div class="sec-head"><h2>In good <em>company</em></h2><span class="micro">Partners &amp; friends of the house</span></div>
+  <div class="sec-head"><h2>In good <em>company</em></h2><span class="micro">Partners &amp; friends of É-MISHTO</span></div>
   <div class="partner-grid">
     <div class="partner-cell"><span class="partner-name">Hasenkamp</span><span class="partner-role">Crated, insured logistics</span></div>
     <div class="partner-cell"><span class="partner-name">The Lacuna Institute</span><span class="partner-role">Conservation &amp; care</span></div>
@@ -5857,11 +5924,11 @@ slow();
   </div>
 </section>
 
-<section class="about-section" data-screen-label="Two ways in">
-  <div class="sec-head"><h2>Come <em>in.</em></h2><span class="micro">Two ways through the door</span></div>
+<section class="about-section two-ways" data-screen-label="Two ways in">
+  <div class="sec-head"><h2>Two ways <em>in.</em></h2></div>
   <div class="path-row" style="margin-top:0;">
-    <div class="path-card"><span class="micro">For creators</span><h2>Sell your work</h2><p>Apply once. Our curators read every story before anything goes live — and your name stays on everything you make.</p><a class="btn-solid" href="#/apply">Apply to sell →</a></div>
-    <div class="path-card"><span class="micro">For collectors</span><h2>Start collecting</h2><p>Wander every category, follow the creators you love, and keep what speaks to you. No account needed to look.</p><a class="btn-solid" href="#/">Enter the house →</a></div>
+    <div class="path-card"><span class="micro">For creators</span><h2>Creator</h2><p>Sell your work to people who’ll keep it. Apply once; our curators read every story before anything goes live.</p><a class="btn-solid" href="#/apply">Apply to sell →</a></div>
+    <div class="path-card"><span class="micro">For collectors</span><h2>Collector</h2><p>Your orders, your saved objects, the creators you follow — kept quietly in one place.</p><a class="btn-solid" href="#/account">Sign in · Create account →</a></div>
   </div>
 </section>
 
@@ -6149,7 +6216,6 @@ slow();
     <div class="cd-block"><span class="micro">For creators</span><a href="#/apply">Apply to sell →</a></div>
     <div class="cd-block"><span class="micro">Address</span><p>35 Jean Monnet Street, 1st Floor, Ap.3<br>District 1, Bucharest</p></div>
     <div class="cd-block"><span class="micro">Hours</span><p>Monday – Friday<br>10:00 – 18:00 CET</p></div>
-    <div class="cd-block"><span class="micro">Elsewhere</span><a href="#/">Instagram</a><br><a href="#/journal">Stories</a></div>
   </aside>
 </section>
 
@@ -7705,7 +7771,7 @@ const EM_WORLDS = {
     quote: "\u201CNothing here is restocked. When it arrives, it arrives once.\u201D",
     shelfTitle: "Just arrived",
     shelf: [
-      { name: "The Aster Vessel", cat: "Home & Objects", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/aster/aster-01-front.png", img2: "assets/aster/aster-02-front-3q.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
+      { name: "The Aster Vessel", cat: "Home & Objects", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/shelf/vintage/aster-vessel-cover.png", img2: "assets/shelf/vintage/aster-vessel-detail.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
       { name: "Palmiers sur la route", cat: "Art", maker: "Laurence Leenaert", price: "€1450", tone: "", label: "clay, textiles and acrylic on handwoven canvas", img: "assets/shelf/front/palmiers-sur-la-route.png", slug: "palmiers-sur-la-route" },
       { name: "The Cassian Keepsake Box", cat: "Vintage", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/shelf/vintage/cassian-keepsake-box-cover.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
       { name: "COSMO 2", cat: "Art", maker: "Laurence Leenaert", price: "€2400", tone: "", label: "oilstick, acrylic, handwoven cotton and wool", img: "assets/shelf/front/cosmo-2.png", slug: "cosmo-2" },

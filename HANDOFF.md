@@ -1243,3 +1243,64 @@ reveal settle, or ignore transform-affected readings.
   image margin), not by gap. Left as designed.
 - Earlier open items all still stand: Mobile Pass 2 B-level refinements, handwriting
   fonts, photography upload guide, Aster Vessel catalogue cover, no Earrings subcategory.
+
+## SESSION OF 13 SEP (LATE) \u2014 HOME RHYTHM, OBJECT PAGE, SPOTLIGHT, WHY-SELL
+
+Phone refinement **still IN PROGRESS**. Desktop untouched except where noted.
+
+**Card gaps \u2014 Home now fully even (real defect, twice).** All 9 cards in the `#edit`
+section sit at exactly 40px. Two junctions were wide and neither showed up in the
+earlier sweeps, because those only measured *within* each shelf: (1) the second Home
+shelf (`.shelf-small`) carried its own top spacing \u2014 sensible beside a desktop
+heading, ~200px of dead white once both stack into one column; (2) the "Selected for
+you" band had the same problem. Both zeroed to a 40px margin. **When checking gaps,
+measure across shelf boundaries, not just inside a shelf.**
+
+**Hover dim removed site-wide.** A single global `.piece:hover .ph { opacity: 0.85 }`
+dimmed every product image on hover; over the slide-to-second-image interaction it read
+as a grey shadow overlay. Now `opacity: 1`.
+
+**Object page.** Crumbs + ONE OF ONE moved above the gallery on phone (desktop keeps
+them beside it). Typography brought onto the Home tiers: maker's note 17\u219214, price
+16\u219214, TAKE IT HOME 13\u219211. The note's 17px came from a **stale rule left by the
+first phone pass sitting later in the sheet** \u2014 deleted rather than overridden. Also
+"View all vintage" moved to the bottom of its list, and the shelf band became a flex
+column with explicit `order` values.
+
+**Shelf foot regression + fix.** That flex-column change made `.shelf-foot` (no
+`order`, so it defaults to 0) jump *above* the product cards on category pages \u2014 the
+maker's-note line appeared mid-page. Fixed with `order: 4` + 34px top margin. A second
+foot was then added under the main shelf so both shelves carry one. **Any new child of
+`.shelf-band` needs an explicit `order` on phone.**
+
+**Home Artist Spotlight spacing.** Quote\u2192collage 4px, collage\u2192bio \u22128px. The two
+margins are deliberately asymmetric: the collage frame runs ~40px taller than its
+visible imagery (the second photo is absolutely placed), so the negative value cancels
+that overhang and makes the *pictures* read as evenly spaced.
+
+**Spotlight PAGE (`#/spotlight`).** The hero kept its desktop padding on phone \u2014 a
+**164px left indent**, leaving a 192px text column out of 390, which broke "É-MISHTO"
+mid-word. Now one gutter each side (332px column, bio 13\u21928 lines). Portrait moved
+below the quote via `display: contents` on the two wrappers, with explicit orders:
+crumbs \u2192 signature \u2192 quote \u2192 portrait \u2192 bio \u2192 meta. Meta pairs restyled to the
+Account page's `.info-k`/`.info-v` (11px mono label, 14px value). Note: an earlier
+attempt at this reorder was reverted on request, then redone \u2014 dissolving a wrapper
+also drops any padding it carried, so the parent must re-declare the gutter.
+
+**Why sell on É-MISHTO.** "Come in." \u2192 **Two ways in.** at 30px, kicker removed, section
+on the Account gate's `#F5F2ED` ground, and both cards now carry the Account page's copy
+verbatim (Creator / Collector; the second button routes to `#/account`, previously
+"Enter the house" \u2192 home). "In good company" also 30px; its kicker now reads
+PARTNERS & FRIENDS OF É-MISHTO.
+
+**Contact page.** ELSEWHERE block (Instagram, Stories) removed.
+
+**Aster Vessel \u2014 open item now closed.** The object had two records and only the
+Vintage one carried the new photography; the catalogue record (New In, Home & Objects)
+still used `aster-01-front.png`. Both now point at
+`assets/shelf/vintage/aster-vessel-cover.png` + `-detail.png`.
+
+**Still open.** Mobile Pass 2 B-level refinements, handwriting fonts, photography upload
+guide; no "Earrings" subcategory in the data (the Home collage tile points at
+Fashion \u203a Accessories). The 0.8\u00d7 hero video rate remains the floor for a 24 fps
+source \u2014 a genuinely calmer hero needs a retimed re-export, not a browser change.
