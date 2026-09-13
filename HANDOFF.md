@@ -1174,3 +1174,72 @@ handwriting fonts, photography upload guide, the Aster Vessel's catalogue record
 on its old cover, and no "Earrings" subcategory in the data (the Home collage tile
 points at Fashion \u203a Accessories as a substitute). Account form *labels* are 14px
 Gantari rather than 11px mono \u2014 deliberate, since they sit directly above their inputs.
+
+## SESSION OF 13 SEP (LATE) \u2014 OBJECT PAGE + CARD RHYTHM (PHONE, IN PROGRESS)
+
+Mobile refinement remains **IN PROGRESS**. All changes below are inside
+`@media (max-width: 700px)`; desktop and tablet untouched.
+
+### Object page \u2014 order and typography
+
+**Reading order.** Crumbs and ONE OF ONE now sit above the gallery. The two lines live
+inside the info column, so instead of moving markup the wrapper is dissolved into the
+grid at phone width (`display: contents`) and its children ordered around the stage.
+Reads: crumbs \u2192 ONE OF ONE \u2192 hero \u2192 thumbnails \u2192 title \u2192 maker \u2192 price.
+
+**Typography, all on the Home tiers.** Title 34 \u00b7 editorial statement 30 \u00b7 section
+headings 24 \u00b7 maker's note 18 (serif italic reads smaller than Gantari at the same
+size) \u00b7 body/price 14 \u00b7 maker line + spec values 13 \u00b7 crumbs, ONE OF ONE, spec
+labels 12 \u00b7 ship note + TAKE IT HOME 11.
+
+**Editorial section (`.about-maker`).** Label 13\u219211, body 16\u219214. Heading stays
+**30px** \u2014 that is the editorial-statement tier (same as the Spotlight quote and the
+subscribe line), not the 24px section tier. Governed by `h2:has(#obj-about-h2)`.
+
+**Dead space above the label.** The section's first child is the editorial image, which
+collapses to 0px height on phone yet still held a grid row plus its 32px gap \u2014 66px of
+nothing. Taken out of flow (`display: none`) since it renders nothing there.
+
+**Optical centring.** `.about-maker` padding is deliberately uneven (34 top / 59 bottom):
+the label carries 8px leading above and the gallery overhangs 17px below, so equal
+padding read as 50/25. The compensated values give a true 42/42 ink-to-rule centre.
+**Do not "fix" this to equal padding.**
+
+**"View all Vintage" moved below the product list.** The band becomes a flex column at
+phone width, `.shelf-head` is dissolved with `display: contents`, and the link is
+ordered last (`order: 3`) with 26px above. Title gains 30px below it so "Selected for
+you" no longer touches the first image. Desktop keeps title and link side by side.
+
+### One card gap everywhere (`row-gap: 40px`)
+
+Gaps ranged from 16px to 80px. Now a single rule covers `.shelf`, `.shelf-small`,
+`#world-shelf`, `#world-shelf-small`, `#obj-related-shelf`, `#archive-shelf`,
+`.creator-grid`, `.maker-grid`, `.journal-grid`, `#artist-role-grid`,
+`.public-frame .shelf`, `.ws-grid` **and `.shelf-band .shelf:not(.shelf-small)`** \u2014
+that last selector (line ~1200, `clamp(48px, 7vh, 80px)`) is more specific than the
+plain class list and kept Creator Works at 80px until its specificity was matched.
+Verified 40px measured on Home (both), category (both), Object, Archive, Creator Works.
+
+### Cascade note \u2014 read this before changing phone type
+
+Several values resisted change because **stale rules from the first phone pass sat later
+in the stylesheet**. Removed rather than overridden: `.maker-quote` 17px,
+`.about-maker h2` 27px, `.entry-dek, .about-maker p` 16px, and a dead
+`.about-maker h2` 24px of my own. Two more needed matching specificity instead:
+`#obj-ship-note` and `.shelf-band .shelf:not(.shelf-small)`. If a phone size will not
+take, grep for a later duplicate before adding another override.
+
+### Measurement caveat
+
+Card grids sampled inside a tall iframe can read 50\u201368px instead of 40px \u2014 the
+GSAP `.fade-up` reveal is mid-flight and its transform offsets the boxes. Let the
+reveal settle, or ignore transform-affected readings.
+
+### Open / unresolved
+
+- The user reports "some issues" with card spacing that measurement cannot reproduce \u2014
+  every grid reads 40px. Needs a screenshot to locate.
+- Story-card ink-to-ink spacing is larger than product cards by structure (kicker +
+  image margin), not by gap. Left as designed.
+- Earlier open items all still stand: Mobile Pass 2 B-level refinements, handwriting
+  fonts, photography upload guide, Aster Vessel catalogue cover, no Earrings subcategory.

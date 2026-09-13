@@ -611,6 +611,106 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
 .piece:hover .pc-img--main, .piece:focus-within .pc-img--main { opacity:0; }
 .piece:hover .pc-img--detail, .piece:focus-within .pc-img--detail { opacity:1; }
 @media (prefers-reduced-motion: reduce) { .pc-img { transition:none; } }
+/* ——— phone swipe gallery (all routes) ———
+   Hover-to-reveal has no touch equivalent, so on phone the two card images
+   become a native scroll-snap pair with a thin progress line. Applied by JS
+   only where img2 actually differs from img. Each cell inherits its frame's
+   own padding inline, so every page keeps its existing crop. */
+@media (max-width: 560px) {
+  /* .ph.has-img::before is a real flex item once the frame becomes a flex
+     container, and the base .ph sets place-items:center — both shrink the
+     slides below full width. */
+  .piece .ph.pc-slide::before { display: none; }
+  /* a frame's own padding sits INSIDE the scroll container, so the
+     neighbouring slide shows through it — the inset moves onto each cell. */
+  .piece .ph.pc-slide {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    margin-bottom: 10px;
+  }
+  .piece .ph.pc-slide::-webkit-scrollbar { display: none; }
+  .piece .ph.pc-slide .pc-cell {
+    position: relative;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  .piece .ph.pc-slide .pc-img {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 1 !important;
+    transition: none;
+    pointer-events: none;
+  }
+  /* the hover crossfade must not fight the scroll position */
+  .piece:hover .ph.pc-slide .pc-img,
+  .piece:focus-within .ph.pc-slide .pc-img { opacity: 1 !important; }
+  .pc-track {
+    height: 1px;
+    background: var(--hairline);
+    margin: 0 0 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pc-track > i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 50%;
+    background: var(--aubergine);
+    transform: translateX(0);
+    transition: transform 120ms linear;
+  }
+}
+@media (min-width: 561px) { .pc-track { display: none; } }
+
+/* ——— phone: return to top ———
+   The counterpart to READ DOWN — same mono label and hairline rule, mirrored
+   to the bottom-right and sitting clear of the fixed utility bar. */
+.to-top { display: none; }
+@media (max-width: 560px) {
+  .to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    right: 20px;
+    bottom: calc(64px + 18px + env(safe-area-inset-bottom));
+    z-index: 60;
+    padding: 9px 0 9px 12px;
+    border: 0;
+    border-left: 1px solid var(--hairline);
+    background: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 320ms var(--ease), transform 320ms var(--ease), visibility 320ms;
+  }
+  .to-top.is-on { opacity: 1; visibility: visible; transform: translateY(0); }
+  .to-top:hover { color: var(--ink-60); }
+  .to-top:focus-visible { outline: 1px solid var(--aubergine); outline-offset: 3px; }
+}
 .piece-add { display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--aubergine); background:none; border:1px solid var(--aubergine); padding:9px 14px; cursor:pointer; transition:background var(--t) var(--ease), color var(--t) var(--ease); }
 .piece-add:hover { background:var(--aubergine); color:var(--white); }
 .piece .ph { transition: opacity var(--t) var(--ease); }
@@ -1437,7 +1537,7 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
   }
   .spotlight-quote .rv-line + .rv-line::before { content: " "; }
   /* spotlight text scale (phone) */
-  .spotlight-bio { font-size: 14px; line-height: 1.5; text-wrap: balance; }
+  .spotlight-bio { font-size: 14px; line-height: 1.5; text-wrap: balance; font-weight: 300; }
   .spotlight-name { font-size: 25px; }
   .spotlight-cta { font-size: 11px; }
   /* the creator cards' own `.creator-grid .spotlight-cta { 12px }` outranks the
@@ -3033,22 +3133,125 @@ textarea.field-input:focus { border-color: var(--ink); }
   .object-name { font-size: 34px; line-height: 1.02; }
   .feature-title { font-size: 30px; line-height: 1.08; }
   .spotlight-quote { font-size: 30px; line-height: 1.08; }
-  .subscribe-line { font-size: 28px; line-height: 1.12; }
+  /* one editorial-statement tier on phone: the subscribe line, both Home
+     section headings and the spotlight quote all read at 30px. */
+  .subscribe-line { font-size: 30px; line-height: 1.12; }
+  #edit .beat-title, #journal .beat-title { font-size: 30px; line-height: 1.12; }
+
+  /* ——— the Home phone scale, extended to every route ———
+     34 page title · 30 editorial statement · 24 section heading ·
+     20 card/story title · 14 body · 11 micro & actions.            */
+
+  /* page titles */
+  .page-title, .object-title { font-size: 34px; line-height: 1.08; }
+
+  /* editorial statements — ledes, pull quotes, break quotes */
+  .about-fold h2, .edit-break-quote, .profile-quote,
+  .creator-quote { font-size: 30px; line-height: 1.12; }
+  .object-about h2, .object-about h2 span, .object-about h2 em { font-size: 30px; }
+  .profile-fold .spotlight-quote, .creator-fold .spotlight-quote { font-size: 30px; }
+
+  /* section headings join the 24 tier already used on Why sell and Account */
+  .shelf-head .shelf-title, .about-gallery-title, .profile-section h2,
+  .producer-block .pb-head h3, .ws-section h3 { font-size: 24px; line-height: 1.15; }
+
+  /* card / story titles */
+  .draft-name, .bag-item-name, .wish-name, .story-prompt { font-size: 20px; line-height: 1.15; }
+
+  /* reading copy */
+  .page-intro p, #world-intro, .page-intro .sign, .essence-note,
+  .field-hint, .field-input, .draft-meta { font-size: 14px; line-height: 1.5; font-weight: 300; }
+
+  /* micro + controls */
+  .pb-head .legal-tag, .legal-tag, .quiz-back, .status-hint, .sheet-close,
+  .page-head .micro, .shelf-band .micro, .profile-fold .micro { font-size: 11px; }
+  .vis, .vis-public, .vis-private { font-size: 10px; }
+  #artist-role-tabs button, .world-cat-names button, .role-tabs button { font-size: 14px; }
+  /* SUBSCRIBE → joins the 11px action tier with the other buttons and arrow
+     CTAs; the email field stays at body size. */
+  .subscribe-form button { font-size: 11px; }
   .world-name { font-size: 27px; line-height: 1.05; }
-  .about-maker h2 { font-size: 27px; line-height: 1.05; }
   .shelf-title { font-size: 26px; line-height: 1.15; }
   .entry-title { font-size: 20px; line-height: 1.2; }
   .world-cat-names button { font-size: 18px; line-height: 1.25; }
   .piece-name { font-size: 20px; line-height: 1.15; }
   .page-intro p { font-size: 18px; line-height: 1.45; }
-  .maker-quote { font-size: 17px; line-height: 1.4; }
+
+  /* ——— remaining routes brought onto the phone tiers ———
+     these sit after the rules they override, so no !important is needed. */
+  .page-head .page-intro p { font-size: 14px; line-height: 1.5; font-weight: 300; }
+  .page-intro .sign { font-size: 14px; }
+  #story-cat-names button, #artist-role-tabs button, .world-cat-names button { font-size: 14px; }
+  .feature p.fade-up, .feature .entry-dek { font-size: 14px; line-height: 1.5; font-weight: 300; }
+  /* object page's editorial statement */
+  h2:has(#obj-about-h2), h2:has(#obj-about-h2) span, h2:has(#obj-about-h2) em { font-size: 30px; line-height: 1.12; }
+  /* bag */
+  .bag-item-meta, .bag-item-price, .qty-val, .summary-note,
+  .summary-row span, .bag-item-remove { font-size: 13px; }
+  .qty button { font-size: 14px; }
+  .qty .qty-val { font-size: 13px; }
+
+  /* object page: the breadcrumb and edition line belong above the gallery on
+     phone. They sit inside the info column, so that wrapper dissolves into the
+     grid (display:contents) and its children are ordered around the stage. */
+  .object-grid > div:not(.object-stage) { display: contents; }
+  .object-grid > div:not(.object-stage) > .crumbs { order: -2; margin-bottom: 2px; }
+  .object-grid > div:not(.object-stage) > .object-edition { order: -1; margin-bottom: 18px; }
+  .object-grid > .object-stage { order: 0; }
+  .object-grid > div:not(.object-stage) > * { order: 1; }
+  .object-grid { row-gap: 0; }
+  .object-grid > .object-stage { margin-bottom: 26px; }
+  /* the maker's note sits a step above body copy — serif italic reads smaller
+     than Gantari at the same size, so 18px matches its optical weight. */
+  .maker-quote { font-size: 18px; line-height: 1.5; }
+  /* the ship note joins the 11px section-label tier ("Slow reading") */
+  .object-grid .object-price .micro, #obj-ship-note { font-size: 11px; }
+  /* editorial section joins the tiers: 11 label · 24 heading · 14 body */
+  .about-maker .micro { font-size: 11px; }
+  .about-maker p { font-size: 14px; line-height: 1.5; }
+  /* pull the whole section up out of its desktop top padding, and open the gap
+     between the heading block and the body copy. */
+  /* padding compensates for the label's 8px leading above and the gallery's
+     17px overhang below, so the INK sits centred between the two rules. */
+  .about-maker { padding-top: 34px; padding-bottom: 59px; }
+  /* one card-gap for every product shelf on phone. Was 16px on the Home
+     shelves and 80px on category/object/archive — now 40px throughout. */
+  .shelf, .shelf.shelf-small, #world-shelf, #world-shelf-small,
+  #obj-related-shelf, #archive-shelf, .creator-grid, .maker-grid,
+  .journal-grid, #artist-role-grid, .public-frame .shelf, .ws-grid,
+  .shelf-band .shelf:not(.shelf-small) { row-gap: 40px; }
+  .about-maker .micro { margin-top: 0; }
+  /* the text column was vertically centred against the tall editorial image,
+     which on phone reads as dead space above the label. */
+  /* the section's first child is the editorial image, which collapses to 0px
+     height on phone yet still holds a grid row + its 32px gap — 66px of dead
+     space above the label. Taken out of flow since it renders nothing. */
+  .about-maker > .ph:first-child { display: none; }
+  /* "View all Vintage →" moves below the product list: the band becomes a flex
+     column and the link is ordered last, out of the heading block. */
+  .object-page .shelf-band, main .shelf-band { display: flex; flex-direction: column; }
+  .shelf-band .shelf-head { display: contents; }
+  .shelf-band .shelf-head .shelf-title { order: 1; margin-bottom: 30px; }
+  .shelf-band .shelf { order: 2; }
+  .shelf-band .shelf-head .world-view-all { order: 3; margin-top: 26px; }
+  .about-maker h2 { margin: 12px 0 30px; }
+  /* TAKE IT HOME joins the 11px action tier like every other button */
+  .commerce .btn-solid, .commerce button, .commerce a.btn-solid { font-size: 11px; }
+
+  /* the bag row's third column is auto-width, so its actions set a min-content
+     floor wider than the phone viewport — they move onto their own row. */
+  .bag-item { grid-template-columns: 72px minmax(0, 1fr); gap: 16px; }
+  .bag-item > .bag-actions, .bag-item > .bag-item-price { grid-column: 1 / -1; }
+  .bag-actions { flex-wrap: wrap; }
+  .bag-grid { min-width: 0; }
+  .bag-grid > * { min-width: 0; }
   .entry-sign { font-size: 15px; line-height: 1.4; }
 
   /* ——— functional / reading · Gantari ———
      Size held at 16px for comfort; only the leading tightens. */
   body { line-height: 1.5; }
-  .entry-dek, .about-maker p { font-size: 16px; line-height: 1.5; }
-  .object-price { font-size: 16px; }
+  .entry-dek { font-size: 16px; line-height: 1.5; }
+  .object-price { font-size: 14px; }
   .piece-maker, .object-maker-line, .spec-row dd { font-size: 13px; }
 
   /* ——— micro · contextual only, never the base .micro class ———
@@ -3068,7 +3271,22 @@ textarea.field-input:focus { border-color: var(--ink); }
      (.scroll-hint / "Read down" in the quiet hero below is a different
      element and is deliberately left alone.) */
   .video-hero .vh-cue { display: none; }
-  .hero-cta, .entry-read, .ar-tile { font-size: 12px; }
+  /* arrow CTAs (Read down, Read the story, View more, Read her story, View all)
+     join the 11px button tier so every action reads at one size on phone. */
+  /* READ DOWN reads as a peer of the OBJECTS WITH SOUL label above it, so it
+     takes that label's size and tracking rather than the CTA default. */
+  .hero-cta { font-size: 11px; letter-spacing: 0.22em; }
+  .entry-read, .ar-tile { font-size: 11px; }
+  .world-panel-all { font-size: 11px; }
+  .shelf-foot .micro { font-size: 11px; }
+  .filter-empty .fe-acts > * { font-size: 11px; }
+  /* card status (AVAILABLE / SOLD / IN PRIVATE COLLECTION) joins the same
+     11px micro tier as the action beside it. */
+  .piece-status, .sold-label { font-size: 11px; }
+  /* product-card action + quiz/gate buttons come down with the rest; 40px keeps
+     a usable tap target at the smaller type. */
+  .piece-add { font-size: 11px; padding: 9px 15px; }
+  .filter-apply, .fe-clear, .mf-apply { font-size: 11px; }
   /* creator-card link: `.creator-grid .spotlight-cta { 12px }` sits later in
      the sheet than the ≤560px block, so the override belongs here */
   .creator-grid .spotlight-cta { font-size: 11px; }
@@ -3132,36 +3350,38 @@ textarea.field-input:focus { border-color: var(--ink); }
   }
   /* "Slow reading" matches "Selected for you" */
   #journal .beat-head .micro { font-size: 11px; }
+  /* the newsletter kicker joins the same section-label tier */
+  .foot-news-wrap > .micro { font-size: 11px; }
   /* story-card labels ("Interview", "06 min", "Behind the shelf") join the
      same micro size; .entry-read stays 12px as a tappable action */
   .entry-kicker .micro { font-size: 11px; }
 
   /* the Artist Spotlight text scale, carried to the Spotlight page and to the
      Selected Stories deks so the three read as one system on phone */
-  .profile-bio p { font-size: 14px; line-height: 1.5; text-wrap: balance; }
+  .profile-bio p { font-size: 14px; line-height: 1.5; text-wrap: balance; font-weight: 300; }
   .script-name { font-size: 25px !important; }
-  .profile-meta dd { font-size: 14px; }
+  .profile-meta dd { font-size: 14px; font-weight: 300; }
   .profile-fold .crumbs .micro,
   .profile-fold .micro { font-size: 11px; }
-  .entry-dek { font-size: 14px; line-height: 1.5; }
+  .entry-dek { font-size: 14px; line-height: 1.5; font-weight: 300; }
   /* Home intro paragraph joins the same body scale */
-  .hbc-text p { font-size: 14px; line-height: 1.5; }
+  .hbc-text p { font-size: 14px; line-height: 1.5; font-weight: 300; }
 
   /* Why sell on É-MISHTO adopts the Home phone scale: 34 page title,
      24 section heading, 18 card name, 16 lede, 14 body, 11 micro. */
   .about-intro h1 { font-size: 34px; }
   /* reading copy switches to the Home body face (Gantari 14/1.5) instead of
      the display serif; headings and the italic display line stay Cormorant. */
-  .about-lede, .about-lede.dim { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .about-lede, .about-lede.dim { font-family: var(--sans); font-size: 14px; line-height: 1.5; font-weight: 300; }
   /* path-cards read the same wherever they appear (Why sell, Account gate):
      24px serif-italic heading over 14px Gantari body. */
   .path-card h2 { font-size: 24px; }
-  .path-card p { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .path-card p { font-family: var(--sans); font-size: 14px; line-height: 1.5; font-weight: 300; }
   /* solid/ghost buttons match the site's other pill controls (.room-chip,
      .hsq, subcategory rail: 11px mono, ~10-12px vertical padding) instead of
      standing 13px/50px tall. Kept at 40px so the tap target stays generous. */
-  .btn-solid, .btn-ghost { font-size: 12px; padding: 13px 22px; }
-  .path-card .btn-solid { font-size: 12px; padding: 13px 22px; }
+  .btn-solid, .btn-ghost { font-size: 11px; padding: 11px 18px; }
+  .path-card .btn-solid { font-size: 11px; padding: 11px 18px; }
 
   /* account creation + apply flow follow the Home hierarchy:
      34 page title · 24 section heading · 18 option title · 14 body ·
@@ -3171,27 +3391,27 @@ textarea.field-input:focus { border-color: var(--ink); }
   .dash-panel h2 { font-size: 24px; }
   .acct-auth .link-back, .acct-auth .seg button, .link-back { font-size: 11px; }
   .account-wrap .crumbs, .account-wrap .crumbs a, .account-wrap .crumbs span { font-size: 11px; }
-  .field-label, .field-input, .field input { font-size: 14px; }
+  .field-label, .field-input, .field input { font-size: 14px; font-weight: 300; }
   .opt-link { font-size: 11px; }
-  .btn-ghost-sm { font-size: 12px; }
+  .btn-ghost-sm { font-size: 11px; padding: 9px 15px; }
   .q-kicker, .q-option .tag, .quiz-hint, .flag-note, .quiz-rail span { font-size: 11px; }
   /* the question IS each screen's title, so it sits on Home's page-title
      tier (34px) alongside the result heading — not the 24px section tier. */
   .q-prompt { font-size: 34px; line-height: 1.08; }
-  .q-sub { font-size: 14px; }
+  .q-sub { font-size: 14px; font-weight: 300; }
   .q-result h2 { font-size: 34px; }
   .q-result p { font-size: 14px; }
   .q-field .field-label { font-size: 11px; }
-  .q-input-line input { font-size: 14px; }
+  .q-input-line input { font-size: 14px; font-weight: 300; }
   /* these four need matching specificity to beat their own scoped rules */
   .dash-panel .btn-ghost-sm, .order-card .btn-ghost-sm, .wish-card .btn-ghost-sm,
-  .pay-card .btn-ghost-sm, .addr-card .btn-ghost-sm { font-size: 12px; padding: 10px 18px; }
+  .pay-card .btn-ghost-sm, .addr-card .btn-ghost-sm { font-size: 11px; padding: 9px 15px; }
   .q-result .flag-note { font-size: 11px; }
   .quiz-exit, .quiz-top b, .quiz-top strong { font-size: 11px; }
   .q-input-line label, .q-field label { font-size: 11px; }
-  .q-result p, .q-result.q-pass p, .q-result.q-stop p { font-size: 14px; line-height: 1.5; }
+  .q-result p, .q-result.q-pass p, .q-result.q-stop p { font-size: 14px; line-height: 1.5; font-weight: 300; }
   .q-option .opt-title { font-size: 20px; }
-  .acct-auth .btn-solid, .auth-pane .btn-solid { font-size: 12px; padding: 13px 22px; }
+  .acct-auth .btn-solid, .auth-pane .btn-solid { font-size: 11px; padding: 11px 18px; }
   .about-wrap .crumbs, .about-wrap .crumbs a, .about-wrap .crumbs span { font-size: 11px; }
   .about-section h2 { font-size: 24px; line-height: 1.15; }
   .about-section .sec-head .micro { font-size: 11px; }
@@ -3205,7 +3425,7 @@ textarea.field-input:focus { border-color: var(--ink); }
   .maker-card .micro, .maker-card .whisper { font-size: 11px; }
   .partner-name { font-size: 20px; }
   .about-section.alt .partner-cell .partner-role { font-size: 11px; }
-  .about-section p { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .about-section p { font-family: var(--sans); font-size: 14px; line-height: 1.5; font-weight: 300; }
   .world-row .world-name { grid-column: 2; grid-row: 1; }
   /* row number matches the subcategory line (.world-meta) on phone */
   .world-row .num { font-size: 11px; padding-left: 10px; }
@@ -9209,6 +9429,90 @@ window.__EM_SPA = true;
   loader.addEventListener('click', lift);
   setTimeout(lift, 6000);
 })();
+  /* phone: return-to-top, appears after two viewports of scrolling */
+  (function(){
+    var PHONE = window.matchMedia('(max-width: 560px)');
+    var btn = null, raf = 0;
+    function ensure(){
+      if (btn || !PHONE.matches) return;
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'to-top';
+      btn.setAttribute('aria-label', 'Return to the top of the page');
+      btn.innerHTML = 'Top <span aria-hidden="true">\u2191</span>';
+      btn.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      document.body.appendChild(btn);
+    }
+    function sync(){
+      raf = 0;
+      if (!PHONE.matches) { if (btn) btn.classList.remove('is-on'); return; }
+      ensure();
+      if (!btn) return;
+      var y = window.scrollY || window.pageYOffset ||
+              document.documentElement.scrollTop || document.body.scrollTop || 0;
+      btn.classList.toggle('is-on', y > window.innerHeight * 4);
+    }
+    /* a single class toggle is cheap enough to run inline; going through rAF
+       adds nothing and stalls wherever rAF is throttled. */
+    function onScroll(){ sync(); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', sync);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync);
+    else sync();
+  })();
+
+  /* phone swipe gallery — all routes, presentation layer over the two
+     images EMCard already renders. No card markup or data is changed. */
+  (function(){
+    var PHONE = window.matchMedia('(max-width: 560px)');
+    function build(){
+      if (!PHONE.matches) return;
+      var phs = document.querySelectorAll('.piece .ph.has-img');
+      for (var i = 0; i < phs.length; i++) {
+        var ph = phs[i];
+        if (ph.classList.contains('pc-slide')) continue;
+        var m = ph.querySelector('.pc-img--main'), d = ph.querySelector('.pc-img--detail');
+        /* img2 falls back to img when absent — a one-image card has nothing to swipe */
+        if (!m || !d || m.getAttribute('src') === d.getAttribute('src')) continue;
+        /* sample the frame's inset before the class below zeroes it */
+        var pad = getComputedStyle(ph).padding;
+        ph.classList.add('pc-slide');
+        /* the card images carry inline transform:scale crops, which overflow
+           their own slide box — each needs its own clipping cell, or the
+           second image bleeds over the first. */
+        [m, d].forEach(function(img){
+          var cell = document.createElement('span');
+          cell.className = 'pc-cell';
+          if (pad && pad !== '0px') cell.style.padding = pad;
+          img.parentNode.insertBefore(cell, img);
+          cell.appendChild(img);
+        });
+        /* the card carries an inline overflow:hidden, which no stylesheet rule
+           can outrank — touch scrolling needs it cleared on the element. */
+        ph.style.overflowX = 'auto';
+        ph.style.overflowY = 'hidden';
+        var track = document.createElement('div');
+        track.className = 'pc-track';
+        track.innerHTML = '<i></i>';
+        ph.parentNode.insertBefore(track, ph.nextSibling);
+        (function(el, thumb){
+          function sync(){
+            var max = el.scrollWidth - el.clientWidth;
+            var r = max > 0 ? el.scrollLeft / max : 0;
+            thumb.style.transform = 'translateX(' + (r * 100) + '%)';
+          }
+          el.addEventListener('scroll', sync, { passive: true });
+          sync();
+        })(ph, track.firstChild);
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+    else build();
+    window.addEventListener('load', build);
+  })();
   window.addEventListener('hashchange',function(){if((location.hash||'').indexOf('#/')===0){try{sessionStorage.setItem('em_nav','1');}catch(e){}location.reload();}});
   /* collage tiles carry a subcategory; hand it to the world page on arrival */
   document.addEventListener('click',function(e){
