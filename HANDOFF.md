@@ -1056,3 +1056,121 @@ faulty verification method, not faulty code.
   small shelf would be a deliberate decision, not a fix.
 - Legal / Privacy shipping + payment sentences are flagged but intentionally intact —
   removing them would break the paragraphs. Awaiting client legal copy.
+
+## PHONE PASS \u2014 SESSION OF 12\u201313 SEP (IN PROGRESS)
+
+Mobile refinement is **NOT finished**. Desktop and tablet are locked; every change
+below is scoped to a phone breakpoint (`max-width: 700px` or `max-width: 560px`).
+
+**Header \u2014 burgundy on phone (`\u2264700px`).** A block mirroring the desktop
+`min-width:1341px` rule: solid `var(--aubergine)` on every page and scroll state,
+blur off, no hairline, cream wordmark/hamburger; transparent only on Home
+(`body[data-route="front"] .site-head:not(.scrolled)`) over the hero video. Verified at
+390/430 on Home, Art, Object, Stories. The 701\u20131340px tablet band is untouched, and
+the open hamburger menu keeps its own burgundy header.
+
+**Home category rows (`\u2264560px`).** `.world-row .num` dropped to 10px to match the
+`.world-meta` subcategory line, plus `padding-left: 10px`.
+`#edit .beat-head .micro` ("Selected for you") also to 10px, which frees enough width
+for the title to hold two lines \u2014 "This week" / "we love." \u2014 neither wrapping.
+
+**Artist Spotlight (`\u2264560px`).** The three authored `.rv-line` spans in
+`.spotlight-quote` run `display: inline` (with a `::before` space between them) so the
+sentence reflows onto two lines at the existing 30px. `.spotlight-portrait` is 88% wide,
+centred via `margin: auto`, and its image switched from `cover` to `contain` so the
+collage is no longer cropped at the edges. Text scale: bio 14px/1.5, signature 25px,
+CTA 11px, kicker 11px. `.spotlight-bio br:last-of-type` is hidden \u2014 the desktop
+break before "poetry" left "the quiet" stranded; the closing sentence now flows and the
+paragraph is 7 lines instead of 8. The first break (after "artisans.") is kept.
+
+**Newsletter reveal fix (all widths, real bug).** `applyFilters()` collapses shelf bands
+with zero visible pieces, which shortens the document after GSAP measured its
+ScrollTriggers \u2014 on Vintage the footer's `.fade-up` kicker and subscribe form then sat
+past the shortened scroll range and never fired (stuck at `opacity: 0`). Fixed with a
+guarded `ScrollTrigger.refresh()` on the next frame after the band-visibility pass.
+Presentation-only; no predicates, state, defaults or counts touched.
+
+**Hero video.** `playbackRate` 0.8 with `defaultPlaybackRate` and re-assertion on
+`play`/`ratechange`/`seeked`. Unconditional \u2014 it applies on phone too. 0.8 is the floor
+for this 24 fps source (~19 unique fps); below that frames repeat and judder shows. A
+genuinely slower, calmer hero needs a **retimed re-export of hero-landing.mp4**, not a
+browser-side rate change. The 54s scale-drift experiment was tried and reverted.
+
+**Product cover images.** Many prototype covers were replaced with client-supplied
+photography this session (Vintage: Cassian box, Aster Vessel + detail, Apothecary Jars,
+Postage Tin, Glass Inkwell, Theatre Binoculars, Letter Opener, Silk Opera Gloves, Travel
+Chess Set, Garnet ring, Mantel clock; Home: Dusk Lamp, Beeswax Tapers, plus the D\u00e9cor /
+Furniture / Fragrance and Antiques / Jewelry / Collectibles panel tiles). New files land
+as `*-cover.png` beside the originals; second/third images were left untouched
+throughout, so hover reveals and object galleries are unchanged.
+
+**Known open items (phone).** Not started: remaining Mobile Pass 2 B-level refinements,
+handwriting-font exploration, photography upload guide. The Aster Vessel's main
+catalogue record (New In / Home & Objects) still uses `aster-01-front.png` \u2014 only the
+Vintage shelf record got the new cover. "Earrings" has no subcategory in the data; the
+Home collage's earring tile points at Fashion \u203a Accessories as a substitute, pending a
+decision.
+
+## SESSION OF 13 SEP \u2014 ACCOUNT / APPLY / ABOUT POLISH (PHONE PASS CONTINUES)
+
+Mobile refinement remains **IN PROGRESS**. Desktop is locked except where noted.
+
+**Page rename.** "About" \u2192 **Why sell on \u00c9-MISHTO** in all 19 entry points: the header
+link on every page (17), the mobile menu's 03 \u2014 About group, and the page's own
+breadcrumb. Route stays `#/about`; the H1 ("A house for *objects with soul.*") is
+unchanged.
+
+**Footer link bug (real defect).** The footer's "Why sell on \u00c9-MISHTO" pointed at
+`#/artists` (the Creators directory) in all 16 copies, so it opened a different page
+than the header link. Repointed to `#/about`.
+
+**Scroll restoration bug (real defect, all widths).** Routing is a real page reload per
+hash change, so the browser restored the previous page's scroll offset and every
+navigation landed mid-page. Fixed with `history.scrollRestoration = "manual"` + a
+scroll-to-top, placed in `<head>` \u2014 a first attempt at the bottom of the document ran
+after restoration and still landed at 2200px. Verified: Art@2200 \u2192 Archive opens at 0.
+
+**"In good company" partner section (desktop + phone).** Inverted to burgundy like the
+Artist Spotlight: `--aubergine` ground, cream title with driftwood italic, driftwood
+partner names, cream-alpha roles/kicker/hairlines. Also fixed an orphaned grid row \u2014
+`auto-fill minmax(250px,1fr)` produced 5 columns at some widths, stranding For\u00eat
+with four empty cells; the grid now uses counts that divide 6 (6 / 3 / 2).
+
+**Creator portraits.** All 11 cards in the Why-sell "Our creators" grid were empty tone
+placeholders; each now reuses a portrait already in the project, cropped `cover` with
+the focal point lifted.
+
+**Creator card hierarchy (desktop + phone).** Both creator card types now match the
+product card: name 24/20px Cormorant italic burgundy, discipline 12px mono `--ink-38`,
+location 14/13px Gantari `--ink-read`. The Creators-directory cards needed
+`!important` to beat their inline styles.
+
+**Card language.** Account cards (order/wish/pay/addr) and the Apply quiz choices adopted
+the Why-sell `.path-card` treatment: hairline box, roomier padding, `border-color` lift
+on hover; quiz choices gained a burgundy edge when chosen (was an underlined-row list).
+
+**Phone typography \u2014 Home tiers applied to Why sell, Account and Apply.** Home's
+measured scale is the reference: **42** editorial heading \u00b7 **34** page title \u00b7 **24**
+section \u00b7 **20** card/story title \u00b7 **14** body Gantari \u00b7 **13** maker line \u00b7
+**12** CTA/status \u00b7 **11** micro label. Applied: page titles 38\u219234, section/panel
+headings 30/26\u219224, quiz question 26\u219234 (it is each screen's title), option titles
+20, body and form inputs 19/16\u219214 Gantari, all micro (kickers, tags, hints, labels,
+crumbs, seg tabs, step counter, Exit) \u219211, buttons \u219212px / 13\u00d722 / 45px tall.
+Reading copy switched from the display serif to Gantari 14/1.5.
+Two values were initially guessed wrong (18px titles, 11px buttons) and corrected
+against Home's real values \u2014 measure Home before extending this scale further.
+
+**Inline styles removed.** Three `.btn-solid` and three `.btn-ghost-sm` buttons had
+`font-size`/`padding` hardcoded in the markup, which no stylesheet rule could override.
+Removed so they inherit the shared button size (their 30px top margins kept).
+
+**Small fixes.** `.nb` no-break helper added so "\u00c9-MISHTO" never splits after the
+hyphen (applied in the Archive intro). Category second shelf
+(`#world-shelf-small`) dropped from 2 columns to 1 at \u2264560px so every category
+listing is one card per row.
+
+**Still open.** HANDOFF's earlier open items stand: Mobile Pass 2 B-level refinements,
+handwriting fonts, photography upload guide, the Aster Vessel's catalogue record still
+on its old cover, and no "Earrings" subcategory in the data (the Home collage tile
+points at Fashion \u203a Accessories as a substitute). Account form *labels* are 14px
+Gantari rather than 11px mono \u2014 deliberate, since they sit directly above their inputs.

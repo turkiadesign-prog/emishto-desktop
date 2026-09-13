@@ -144,6 +144,86 @@ body[data-route="faq"] .site-head.scrolled a, body[data-route="faq"] .site-head.
 body[data-route="faq"] .site-head { background-color: var(--cream) !important; border-bottom: 1px solid rgba(0,0,0,0.12); color: var(--ink) !important; }
 body[data-route="faq"] .site-head a, body[data-route="faq"] .site-head .wordmark, body[data-route="faq"] .site-head span { color: var(--ink) !important; } .site-head.scrolled .micro, .site-head.scrolled .whisper { color: rgba(241, 235, 222, 0.6) !important; } .site-head.scrolled .wordmark, .site-head.scrolled .brand-logo, .site-head.scrolled .head-right, .site-head.scrolled .head-right a:not(.head-search-results a), .site-head.scrolled .bag, .site-head.scrolled .nav-main a { color: var(--cream) !important; } .site-head.scrolled .head-search-results a { color: var(--aubergine) !important; } .site-head.scrolled.is-inverse { background-color: rgba(64, 16, 32, 0.9) !important; box-shadow: 0 1px 0 rgba(241, 235, 222, 0.16) !important; }
 
+/* ————— desktop header: solid burgundy, every page, every scroll state —————
+   Scoped to the full desktop layout (above the 1340px hamburger threshold) so
+   the phone/tablet header architecture is untouched. Overrides the transparent
+   resting state, the 0.9-alpha .scrolled ground, the blur, and the FAQ cream
+   exception; all of those carry !important, so this must too. */
+@media (min-width: 1341px) {
+  .site-head,
+  .site-head.scrolled,
+  .site-head.is-inverse,
+  .site-head.scrolled.is-inverse,
+  body[data-route="faq"] .site-head,
+  body[data-route="faq"] .site-head.scrolled {
+    background-color: var(--aubergine) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    color: var(--cream) !important;
+  }
+  /* Home only: transparent over the hero video, burgundy once scrolled. */
+  body[data-route="front"] .site-head:not(.scrolled) {
+    background-color: transparent !important;
+  }
+  .site-head .head-cats a,
+  .site-head .wordmark, .site-head .brand-logo,
+  .site-head .head-right, .site-head .head-right a:not(.head-search-results a),
+  .site-head .bag, .site-head .nav-main a,
+  body[data-route="faq"] .site-head a,
+  body[data-route="faq"] .site-head .wordmark,
+  body[data-route="faq"] .site-head span,
+  body[data-route="faq"] .site-head.scrolled a,
+  body[data-route="faq"] .site-head.scrolled .wordmark,
+  body[data-route="faq"] .site-head.scrolled span { color: var(--cream) !important; }
+  .site-head .micro, .site-head .whisper { color: rgba(241, 235, 222, 0.6) !important; }
+  /* the open search dropdown has no ground of its own — it used to read against
+     the transparent header. Now that the header is opaque burgundy, give the
+     results list and empty state the same white panel surface the search box
+     uses, so the existing ink/burgundy text stays legible. */
+  .site-head .head-search-results,
+  .site-head .head-search-empty { background: var(--white); }
+  .site-head .head-search-results { padding: 0 14px; }
+  .site-head .ham-trigger span { background: var(--cream); }
+}
+
+/* ————— phone header: same rule as desktop —————
+   Solid burgundy on every page and scroll state, transparent only over the
+   Home hero video until scrolled. Scoped to the phone breakpoint so the
+   tablet band (701–1340px) keeps its current behaviour. The open hamburger
+   menu has its own burgundy header (.ham-menu) and is unaffected. */
+@media (max-width: 700px) {
+  .site-head,
+  .site-head.scrolled,
+  .site-head.is-inverse,
+  .site-head.scrolled.is-inverse,
+  body[data-route="faq"] .site-head,
+  body[data-route="faq"] .site-head.scrolled {
+    background-color: var(--aubergine) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    color: var(--cream) !important;
+  }
+  body[data-route="front"] .site-head:not(.scrolled) {
+    background-color: transparent !important;
+  }
+  .site-head .wordmark, .site-head .brand-logo,
+  .site-head .head-right, .site-head .head-right a:not(.head-search-results a),
+  body[data-route="faq"] .site-head a,
+  body[data-route="faq"] .site-head .wordmark,
+  body[data-route="faq"] .site-head span,
+  body[data-route="faq"] .site-head.scrolled a,
+  body[data-route="faq"] .site-head.scrolled .wordmark,
+  body[data-route="faq"] .site-head.scrolled span { color: var(--cream) !important; }
+  .site-head .micro, .site-head .whisper { color: rgba(241, 235, 222, 0.6) !important; }
+  .site-head .head-search-results,
+  .site-head .head-search-empty { background: var(--white); }
+  .site-head .ham-trigger span { background: var(--cream) !important; }
+}
+
 /* ————— image placeholders (striped, quiet) ————— */
 .ph {
   position: relative;
@@ -297,6 +377,9 @@ h1.hero-title .upright { font-style: normal; }
 .hero-object .ph { aspect-ratio: 3 / 4; }
 .hero-brand-collage { position: relative; height: clamp(560px, 82vh, 860px); padding: 0 var(--gutter); }
 .hbc-img { position: absolute; overflow: hidden; }
+/* collage tiles route to their category */
+a.hbc-img { display: block; cursor: pointer; }
+a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6px; }
 .hbc-hover .hbc-alt { opacity: 0; transition: opacity var(--t) var(--ease); }
 .hbc-hover:hover .hbc-alt { opacity: 1; }
 .hbc-hover:hover .hbc-base { opacity: 0; }
@@ -309,8 +392,7 @@ h1.hero-title .upright { font-style: normal; }
 .spot-photo { position: absolute; overflow: hidden; background: var(--aubergine); transition: top 560ms var(--ease), left 560ms var(--ease); }
 .spot-a { top: 0; left: 0; width: 68%; aspect-ratio: 0.8; z-index: 1; border: none; box-sizing: border-box; }
 .spot-b { top: 42%; left: 46%; width: 48%; aspect-ratio: 1.05; z-index: 2; box-shadow: -14px 14px 36px rgba(0,0,0,0.3); }
-.hbc-a { top: 13.5%; left: 4%; width: 17%; aspect-ratio: 1 / 1; }
-.hbc-b { top: 7.5%; left: 69.5%; width: 17.3%; aspect-ratio: 1 / 1; }
+.hbc-a { top: 13.5%; left: 4%; width: 17%; aspect-ratio: 1 / 1; }.hbc-b { top: 7.5%; left: 69.5%; width: 17.3%; aspect-ratio: 1 / 1; }
 .hbc-c { top: 60.5%; left: 60%; width: 16.5%; aspect-ratio: 1 / 1; }
 .hbc-wordmark {
   position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%);
@@ -322,9 +404,16 @@ h1.hero-title .upright { font-style: normal; }
 }
 .hbc-text .micro { display: block; color: var(--ink-60); margin-bottom: 14px; }
 .hbc-text p { font-family: var(--sans); font-size: 15px; font-weight: 400; line-height: 1.6; color: var(--ink); margin-bottom: 20px; }
+/* collage optically centred: the three images sat 4% from the left edge but
+   13.2% from the right. Each shifts right by 4.6% so both margins read 8.6%.
+   Scoped above the 920px block, which uses its own widths. */
+@media (min-width: 921px) {
+  .hbc-a { left: 8.6%; }
+  .hbc-b { left: 74.1%; }
+  .hbc-c { left: 64.6%; }
+}
 @media (max-width: 920px) {
-  .hero-brand-collage { height: clamp(520px, 100vh, 780px); }
-  .hbc-a { width: 30%; }
+  .hero-brand-collage { height: clamp(520px, 100vh, 780px); }  .hbc-a { width: 30%; }
   .hbc-b { width: 34%; }
   .hbc-c { width: 28%; }
   .hbc-wordmark { font-size: clamp(26px, 8vw, 40px); }
@@ -382,7 +471,9 @@ h1.hero-title .upright { font-style: normal; }
   border-top: 1px solid var(--hairline);
   position: relative;
 }
-.world-row .num { font-family: var(--mono); font-size: 15px; letter-spacing: 0.22em; color: var(--ink-38); }
+/* row number and subcategory list share the 13px micro size used by
+   "Selected for you" */
+.world-row .num { font-family: var(--mono); font-size: 13px; letter-spacing: 0.22em; color: var(--ink-38); }
 .world-name {
   font-family: var(--serif);
   font-weight: 300;
@@ -394,7 +485,7 @@ h1.hero-title .upright { font-style: normal; }
 .world-row:hover .world-name { font-style: italic; transform: translateX(12px); color: var(--aubergine); }
 .world-meta {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-38);
@@ -537,8 +628,9 @@ h1.hero-title .upright { font-style: normal; }
 .spotlight {
   background: var(--aubergine);
   color: var(--cream);
-  /* bottom padding matched to top — it measured 6px top / 14px bottom */
-  padding: clamp(4px, 0.6vh, 8px) var(--gutter);
+  /* vertical padding stepped back from the 88px gutter; bottom tighter than
+     top (the ≤560px rule keeps its own values) */
+  padding: clamp(28px, 3.4vw, 52px) var(--gutter) clamp(8px, 1vw, 14px);
 }
 .spotlight .micro { color: rgba(241, 235, 222, 0.45); }
 .spotlight-grid {
@@ -548,9 +640,36 @@ h1.hero-title .upright { font-style: normal; }
   align-items: center;
 }
 .spotlight-portrait .ph { aspect-ratio: 3 / 4; }
+/* the right column's text never fills its track (the bio is capped at 46ch and
+   the quote wraps early), so the block read left-heavy: 88px of air on the left
+   against ~339px on the right. Shifting the whole group right by half that
+   surplus evens the two margins. Desktop only — the ≤560px flow is
+   single-column and already gutter-aligned. */
+@media (min-width: 921px) {
+  /* the surplus grows with the viewport (the text block's own width is capped
+     by the 46ch bio and the quote's wrap), so a flat percentage over- or
+     under-shoots. This tracks it: ~52px at 1400, ~157px at 1900, nothing below
+     ~1150 where the two margins are already close. */
+  .spotlight-grid { margin-left: clamp(0px, calc((100vw - 1400px) * 0.21 + 52px), 200px); }
+}
+@media (min-width: 921px) {
+  /* the portrait frame was locked to 3/4 while the composite photograph is
+     2232×2038 (≈1.095). With the Home-route `contain` fit that left ~340px of
+     empty burgundy under the image, which read as oversized bottom padding.
+     Matching the frame to the artwork removes the void without cropping. */
+  .spotlight-portrait .ph { aspect-ratio: 2232 / 2038; }
+  /* nudge the photograph down within its frame — the image only; the frame,
+     the grid and the text column stay where they are */
+  .spotlight-portrait .ph.has-img img { transform: translateY(26px); }
+  /* and the text column a touch up, against the lowered photograph */
+  .spotlight-grid > div { transform: translateY(-26px); }
+  /* "Selected Stories." heading lifted toward the section top; the head
+     centre-aligns so "Slow reading" sits on the heading's optical middle
+     instead of the first line's baseline */
+  #journal .beat-head { margin-top: -26px; align-items: center; }
+}
 .spotlight-quote {
-  font-family: var(--serif);
-  font-weight: 300;
+  font-family: var(--serif);  font-weight: 300;
   font-style: italic;
   font-size: clamp(34px, 4.2vw, 62px);
   line-height: 1.12;
@@ -595,6 +714,50 @@ h1.hero-title .upright { font-style: normal; }
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(20px, 2.6vw, 40px);
 }
+/* Home "Selected Stories.": the rule sits under each card's title rather than
+   above its image, so the images start on open space and the line closes the
+   headline instead of opening the card */
+#journal .beat-head { border-bottom: 0; padding-bottom: 0; }
+#journal .entry { border-top: 0; padding-top: 0; }
+#journal .entry-title {
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 16px;
+}
+/* the copy below the rule sits a little further down */
+#journal .entry-dek { margin-top: 22px; }
+/* same treatment on the Stories page cards */
+body[data-route="journal"] .entry { border-top: 0; padding-top: 0; }
+body[data-route="journal"] .entry-title {
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 16px;
+}
+body[data-route="journal"] .entry-dek { margin-top: 22px; }
+/* Stories page: a rule closing the feature story before the entries grid… */
+body[data-route="journal"] .shelf-band {
+  border-top: 1px solid var(--hairline);
+  margin-top: clamp(40px, 6vh, 72px);
+}
+/* …and one between the two rows of three — drawn with a pseudo-element that
+   bridges the column gaps, so it reads as a single continuous rule */
+@media (min-width: 921px) {
+  body[data-route="journal"] .journal-grid { --jg-gap: clamp(20px, 2.6vw, 40px); }
+  body[data-route="journal"] .journal-grid .entry:nth-child(n+4) {
+    position: relative;
+    padding-top: clamp(28px, 4vh, 48px);
+  }
+  body[data-route="journal"] .journal-grid .entry:nth-child(n+4)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(var(--jg-gap) / -2);
+    right: calc(var(--jg-gap) / -2);
+    height: 1px;
+    background: var(--hairline);
+  }
+  /* keep the ends flush with the grid edges */
+  body[data-route="journal"] .journal-grid .entry:nth-child(4)::before { left: 0; }
+  body[data-route="journal"] .journal-grid .entry:nth-child(6)::before { right: 0; }
+}
 .entry { border-top: 1px solid var(--hairline); padding-top: 22px; }
 .entry .ph { aspect-ratio: 4 / 3; margin: 18px 0 20px; }
 .entry-kicker { display: flex; justify-content: space-between; }
@@ -609,7 +772,9 @@ h1.hero-title .upright { font-style: normal; }
   color: var(--ink);
   text-wrap: pretty;
 }
-.entry-dek { font-size: 16px; font-weight: 400; line-height: 1.6; color: var(--ink); margin-top: 10px; max-width: 40ch; text-wrap: pretty; }
+/* story copy matches the product meta line (Gantari 14 / 1.5 / --ink-read) */
+.entry-dek { font-size: 14.5px; font-weight: 400; line-height: 1.5; color: var(--ink-read); margin-top: 10px; max-width: 40ch; text-wrap: pretty; }
+.feature p { font-family: var(--sans); font-size: 14.5px; font-weight: 400; line-height: 1.5; color: var(--ink-read); }
 /* body-emphasis italic — inherits the surrounding text size */
 .entry-sign { display: block; margin-top: 16px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 16px; color: var(--coffee); }
 .entry-read { display: flex; align-items: baseline; gap: 6px; width: fit-content; margin-top: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--aubergine); border-bottom: 1px solid var(--aubergine); padding-bottom: 3px; transition: gap var(--t) var(--ease); clear: both; }
@@ -1245,9 +1410,10 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
      right-center offset are authored on the element for the desktop collage
      crop, so overriding them needs !important */
   .spotlight-portrait {
-    width: 100%;
+    width: 88%;
+    margin-left: auto !important;
+    margin-right: auto !important;
     aspect-ratio: auto;
-    margin-right: 0 !important;
   }
   .spotlight-portrait .ph { aspect-ratio: 3 / 4; }
   /* Two rules had to be beaten: the inline width:124% / contain / right-center
@@ -1260,9 +1426,34 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
   .spotlight-portrait .ph.has-img img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
     object-position: center !important;
   }
+  /* quote closes to two lines: the three authored .rv-line spans run inline so
+     the sentence reflows, and the size drops enough for it to land on two. */
+  .spotlight-quote .rv-line {
+    display: inline;
+    overflow: visible;
+  }
+  .spotlight-quote .rv-line + .rv-line::before { content: " "; }
+  /* spotlight text scale (phone) */
+  .spotlight-bio { font-size: 14px; line-height: 1.5; text-wrap: balance; }
+  .spotlight-name { font-size: 25px; }
+  .spotlight-cta { font-size: 11px; }
+  /* the creator cards' own `.creator-grid .spotlight-cta { 12px }` outranks the
+     plain class rule above, so it needs matching specificity here */
+  .creator-grid .spotlight-cta { font-size: 11px; }
+  .spotlight .micro { font-size: 11px; }
+  /* the authored break before "poetry" was set for the desktop measure; on
+     phone it left "the quiet" stranded short. Dropping just that one break
+     lets the closing sentence flow, so "poetry of" rises a line. */
+  .spotlight-bio br:last-of-type { display: none; }
+  /* keeps "of" with "LRNCE," so it wraps down instead of stranding at the end
+     of line two. The span is inert above this breakpoint, so desktop keeps its
+     existing line breaks. */
+  .spotlight-bio .bio-keep { white-space: nowrap; }
+  /* the wordmark never splits across lines */
+  .nb { white-space: nowrap; }
 
   /* ——— footer restructure (phone) ———
      Logo and Shop each span the full 2-column grid; Shop's links become the
@@ -1809,6 +2000,16 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .wish-name { font-family:var(--serif); font-style:italic; font-size:24px; }
 .wish-meta { font-size: 15px; color:var(--ink-60); margin-top:3px; }
 .pay-card, .addr-card { border:1px solid var(--hairline); padding:22px 26px; margin-bottom:16px; }
+/* account cards adopt the Why-sell .path-card language: the same hairline box
+   with roomier padding and a border-colour lift on hover. Grid layouts kept. */
+.order-card, .wish-card, .pay-card, .addr-card {
+  padding: clamp(22px, 2.6vw, 34px) clamp(22px, 2.4vw, 30px);
+  transition: border-color var(--t) var(--ease);
+}
+.order-card:hover, .wish-card:hover, .pay-card:hover, .addr-card:hover { border-color: var(--ink-38); }
+@media (max-width: 560px) {
+  .order-card, .wish-card, .pay-card, .addr-card { padding: 22px 20px; }
+}
 .card-mono { font-family:var(--mono); font-size: 16px; letter-spacing:0.18em; }
 .card-line { display:flex; justify-content:space-between; align-items:center; gap:16px; }
 .muted-act { font-family:var(--mono); font-size: 14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; cursor:pointer; transition:color var(--t) var(--ease); }
@@ -1851,9 +2052,29 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .maker-room { font-size: 15px; color:var(--ink-38); margin-top:3px; }
 .maker-card[hidden] { display:none; }
 .maker-empty { font-family:var(--serif); font-style:italic; font-size:20px; color:var(--ink-60); }
-.partner-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:1px; background:var(--hairline); border:1px solid var(--hairline); }
+/* six partners: only column counts that divide 6 avoid an orphaned cell and
+   the empty half-row it leaves behind (auto-fill gave 5 + 1). */
+.partner-grid { display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:1px; background:var(--hairline); border:1px solid var(--hairline); }
+@media (max-width: 1200px) { .partner-grid { grid-template-columns:repeat(3, minmax(0,1fr)); } }
+@media (max-width: 700px) { .partner-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } }
 .partner-cell { background:var(--cream-deep); padding:32px 30px; min-height:156px; display:flex; flex-direction:column; justify-content:space-between; gap:18px; }
-.partner-name { font-family:var(--serif); font-size:25px; }
+.partner-name { font-family:var(--serif); font-size:25px; color:var(--driftwood); }
+/* creator cards follow the product-card hierarchy: burgundy serif-italic name,
+   mono discipline label at status size, Gantari location at maker size. */
+.maker-card .maker-name { font-size:24px; }
+.maker-card .maker-disc { font-size:12px; letter-spacing:0.16em; color:var(--ink-38); }
+.maker-card .maker-room { font-family:var(--sans); font-size:14px; letter-spacing:normal; color:var(--ink-read); }
+.creator-grid > div > span[style] { font-size:24px !important; color:var(--aubergine) !important; }
+/* burgundy ground, inverted exactly like the Artist Spotlight: cream title,
+   driftwood display names, cream-alpha supporting lines and hairlines. */
+.about-section.alt { background:var(--aubergine) !important; }
+.about-section.alt .sec-head h2 { color:var(--cream); }
+.about-section.alt .sec-head h2 em { color:var(--driftwood); }
+.about-section.alt .sec-head { border-bottom-color:rgba(241,235,222,0.18); }
+.about-section.alt .sec-head .micro { color:rgba(241,235,222,0.45); }
+.about-section.alt .partner-grid { background:rgba(241,235,222,0.18); border-color:rgba(241,235,222,0.18); }
+.about-section.alt .partner-cell { background:var(--aubergine); }
+.about-section.alt .partner-cell .partner-role { color:rgba(241,235,222,0.6); }
 .partner-role { font-family:var(--mono); font-size: 14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); }
 .faq-wrap .faq-group > .micro { color: #5a595a; }
 .faq-wrap { padding:clamp(120px,16vh,170px) var(--gutter) clamp(80px,12vh,140px); max-width:940px; }
@@ -2164,6 +2385,14 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 }
 .q-option.is-chosen { color: var(--aubergine); }
 .q-option.is-chosen .opt-mark { background: var(--aubergine); border-color: var(--aubergine); transform: scale(1.08); }
+/* quiz choices adopt the Why-sell .path-card language: a full hairline box with
+   generous padding, border-colour on hover instead of a text nudge, and a
+   burgundy edge when chosen. Replaces the underlined-row treatment. */
+.q-options { border-top: 0; display: grid; gap: 14px; }
+.q-option { border: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); padding: clamp(22px, 2.8vw, 34px) clamp(20px, 2.4vw, 30px); align-items: center; }
+.q-option:hover { padding-left: clamp(20px, 2.4vw, 30px); border-color: var(--ink-38); color: var(--aubergine); }
+.q-option.is-chosen { border-color: var(--aubergine); }
+.q-option .tag { padding-top: 0; }
 
 /* text inputs (Q5, contact) */
 .q-field { margin-top: clamp(34px, 5vh, 52px); display: grid; gap: 26px; max-width: 560px; }
@@ -2251,7 +2480,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
   color: var(--ink-38);
 }
 
-@media (max-width: 760px){.quiz-stage{min-height:100svh;padding:18px 20px calc(34px + env(safe-area-inset-bottom))}.quiz-top{padding-top:70px}.quiz-rail{align-items:start;padding:12px 0 6px}.q-screen{max-width:none}.q-kicker{margin-bottom:16px}.q-prompt{font-size:26px;line-height:1.14;max-width:none}.q-sub{font-size: 16px;margin-top:14px}.q-options{margin-top:22px}.q-option{grid-template-columns:22px 1fr 16px;gap:12px;padding:15px 2px;align-items:start}.opt-title{font-size:18px;line-height:1.25}.opt-note{margin-top:4px}.tag{padding-top:3px}.opt-mark{align-self:start;margin-top:5px}.q-field{margin-top:22px;gap:20px;max-width:none}.quiz-foot{flex-wrap:wrap;gap:14px}.quiz-foot .quiz-hint{order:2;flex-basis:100%}.q-result{text-align:left;max-width:none}.q-result h2{font-size:34px}.result-cta{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:12px;margin-top:28px}.result-cta .btn-solid,.result-cta .btn-ghost{width:100%;justify-content:center}.btn-solid,.btn-ghost{padding:16px 22px}.seal{font-size:64px}} /* the accept screen reads warm; decline stays calm cream */
+@media (max-width: 760px){.quiz-stage{min-height:100svh;padding:18px 20px calc(34px + env(safe-area-inset-bottom))}.quiz-top{padding-top:70px}.quiz-rail{align-items:start;padding:12px 0 6px}.q-screen{max-width:none}.q-kicker{margin-bottom:16px}.q-prompt{font-size:26px;line-height:1.14;max-width:none}.q-sub{font-size: 16px;margin-top:14px}.q-options{margin-top:22px}.q-option{grid-template-columns:22px 1fr 16px;gap:12px;padding:20px 18px;align-items:center}.opt-title{font-size:18px;line-height:1.25}.opt-note{margin-top:4px}.tag{padding-top:0}.opt-mark{align-self:center;margin-top:0}.q-field{margin-top:22px;gap:20px;max-width:none}.quiz-foot{flex-wrap:wrap;gap:14px}.quiz-foot .quiz-hint{order:2;flex-basis:100%}.q-result{text-align:left;max-width:none}.q-result h2{font-size:34px}.result-cta{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:12px;margin-top:28px}.result-cta .btn-solid,.result-cta .btn-ghost{width:100%;justify-content:center}.btn-solid,.btn-ghost{padding:16px 22px}.seal{font-size:64px}} /* the accept screen reads warm; decline stays calm cream */
 body.is-pass { background: var(--white); }
 
 /* ===== PART B · THE CREATOR PROFILE ===== */
@@ -2569,7 +2798,20 @@ textarea.field-input:focus { border-color: var(--ink); }
    cascade reason as the category phone rule. Typography, the 4:3 entry ratio and
    the existing `gap: clamp(20px,2.6vw,40px)` are untouched. */
 @media (max-width: 920px) { .journal-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { body .journal-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  body .journal-grid { grid-template-columns: 1fr; }
+  /* single column needs its own separation: a hairline above every story
+     after the first, with the gap split either side so the line sits in the
+     middle of the breathing space rather than against the next card.
+     #journal is repeated because the Home section carries that id and its
+     `#journal .entry { border-top: 0 }` rule would otherwise win. */
+  body .journal-grid .entry + .entry,
+  body #journal .journal-grid .entry + .entry {
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(20px, 3vh, 28px);
+    margin-top: clamp(4px, 1vh, 10px);
+  }
+}
 
 /* Object-page detail gallery. Four 1:1 tracks give ~75px squares at 390px; a
    detail image needs ~150px to read. Two tracks, never one — the pairing is part
@@ -2675,6 +2917,10 @@ textarea.field-input:focus { border-color: var(--ink); }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     padding: 18px clamp(16px, 4vw, 30px) 4px;
+    /* without this the first tile's snap point lands at the padding edge, so
+       the rail self-scrolls by exactly the padding and the tile sits flush at
+       0 while the nav labels start at the gutter. */
+    scroll-padding-left: clamp(16px, 4vw, 30px);
   }
   .mm-rail::-webkit-scrollbar { display: none; }
   .mm-tile {
@@ -2823,6 +3069,9 @@ textarea.field-input:focus { border-color: var(--ink); }
      element and is deliberately left alone.) */
   .video-hero .vh-cue { display: none; }
   .hero-cta, .entry-read, .ar-tile { font-size: 12px; }
+  /* creator-card link: `.creator-grid .spotlight-cta { 12px }` sits later in
+     the sheet than the ≤560px block, so the override belongs here */
+  .creator-grid .spotlight-cta { font-size: 11px; }
 
   /* ——— mobile menu ———
      19px links; padding lifted 9 → 12px so the row still measures ~44px.
@@ -2874,16 +3123,97 @@ textarea.field-input:focus { border-color: var(--ink); }
   /* "Selected for you" must hold one line beside the two-line title.
      Sized to match the other beat-head labels (e.g. "Slow reading") at the
      base 13px / 0.2em; shrink stays disabled so it can't wrap. */
+  /* label drops to the row-number/subcategory size so the title reclaims the
+     width it needs to hold "This week" on one line (two lines total). */
   #edit .beat-head .micro {
     white-space: nowrap;
     flex-shrink: 0;
+    font-size: 11px;
   }
+  /* "Slow reading" matches "Selected for you" */
+  #journal .beat-head .micro { font-size: 11px; }
+  /* story-card labels ("Interview", "06 min", "Behind the shelf") join the
+     same micro size; .entry-read stays 12px as a tappable action */
+  .entry-kicker .micro { font-size: 11px; }
+
+  /* the Artist Spotlight text scale, carried to the Spotlight page and to the
+     Selected Stories deks so the three read as one system on phone */
+  .profile-bio p { font-size: 14px; line-height: 1.5; text-wrap: balance; }
+  .script-name { font-size: 25px !important; }
+  .profile-meta dd { font-size: 14px; }
+  .profile-fold .crumbs .micro,
+  .profile-fold .micro { font-size: 11px; }
+  .entry-dek { font-size: 14px; line-height: 1.5; }
+  /* Home intro paragraph joins the same body scale */
+  .hbc-text p { font-size: 14px; line-height: 1.5; }
+
+  /* Why sell on É-MISHTO adopts the Home phone scale: 34 page title,
+     24 section heading, 18 card name, 16 lede, 14 body, 11 micro. */
+  .about-intro h1 { font-size: 34px; }
+  /* reading copy switches to the Home body face (Gantari 14/1.5) instead of
+     the display serif; headings and the italic display line stay Cormorant. */
+  .about-lede, .about-lede.dim { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  /* path-cards read the same wherever they appear (Why sell, Account gate):
+     24px serif-italic heading over 14px Gantari body. */
+  .path-card h2 { font-size: 24px; }
+  .path-card p { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  /* solid/ghost buttons match the site's other pill controls (.room-chip,
+     .hsq, subcategory rail: 11px mono, ~10-12px vertical padding) instead of
+     standing 13px/50px tall. Kept at 40px so the tap target stays generous. */
+  .btn-solid, .btn-ghost { font-size: 12px; padding: 13px 22px; }
+  .path-card .btn-solid { font-size: 12px; padding: 13px 22px; }
+
+  /* account creation + apply flow follow the Home hierarchy:
+     34 page title · 24 section heading · 18 option title · 14 body ·
+     11 mono micro. Buttons use the shared 11px / 13x22 size. */
+  .account-wrap .page-title { font-size: 34px; }
+  .dash-head h1 { font-size: 34px; }
+  .dash-panel h2 { font-size: 24px; }
+  .acct-auth .link-back, .acct-auth .seg button, .link-back { font-size: 11px; }
+  .account-wrap .crumbs, .account-wrap .crumbs a, .account-wrap .crumbs span { font-size: 11px; }
+  .field-label, .field-input, .field input { font-size: 14px; }
+  .opt-link { font-size: 11px; }
+  .btn-ghost-sm { font-size: 12px; }
+  .q-kicker, .q-option .tag, .quiz-hint, .flag-note, .quiz-rail span { font-size: 11px; }
+  /* the question IS each screen's title, so it sits on Home's page-title
+     tier (34px) alongside the result heading — not the 24px section tier. */
+  .q-prompt { font-size: 34px; line-height: 1.08; }
+  .q-sub { font-size: 14px; }
+  .q-result h2 { font-size: 34px; }
+  .q-result p { font-size: 14px; }
+  .q-field .field-label { font-size: 11px; }
+  .q-input-line input { font-size: 14px; }
+  /* these four need matching specificity to beat their own scoped rules */
+  .dash-panel .btn-ghost-sm, .order-card .btn-ghost-sm, .wish-card .btn-ghost-sm,
+  .pay-card .btn-ghost-sm, .addr-card .btn-ghost-sm { font-size: 12px; padding: 10px 18px; }
+  .q-result .flag-note { font-size: 11px; }
+  .quiz-exit, .quiz-top b, .quiz-top strong { font-size: 11px; }
+  .q-input-line label, .q-field label { font-size: 11px; }
+  .q-result p, .q-result.q-pass p, .q-result.q-stop p { font-size: 14px; line-height: 1.5; }
+  .q-option .opt-title { font-size: 20px; }
+  .acct-auth .btn-solid, .auth-pane .btn-solid { font-size: 12px; padding: 13px 22px; }
+  .about-wrap .crumbs, .about-wrap .crumbs a, .about-wrap .crumbs span { font-size: 11px; }
+  .about-section h2 { font-size: 24px; line-height: 1.15; }
+  .about-section .sec-head .micro { font-size: 11px; }
+  .about-section.alt .sec-head .micro { font-size: 11px; }
+  .room-chip { font-size: 11px; }
+  /* phone: mirrors the product card — name 20, maker line 13, label 12 */
+  .maker-card .maker-name { font-size: 20px; line-height: 1.15; }
+  .maker-card .maker-disc { font-size: 12px; }
+  .maker-card .maker-room { font-size: 13px; }
+  .creator-grid > div > span[style] { font-size: 20px !important; }
+  .maker-card .micro, .maker-card .whisper { font-size: 11px; }
+  .partner-name { font-size: 20px; }
+  .about-section.alt .partner-cell .partner-role { font-size: 11px; }
+  .about-section p { font-family: var(--sans); font-size: 14px; line-height: 1.5; }
   .world-row .world-name { grid-column: 2; grid-row: 1; }
+  /* row number matches the subcategory line (.world-meta) on phone */
+  .world-row .num { font-size: 11px; padding-left: 10px; }
   .world-meta {
     grid-column: 2;
     grid-row: 2;
     text-align: left;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.12em;   /* eased so long groups wrap naturally */
     line-height: 1.5;
     white-space: normal;
@@ -2915,6 +3245,17 @@ body.spotlight-page em, body.spotlight-page i {
   color: inherit;
 }
 </style>
+<script>
+/* routing is a real reload per hash change, so the browser would otherwise
+   restore the previous page's scroll offset. Runs in <head> — before the
+   browser performs scroll restoration — so every route opens at the top. */
+(function(){
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch(e){}
+  function toTop(){ try { window.scrollTo(0,0); } catch(e){} }
+  document.addEventListener("DOMContentLoaded", toTop);
+  window.addEventListener("load", function(){ toTop(); requestAnimationFrame(toTop); });
+})();
+</script>
 </head>
 <body class="page" data-grain="on" data-cursor="on">
 
@@ -2965,7 +3306,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -2976,23 +3317,35 @@ body.spotlight-page em, body.spotlight-page i {
 <main>
 
   <!-- 00 · mood hero -->
-  <section class="video-hero" id="hero-video-section" data-invert="" data-screen-label="00 Intro" style="cursor:pointer"><video id="hero-video" autoplay muted loop playsinline webkit-playsinline="true" preload="auto"><source src="assets/video/hero-landing.mp4" type="video/mp4"></video><script>(function(){var s=document.getElementById("hero-video-section");var v=document.getElementById("hero-video");if(s&&v){s.addEventListener("click",function(){if(v.paused){v.play();}else{v.pause();}});}})();</script><span class="vh-tagline">Objects with soul</span><span class="vh-cue">Scroll</span></section>
+  <section class="video-hero" id="hero-video-section" data-invert="" data-screen-label="00 Intro" style="cursor:pointer"><video id="hero-video" autoplay muted loop playsinline webkit-playsinline="true" preload="auto"><source src="assets/video/hero-landing.mp4" type="video/mp4"></video><script>(function(){var s=document.getElementById("hero-video-section");var v=document.getElementById("hero-video");if(!s||!v)return;
+s.addEventListener("click",function(){if(v.paused){v.play();}else{v.pause();}});
+/* ——— 0.8× test ———
+   The source is 24 fps, so 0.8× still yields ~19 unique frames per second —
+   the lowest rate that stays fluid on this file. Anything under ~0.8 starts
+   repeating frames and reads as judder. Re-asserted because the autoplay
+   routine calls play() several times and some browsers reset the rate.
+   Revert = delete this block. */
+var RATE=0.8;
+function slow(){ try{ v.defaultPlaybackRate=RATE; if(v.playbackRate!==RATE) v.playbackRate=RATE; }catch(e){} }
+slow();
+["loadedmetadata","canplay","play","playing","ratechange","seeked"].forEach(function(ev){ v.addEventListener(ev,slow); });
+})();</script><span class="vh-tagline">Objects with soul</span><span class="vh-cue">Scroll</span></section>
 
   <!-- 01 · quiet hero -->
   <section class="hero" data-screen-label="01 Quiet hero" style="background:var(--cream)">
     <div class="hero-brand-collage">
-      <div class="hbc-img hbc-a has-img hbc-hover">
+      <a class="hbc-img hbc-a has-img hbc-hover" href="#/world/fashion" data-cat="accessories" aria-label="Fashion — Accessories">
         <img class="hbc-base" src="assets/hero/collage-a-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-a-earring-detail.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-      </div>
-      <div class="hbc-img hbc-b has-img hbc-hover">
+      </a>
+      <a class="hbc-img hbc-b has-img hbc-hover" href="#/world/vintage" data-cat="antiques" aria-label="Vintage — Antiques">
         <img class="hbc-base" src="assets/hero/collage-b-vessel-model.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-b-vessel-detail.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-      </div>
-      <div class="hbc-img hbc-c has-img hbc-hover">
+      </a>
+      <a class="hbc-img hbc-c has-img hbc-hover" href="#/world/home" data-cat="furniture" aria-label="Home &amp; Objects — Furniture">
         <img class="hbc-base" src="assets/hero/collage-c-chair.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-c.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-      </div>
+      </a>
       <h1 class="hbc-wordmark fade-up"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4578.39 612.28"> <defs> </defs> <polygon class="cls-1" points="86.44 534.57 86.44 412.68 308.93 412.68 308.93 341.51 86.44 341.51 86.44 221.69 334.44 221.69 334.44 149.7 0 149.7 0 606.41 342.2 606.41 342.2 534.57 86.44 534.57"></polygon> <polygon class="cls-1" points="1211.18 149.7 1060.26 450.86 907.97 149.7 808.99 149.7 808.99 606.41 887.52 606.41 887.52 268.44 888.75 271.17 1031.9 559.38 1087.39 559.38 1231.08 268.44 1231.08 606.41 1310.16 606.41 1310.16 149.7 1211.18 149.7"></polygon> <rect class="cls-1" x="1651.43" y="149.7" width="86.3" height="456.72"></rect> <path class="cls-1" d="M2416.04,418.27c-8.59-15.54-20.32-28.36-34.77-38.31-14.45-9.94-30.68-18.26-47.85-24.54-17.45-6.27-35.04-12.13-52.35-17.31-17.45-5.19-33.67-10.63-48.13-16.37-14.73-5.59-26.72-12.95-35.59-21.67-9.12-8.86-13.63-20.45-13.63-34.49,0-15.55,6.41-27.41,18.96-35.32,12.54-7.9,29.17-11.86,49.76-11.86,12.13,0,25.91,1.37,40.76,4.22,14.86,2.87,30.81,7.64,47.45,14.19,16.63,6.4,32.99,14.58,48.95,24.4l34.76-70.75c-21.54-14.05-47.03-25.63-75.52-34.22-28.92-8.73-58.9-13.08-89.16-13.08-34.22,0-64.35,5.45-89.71,15.94-25.36,10.63-45.4,25.78-59.58,45-14.31,19.22-21.54,42.26-21.54,68.57,0,23.45,4.5,42.81,13.36,57.94,8.87,15.13,20.59,27.68,35.18,37.36,14.44,9.81,30.53,17.85,47.85,24.27,17.31,6.27,35.03,11.72,52.62,16.22,17.58,4.64,33.81,9.94,48.26,15.81,14.32,5.86,26.18,13.23,35.17,22.09,9,8.73,13.63,20.59,13.63,35.17,0,17.59-7.09,31.36-20.85,41.04-13.77,9.68-33.4,14.58-58.36,14.58-16.22,0-33.67-2.72-52.22-8.17-18.54-5.46-37.08-13.36-55.48-23.72-18-9.96-34.91-22.23-50.45-36.41l-35.99,70.08c16.36,14.18,35.03,26.72,55.35,37.49,20.59,10.77,42.81,19.5,65.99,25.76,23.17,6.27,47.31,9.54,71.43,9.54,33.41,0,63.54-5.59,89.71-16.36,26.18-10.78,47.17-26.31,62.31-46.22,15.14-19.9,22.77-44.17,22.77-72.25,0-23.31-4.37-43.08-13.08-58.63"></path> <polygon class="cls-1" points="3080.56 149.7 3080.56 347.38 2850.84 347.38 2850.84 149.7 2764.41 149.7 2764.41 606.41 2850.84 606.41 2850.84 418.69 3080.56 418.69 3080.56 606.41 3167.55 606.41 3167.55 149.7 3080.56 149.7"></polygon> <polygon class="cls-1" points="3481.29 149.7 3481.29 222.36 3623.9 222.36 3623.9 606.41 3710.87 606.41 3710.87 222.36 3853.61 222.36 3853.61 149.7 3481.29 149.7"></polygon> <path class="cls-1" d="M4477.92,440.9c-8.04,19.36-19.22,36.68-33.13,51.54-14.05,14.86-30.53,26.59-49.08,34.77-18.54,8.31-38.44,12.54-59.45,12.54s-41.03-4.22-59.84-12.54c-18.68-8.18-35.59-19.91-49.9-34.77-14.45-14.86-25.91-32.18-34.22-51.54-8.31-19.5-12.41-40.76-12.41-63.53s4.09-43.89,12.13-62.98c8.04-19.22,19.36-36.4,33.81-50.98,14.32-14.59,31.22-26.05,49.91-34.22,18.81-8.05,39.12-12.14,60.52-12.14s40.91,4.09,59.45,12.14c18.54,8.17,35.03,19.63,49.08,34.22,13.91,14.58,25.09,31.76,33.13,50.98,8.04,19.09,12.13,40.36,12.13,62.98s-4.09,44.03-12.13,63.53M4559.72,285.75c-12.26-27.95-29.58-52.77-51.53-74.02-21.81-21.27-47.85-37.91-77.3-49.64-29.45-11.72-61.76-17.58-95.98-17.58s-66.25,5.86-95.57,17.58c-29.18,11.73-55.22,28.23-77.29,49.22-22.09,20.99-39.55,45.95-51.96,74.16-12.26,28.08-18.53,59.03-18.53,91.89s6.27,64.08,18.53,92.43c12.41,28.37,29.87,53.44,51.96,74.71,22.08,21.14,48.12,37.91,77.29,49.9,29.18,11.86,61.35,17.87,95.57,17.87s66.53-6.01,95.98-17.87c29.45-11.99,55.49-28.76,77.3-49.9,21.95-21.27,39.27-46.49,51.53-75.12,12.41-28.5,18.67-59.44,18.67-92.03s-6.27-63.66-18.67-91.61"></path> <path class="cls-1" d="M613.13,377.87c0,5.73-1.08,11.18-3.23,16.19-2.12,5.03-5.11,9.47-8.91,13.22-3.76,3.72-8.27,6.67-13.36,8.77-5.09,2.09-10.67,3.15-16.57,3.15s-11.48-1.06-16.52-3.15c-5.03-2.1-9.54-5.05-13.36-8.77-3.81-3.74-6.83-8.15-8.97-13.14-2.12-4.99-3.21-10.46-3.21-16.27s1.08-11.22,3.21-16.17c2.14-4.97,5.16-9.35,8.97-13.04,3.82-3.7,8.33-6.6,13.36-8.66,5.07-2.06,10.6-3.1,16.52-3.1s11.49,1.04,16.57,3.1c5.09,2.07,9.59,4.99,13.36,8.73,3.8,3.74,6.78,8.11,8.91,13.03,2.14,4.91,3.23,10.34,3.23,16.12"></path> <polygon class="cls-1" points="196.61 0 124.77 111.11 194.16 111.11 276.92 37.08 196.61 0"></polygon></svg></h1>
       <div class="hbc-text fade-up">
         <span class="micro">Objects with soul</span>
@@ -3068,8 +3421,8 @@ body.spotlight-page em, body.spotlight-page i {
           <div class="world-panel-inner">
             <div class="world-panel-head"><a class="world-view-all" href="#/world/home">View all Home <span>→</span></a></div>
             <div class="world-sub-grid">
-              <a class="world-sub" href="#/world/home" data-world="home" data-cat="décor"><span class="world-sub-img"><img src="assets/shelf/home/vessel-7.png" alt="Décor"></span><span class="world-sub-name">Décor</span><span class="world-sub-go">Explore →</span></a>
-              <a class="world-sub" href="#/world/home" data-world="home" data-cat="furniture"><span class="world-sub-img"><img src="assets/shelf/home/reading-stool.png" alt="Furniture"></span><span class="world-sub-name">Furniture</span><span class="world-sub-go">Explore →</span></a>
+              <a class="world-sub" href="#/world/home" data-world="home" data-cat="décor"><span class="world-sub-img"><img src="assets/shelf/home/decor-cover.png" alt="Décor"></span><span class="world-sub-name">Décor</span><span class="world-sub-go">Explore →</span></a>
+              <a class="world-sub" href="#/world/home" data-world="home" data-cat="furniture"><span class="world-sub-img"><img src="assets/shelf/home/furniture-cover.png" alt="Furniture"></span><span class="world-sub-name">Furniture</span><span class="world-sub-go">Explore →</span></a>
               <a class="world-sub" href="#/world/home" data-world="home" data-cat="fragrance"><span class="world-sub-img"><img src="assets/shelf/home/fragrance-cover.png" alt="Fragrance"></span><span class="world-sub-name">Fragrance</span><span class="world-sub-go">Explore →</span></a>
             </div>
             </div>
@@ -3085,9 +3438,9 @@ body.spotlight-page em, body.spotlight-page i {
           <div class="world-panel-inner">
             <div class="world-panel-head"><a class="world-view-all" href="#/world/vintage">View all Vintage <span>→</span></a></div>
             <div class="world-sub-grid">
-              <a class="world-sub" href="#/world/vintage" data-world="vintage" data-cat="antiques"><span class="world-sub-img"><img src="assets/shelf/vintage/mantel-clock-walnut.png" alt="Antiques"></span><span class="world-sub-name">Antiques</span><span class="world-sub-go">Explore →</span></a>
+              <a class="world-sub" href="#/world/vintage" data-world="vintage" data-cat="antiques"><span class="world-sub-img"><img src="assets/shelf/vintage/antiques-cover.png" alt="Antiques"></span><span class="world-sub-name">Antiques</span><span class="world-sub-go">Explore →</span></a>
               <a class="world-sub" href="#/world/vintage" data-world="vintage" data-cat="jewelry"><span class="world-sub-img"><img src="assets/shelf/vintage/jewelry-cover.png" alt="Jewelry"></span><span class="world-sub-name">Jewelry</span><span class="world-sub-go">Explore →</span></a>
-              <a class="world-sub" href="#/world/vintage" data-world="vintage" data-cat="collectibles"><span class="world-sub-img"><img src="assets/shelf/vintage/travel-chess-set.png" alt="Collectibles"></span><span class="world-sub-name">Collectibles</span><span class="world-sub-go">Explore →</span></a>
+              <a class="world-sub" href="#/world/vintage" data-world="vintage" data-cat="collectibles"><span class="world-sub-img"><img src="assets/shelf/vintage/collectibles-cover.png" alt="Collectibles"></span><span class="world-sub-name">Collectibles</span><span class="world-sub-go">Explore →</span></a>
             </div>
             </div>
         </div>
@@ -3188,7 +3541,7 @@ body.spotlight-page em, body.spotlight-page i {
           <span class="rv-line">combining the right</span>
           <span class="rv-line">colors.”</span>
         </blockquote>
-        <p class="spotlight-bio fade-up">Born in Belgium. Now based in Marrakech after leaving the Flemish countryside behind. Founder of LRNCE, where handwoven textiles, sculptural ceramics, and painted objects come together through collaborations with local artisans.<br>Her work blends bold color, organic forms, and the quiet<br>poetry of everyday life.</p>
+        <p class="spotlight-bio fade-up">Born in Belgium. Now based in Marrakech after leaving the Flemish countryside behind. Founder <span class="bio-keep">of LRNCE,</span> where handwoven textiles, sculptural ceramics, and painted objects come together through collaborations with local artisans.<br>Her work blends bold color, organic forms, <span class="bio-keep">and the quiet</span><br>poetry of everyday life.</p>
         <span class="spotlight-name fade-up">Laurence Leenaert</span>
         <br>
         <a class="spotlight-cta fade-up" href="#/spotlight">Read her story · six works available <span>→</span></a>
@@ -3290,7 +3643,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -3378,7 +3731,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -3477,7 +3830,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -3563,7 +3916,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -3738,7 +4091,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -3823,7 +4176,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -3995,7 +4348,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -4080,7 +4433,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -4171,7 +4524,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -4254,7 +4607,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
     </div>
     <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -4274,7 +4627,7 @@ body.spotlight-page em, body.spotlight-page i {
     </h1>
     <div class="page-intro fade-up">
       <div>
-        <p>One-of-a-kind works that have found their place, kept here as part of the É-MISHTO story.</p>
+        <p>One-of-a-kind works that have found their place, kept here as part of the <span class="nb">É-MISHTO</span> story.</p>
         <span class="micro" id="archive-count"></span>
       </div>
     </div>
@@ -4325,7 +4678,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -4391,7 +4744,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -4590,7 +4943,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -4667,7 +5020,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -4737,7 +5090,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -4812,7 +5165,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -4954,7 +5307,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5018,7 +5371,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -5061,7 +5414,7 @@ body.spotlight-page em, body.spotlight-page i {
         <div class="field col-2"><div class="field-label"><span>Email</span></div><input class="field-input" id="li-email" type="email" placeholder="you@studio.com"></div>
         <div class="field col-2"><div class="field-label"><span>Password</span><a class="opt-link" href="#/account">Forgotten?</a></div><input class="field-input" id="li-pass" type="password" placeholder="••••••••"></div>
       </div>
-      <button class="btn-solid" type="button" id="do-signin" style="margin-top:30px;padding:14px 24px;">Enter →</button>
+      <button class="btn-solid" type="button" id="do-signin" style="margin-top:30px;">Enter →</button>
     </div>
     <div class="auth-pane" data-apane="register" hidden>
       <div class="field-grid" style="max-width:520px;">
@@ -5070,7 +5423,7 @@ body.spotlight-page em, body.spotlight-page i {
         <div class="field col-2"><div class="field-label"><span>Email</span></div><input class="field-input" id="rg-em" type="email"></div>
         <div class="field col-2"><div class="field-label"><span>Choose a password</span></div><input class="field-input" id="rg-pass" type="password"></div>
       </div>
-      <button class="btn-solid" type="button" id="do-register" style="margin-top:30px;padding:14px 24px;">Create account →</button>
+      <button class="btn-solid" type="button" id="do-register" style="margin-top:30px;">Create account →</button>
     </div>
   </div>
 
@@ -5092,7 +5445,7 @@ body.spotlight-page em, body.spotlight-page i {
           <h2>Profile <em>information</em></h2>
           <p class="dash-sub">The quiet details we keep for you. Nothing is shared with creators beyond your first name.</p>
           <div id="profile-info"></div>
-          <button class="btn-ghost-sm" type="button" style="font-size:12px;padding:9px 16px;">Edit details</button>
+          <button class="btn-ghost-sm" type="button">Edit details</button>
         </div>
         <div class="dash-panel" data-tab="orders" hidden style="margin-top:-24px;">
           <h2>Order <em>history</em></h2>
@@ -5110,13 +5463,13 @@ body.spotlight-page em, body.spotlight-page i {
           <h2>Saved <em>payment</em></h2>
           <p class="dash-sub">Stored encrypted — we never see the full number.</p>
           <div class="pay-card"><div class="card-line"><span class="card-mono">VISA · •••• 4242</span><button class="muted-act" type="button">Remove</button></div><span class="wish-meta" style="display:block;margin-top:10px;">Expires 09 / 28</span></div>
-          <button class="btn-ghost-sm" type="button" style="font-size:12px;padding:9px 16px;">Add a card</button>
+          <button class="btn-ghost-sm" type="button">Add a card</button>
         </div>
         <div class="dash-panel" data-tab="address" hidden style="margin-top:-24px;">
           <h2>Address <em>book</em></h2>
           <p class="dash-sub">Where your objects come home to.</p>
           <div class="addr-card"><div class="card-line"><span class="card-mono">Home</span><button class="muted-act" type="button">Edit</button></div><p class="info-v" style="margin-top:12px;font-size:18px;">Mara Velez<br>14 Rue de Sévigné<br>Lisbon 1200-001<br>Portugal</p></div>
-          <button class="btn-ghost-sm" type="button" style="font-size:12px;padding:9px 16px;">Add an address</button>
+          <button class="btn-ghost-sm" type="button">Add an address</button>
         </div>
       </div>
     </div>
@@ -5164,7 +5517,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5228,7 +5581,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -5238,7 +5591,7 @@ body.spotlight-page em, body.spotlight-page i {
 <main>
 
   <section class="about-wrap" data-screen-label="About">
-  <div class="crumbs fade-up"><a href="#/">É-MISHTO</a><span>/</span><span>About</span></div>
+  <div class="crumbs fade-up"><a href="#/">É-MISHTO</a><span>/</span><span>Why sell on É-MISHTO</span></div>
   <div class="about-intro">
     <h1 class="page-title" style="margin-top:22px;">A house for<br><em>objects with soul.</em></h1>
     <p class="about-lede fade-up">É-MISHTO is a platform for creators — a platform where independent creators across every category place their work in front of people who will keep it.</p>
@@ -5257,17 +5610,17 @@ body.spotlight-page em, body.spotlight-page i {
     <button class="room-chip" type="button" data-room="vintage">Vintage</button>
   </div>
   <div class="maker-grid" id="maker-grid">
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph " data-label=""></div><div><span class="maker-name">Andra Kovács</span><div class="maker-disc">Painting</div><div class="maker-room">Arts · Cluj</div></div></a>
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-coffee" data-label=""></div><div><span class="maker-name">Sela Marchetti</span><div class="maker-disc">Sculpture</div><div class="maker-room">Arts · Milan</div></div></a>
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-aubergine" data-label=""></div><div><span class="maker-name">Iwan Roché</span><div class="maker-disc">Photography</div><div class="maker-room">Arts · Antwerp</div></div></a>
-    <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-coffee" data-label=""></div><div><span class="maker-name">Atelier Sou</span><div class="maker-disc">Apparel</div><div class="maker-room">Fashion · Kyoto</div></div></a>
-    <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-lavender" data-label=""></div><div><span class="maker-name">Nilo & Wren</span><div class="maker-disc">Accessories</div><div class="maker-room">Fashion · Lisbon</div></div></a>
-    <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-lavender" data-label=""></div><div><span class="maker-name">Maison Brume</span><div class="maker-disc">Skincare</div><div class="maker-room">Body · Grasse</div></div></a>
-    <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-coffee" data-label=""></div><div><span class="maker-name">Sava Botanica</span><div class="maker-disc">Gourmet</div><div class="maker-room">Body · Ljubljana</div></div></a>
-    <a class="maker-card" href="#/world/home" data-room="home"><div class="ph tone-coffee" data-label=""></div><div><span class="maker-name">Templ Studio</span><div class="maker-disc">Fragrance</div><div class="maker-room">Home · Vienna</div></div></a>
-    <a class="maker-card" href="#/world/home" data-room="home"><div class="ph " data-label=""></div><div><span class="maker-name">Oda Ceramics</span><div class="maker-disc">Décor & furniture</div><div class="maker-room">Home · Jutland</div></div></a>
-    <a class="maker-card" href="#/world/vintage" data-room="vintage"><div class="ph tone-aubergine" data-label=""></div><div><span class="maker-name">Hällwyl Archive</span><div class="maker-disc">Antiques</div><div class="maker-room">Vintage · Stockholm</div></div></a>
-    <a class="maker-card" href="#/world/vintage" data-room="vintage"><div class="ph tone-lavender" data-label=""></div><div><span class="maker-name">Vera Lune</span><div class="maker-disc">Jewellery</div><div class="maker-room">Vintage · Geneva</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph has-img" data-label="andra kovács"><img src="assets/shelf/front/betsy-eby.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;"></div><div><span class="maker-name">Andra Kovács</span><div class="maker-disc">Painting</div><div class="maker-room">Arts · Cluj</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-coffee has-img" data-label="sela marchetti"><img src="assets/shelf/front/chiara-capellini.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sela Marchetti</span><div class="maker-disc">Sculpture</div><div class="maker-room">Arts · Milan</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-aubergine has-img" data-label="iwan roché"><img src="assets/shelf/front/lorenzo-brinati.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Iwan Roché</span><div class="maker-disc">Photography</div><div class="maker-room">Arts · Antwerp</div></div></a>
+    <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-coffee has-img" data-label="atelier sou"><img src="assets/shelf/front/kai-chun-chang.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;"></div><div><span class="maker-name">Atelier Sou</span><div class="maker-disc">Apparel</div><div class="maker-room">Fashion · Kyoto</div></div></a>
+    <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-lavender has-img" data-label="nilo and wren"><img src="assets/shelf/front/kim-bartelt.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Nilo & Wren</span><div class="maker-disc">Accessories</div><div class="maker-room">Fashion · Lisbon</div></div></a>
+    <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-lavender has-img" data-label="maison brume"><img src="assets/shelf/front/elise-ansel.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Maison Brume</span><div class="maker-disc">Skincare</div><div class="maker-room">Body · Grasse</div></div></a>
+    <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-coffee has-img" data-label="sava botanica"><img src="assets/shelf/front/gabriele-cappelli.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sava Botanica</span><div class="maker-disc">Gourmet</div><div class="maker-room">Body · Ljubljana</div></div></a>
+    <a class="maker-card" href="#/world/home" data-room="home"><div class="ph tone-coffee has-img" data-label="templ studio"><img src="assets/shelf/front/jose-manuel-castro-lopez.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Templ Studio</span><div class="maker-disc">Fragrance</div><div class="maker-room">Home · Vienna</div></div></a>
+    <a class="maker-card" href="#/world/home" data-room="home"><div class="ph has-img" data-label="oda ceramics"><img src="assets/shelf/front/artist-spotlight-portrait.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Oda Ceramics</span><div class="maker-disc">Décor & furniture</div><div class="maker-room">Home · Jutland</div></div></a>
+    <a class="maker-card" href="#/world/vintage" data-room="vintage"><div class="ph tone-aubergine has-img" data-label="hällwyl archive"><img src="assets/shelf/front/laurence-studio-crouch.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;"></div><div><span class="maker-name">Hällwyl Archive</span><div class="maker-disc">Antiques</div><div class="maker-room">Vintage · Stockholm</div></div></a>
+    <a class="maker-card" href="#/world/vintage" data-room="vintage"><div class="ph tone-lavender has-img" data-label="vera lune"><img src="assets/shelf/front/lrnce-studio-1.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;"></div><div><span class="maker-name">Vera Lune</span><div class="maker-disc">Jewellery</div><div class="maker-room">Vintage · Geneva</div></div></a>
   </div>
   <p class="maker-empty" id="maker-empty" hidden>No creators in this category yet — they’re on their way.</p>
 </section>
@@ -5333,7 +5686,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5398,7 +5751,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -5480,7 +5833,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5545,7 +5898,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -5566,7 +5919,7 @@ body.spotlight-page em, body.spotlight-page i {
         <div class="field col-2"><div class="field-label"><span>What is this about?</span></div><select class="field-input" id="ct-subject"><option>A general question</option><option>About a purchase</option><option>Selling on É-MISHTO</option><option>Press &amp; partnerships</option><option>Something else</option></select></div>
         <div class="field col-2"><div class="field-label"><span>Message</span></div><textarea class="field-input" id="ct-message" rows="5" placeholder="Tell us a little..."></textarea></div>
       </div>
-      <button class="btn-solid" type="button" id="ct-send" style="margin-top:30px;padding:14px 24px;">Send it →</button>
+      <button class="btn-solid" type="button" id="ct-send" style="margin-top:30px;">Send it →</button>
     </div>
     <div id="contact-thanks" hidden><p class="contact-sent">Thank you — your note is with us. We answer everything within two working days.</p><a class="hero-cta" href="#/" style="margin-top:18px;">Back to the house <span>→</span></a></div>
   </div>
@@ -5621,7 +5974,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5685,7 +6038,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>2</sup></a>
@@ -5751,7 +6104,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5821,7 +6174,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -5887,7 +6240,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -5964,7 +6317,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -6161,7 +6514,7 @@ body.spotlight-page em, body.spotlight-page i {
       </div>
       <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
-    <a class="acct acct-extra" href="#/about">About</a>
+    <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
     <a class="bag" href="#/bag">Bag <sup>0</sup></a>
@@ -6601,7 +6954,7 @@ body.spotlight-page em, body.spotlight-page i {
       <div class="foot-col">
         <span class="micro">For creators</span>
         <ul>
-          <li><a href="#/artists">Why sell on É-MISHTO</a></li>
+          <li><a href="#/about">Why sell on É-MISHTO</a></li>
           <li><a href="#/apply">Apply</a></li>
         </ul>
       </div>
@@ -7128,23 +7481,23 @@ const EM_WORLDS = {
     crumb: "New In",
     intro: "The newest objects to arrive, across every category. Freshly photographed, freshly written up — the pieces that landed most recently.",
     sign: "curated by hand · updated weekly",
-    chips: ["All"],
+    chips: ["All", "Art", "Fashion", "Body & Beauty", "Home & Objects", "Food", "Vintage"],
     quote: "\u201CNothing here is restocked. When it arrives, it arrives once.\u201D",
     shelfTitle: "Just arrived",
     shelf: [
-      { name: "The Aster Vessel", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/aster/aster-01-front.png", img2: "assets/aster/aster-02-front-3q.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
-      { name: "Palmiers sur la route", maker: "Laurence Leenaert", price: "€1450", tone: "", label: "clay, textiles and acrylic on handwoven canvas", img: "assets/shelf/front/palmiers-sur-la-route.png", slug: "palmiers-sur-la-route" },
-      { name: "The Cassian Keepsake Box", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/products/cassian-box/01-hero.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
-      { name: "COSMO 2", maker: "Laurence Leenaert", price: "€2400", tone: "", label: "oilstick, acrylic, handwoven cotton and wool", img: "assets/shelf/front/cosmo-2.png", slug: "cosmo-2" },
-      { name: "Standing Form, Bronze Study", maker: "É-MISHTO Atelier", price: "€860", tone: "tone-coffee", label: "cast bronze sculpture", img: "assets/products/bronze-study/01-hero.png", img2: "assets/products/bronze-study/02-side.png", img3: "assets/products/bronze-study/03-patina.png", slug: "bronze-study" },
-      { name: "Garnet Signet Ring", maker: "Vienna, c. 1910", price: "€420", tone: "tone-aubergine", label: "signet ring", img: "assets/shelf/vintage/garnet-signet-ring.png", img2: "assets/vintage-angles/garnet-signet-ring-detail.png", slug: "garnet-signet-ring" },
-      { name: "Dusk Study II", maker: "Andra Kovács", price: "€1400", tone: "", label: "oil on linen — dusk study", img: "assets/shelf/arts/dusk-study-ii.png", img2: "assets/arts-angles/dusk-study-ii-painterly-detail.png", img3: "assets/arts-angles/dusk-study-ii-framed.png", slug: "dusk-study-ii" },
-      { name: "Vagues d’argiles IV", maker: "Laurence Leenaert", price: "€980", tone: "", label: "oilstick and acrylic on paper", img: "assets/shelf/front/vagues-dargiles-iv.png", slug: "vagues-dargiles-iv" },
+      { name: "The Aster Vessel", cat: "Home & Objects", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/aster/aster-01-front.png", img2: "assets/aster/aster-02-front-3q.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
+      { name: "Palmiers sur la route", cat: "Art", maker: "Laurence Leenaert", price: "€1450", tone: "", label: "clay, textiles and acrylic on handwoven canvas", img: "assets/shelf/front/palmiers-sur-la-route.png", slug: "palmiers-sur-la-route" },
+      { name: "The Cassian Keepsake Box", cat: "Vintage", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/shelf/vintage/cassian-keepsake-box-cover.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
+      { name: "COSMO 2", cat: "Art", maker: "Laurence Leenaert", price: "€2400", tone: "", label: "oilstick, acrylic, handwoven cotton and wool", img: "assets/shelf/front/cosmo-2.png", slug: "cosmo-2" },
+      { name: "Standing Form, Bronze Study", cat: "Art", maker: "É-MISHTO Atelier", price: "€860", tone: "tone-coffee", label: "cast bronze sculpture", img: "assets/products/bronze-study/01-hero.png", img2: "assets/products/bronze-study/02-side.png", img3: "assets/products/bronze-study/03-patina.png", slug: "bronze-study" },
+      { name: "Garnet Signet Ring", cat: "Vintage", maker: "Vienna, c. 1910", price: "€420", tone: "tone-aubergine", label: "signet ring", img: "assets/shelf/vintage/garnet-signet-ring-cover.png", img2: "assets/vintage-angles/garnet-signet-ring-detail.png", slug: "garnet-signet-ring" },
+      { name: "Dusk Study II", cat: "Art", maker: "Andra Kovács", price: "€1400", tone: "", label: "oil on linen — dusk study", img: "assets/shelf/arts/dusk-study-ii.png", img2: "assets/arts-angles/dusk-study-ii-painterly-detail.png", img3: "assets/arts-angles/dusk-study-ii-framed.png", slug: "dusk-study-ii" },
+      { name: "Vagues d’argiles IV", cat: "Art", maker: "Laurence Leenaert", price: "€980", tone: "", label: "oilstick and acrylic on paper", img: "assets/shelf/front/vagues-dargiles-iv.png", slug: "vagues-dargiles-iv" },
     ],
     small: [
-      { name: "Small Dusk", price: "€180", tone: "", label: "oil sketch, framed", img: "assets/shelf/arts/small-dusk.png", img2: "assets/arts-angles/small-dusk-2.png", img3: "assets/arts-angles/small-dusk-3.png", slug: "small-dusk" },
-      { name: "Postcard Suite", price: "€40", tone: "tone-lavender", label: "five hand-pulled cards", img: "assets/shelf/arts/postcard-suite.png", img2: "assets/arts-angles/postcard-suite-2.png", img3: "assets/arts-angles/postcard-suite-3.png", slug: "postcard-suite" },
-      { name: "Glass Inkwell", price: "€45", tone: "", label: "pressed inkwell", img: "assets/shelf/vintage/glass-inkwell.png", img2: "assets/vintage-angles/glass-inkwell-2.png", img3: "assets/vintage-angles/glass-inkwell-3.png", slug: "glass-inkwell" },
+      { name: "Small Dusk", cat: "Art", price: "€180", tone: "", label: "oil sketch, framed", img: "assets/shelf/arts/small-dusk.png", img2: "assets/arts-angles/small-dusk-2.png", img3: "assets/arts-angles/small-dusk-3.png", slug: "small-dusk" },
+      { name: "Postcard Suite", cat: "Art", price: "€40", tone: "tone-lavender", label: "five hand-pulled cards", img: "assets/shelf/arts/postcard-suite.png", img2: "assets/arts-angles/postcard-suite-2.png", img3: "assets/arts-angles/postcard-suite-3.png", slug: "postcard-suite" },
+      { name: "Glass Inkwell", cat: "Vintage", price: "€45", tone: "", label: "pressed inkwell", img: "assets/shelf/vintage/glass-inkwell-cover.png", img2: "assets/vintage-angles/glass-inkwell-2.png", img3: "assets/vintage-angles/glass-inkwell-3.png", slug: "glass-inkwell" },
     ],
   },
   food: {
@@ -7250,19 +7603,19 @@ const EM_WORLDS = {
     quote: "\u201CA room is finished when nothing in it asks for attention, and everything rewards it.\u201D",
     shelfTitle: "Things that hold a room",
     shelf: [
-      { name: "Vessel № 7", maker: "Ilinca Moraru", price: "€240", tone: "tone-coffee", label: "stoneware vessel", img: "assets/shelf/home/vessel-7-category.png", img2: "assets/home-angles/vessel-7-2.png", img3: "assets/home-angles/vessel-7-3.png", slug: "vessel-7" },
-      { name: "Antique Opera Glasses", maker: "Templ Studio", price: "€42", tone: "", label: "candle — fig & cedar", img: "assets/shelf/home/antique-opera-glasses-home.png", img2: "assets/home-angles/fig-cedar-candle-2.png", img3: "assets/home-angles/fig-cedar-candle-3.png", slug: "fig-cedar-candle" },
-      { name: "The Reading Stool", maker: "Bran Workshop", price: "€480", tone: "tone-ink", label: "low oak stool", img: "assets/shelf/home/reading-stool.png", img2: "assets/home-angles/reading-stool-2.png", img3: "assets/home-angles/reading-stool-3.png", slug: "reading-stool" },
-      { name: "Wall Hanging, Undyed", maker: "Casa Mireu", price: "€320", tone: "tone-lavender", label: "undyed wool hanging", img: "assets/home-angles/wall-hanging-undyed-2.png", img2: "assets/shelf/home/wall-hanging-undyed.png", img3: "assets/home-angles/wall-hanging-undyed-3.png", slug: "wall-hanging-undyed" },
-      { name: "Dusk Lamp", maker: "Bran Workshop", price: "€390", tone: "tone-aubergine", label: "paper & brass lamp", img: "assets/shelf/home/dusk-lamp.png", img2: "assets/home-angles/dusk-lamp-2.png", img3: "assets/home-angles/dusk-lamp-3.png", slug: "dusk-lamp" },
-      { name: "Linen Runner", maker: "Ilinca Moraru", price: "€95", tone: "", label: "table runner — flax", img: "assets/shelf/home/linen-runner.png", img2: "assets/home-angles/linen-runner-2.png", img3: "assets/home-angles/linen-runner-3.png", slug: "linen-runner" },
+      { name: "Vessel № 7", maker: "Ilinca Moraru", price: "€240", tone: "tone-coffee", label: "stoneware vessel", img: "assets/shelf/home/vessel-7-flat.png", img2: "assets/home-angles/vessel-7-2.png", img3: "assets/home-angles/vessel-7-3.png", slug: "vessel-7" },
+      { name: "Antique Opera Glasses", maker: "Hällwyl Archive", price: "€42", tone: "", label: "brass opera glasses", img: "assets/shelf/vintage/antique-opera-glasses-front.png", img2: "assets/shelf/vintage/antique-opera-glasses-detail.png", img3: "assets/shelf/vintage/antique-opera-glasses-front.png", slug: "antique-opera-glasses" },
+      { name: "The Reading Stool", maker: "Bran Workshop", price: "€480", tone: "tone-ink", label: "low oak stool", img: "assets/shelf/home/reading-stool-cover.png", img2: "assets/home-angles/reading-stool-2.png", img3: "assets/home-angles/reading-stool-3.png", slug: "reading-stool" },
+      { name: "Wall Hanging, Undyed", maker: "Casa Mireu", price: "€320", tone: "tone-lavender", label: "undyed wool hanging", img: "assets/shelf/home/wall-hanging-undyed-cover.png", img2: "assets/shelf/home/wall-hanging-undyed.png", img3: "assets/home-angles/wall-hanging-undyed-3.png", slug: "wall-hanging-undyed" },
+      { name: "Dusk Lamp", maker: "Bran Workshop", price: "€390", tone: "tone-aubergine", label: "paper & brass lamp", img: "assets/shelf/home/dusk-lamp-cover.png", img2: "assets/home-angles/dusk-lamp-2.png", img3: "assets/home-angles/dusk-lamp-3.png", slug: "dusk-lamp" },
+      { name: "Linen Runner", maker: "Ilinca Moraru", price: "€95", tone: "", label: "table runner — flax", img: "assets/shelf/home/linen-runner-cover.png", img2: "assets/home-angles/linen-runner-2.png", img3: "assets/home-angles/linen-runner-3.png", slug: "linen-runner" },
     ],
     small: [
-      { name: "Cup № 12 / 30", price: "€38", tone: "tone-ink", label: "numbered cup", img: "assets/home-angles/cup-12-30-2.png", img2: "assets/shelf/home/cup-12-30-clean.png", img3: "assets/home-angles/cup-12-30-3.png", slug: "cup-12-30" },
-      { name: "Brass Hook", price: "€22", tone: "tone-coffee", label: "cast hook", img: "assets/shelf/home/brass-hook.png", img2: "assets/home-angles/brass-hook-detail.png", slug: "brass-hook" },
-      { name: "Match Striker", price: "€30", tone: "", label: "ceramic striker", img: "assets/shelf/home/match-striker.png", img2: "assets/home-angles/match-striker-2.png", img3: "assets/home-angles/match-striker-3.png", slug: "match-striker" },
-      { name: "Small Bud Vase", price: "€45", tone: "tone-lavender", label: "bud vase", img: "assets/shelf/home/small-bud-vase.png", img2: "assets/home-angles/small-bud-vase-2.png", img3: "assets/home-angles/small-bud-vase-3.png", slug: "small-bud-vase" },
-      { name: "Beeswax Tapers", price: "€18", tone: "", label: "pair of tapers", img: "assets/shelf/home/beeswax-tapers.png", img2: "assets/home-angles/beeswax-tapers-2.png", img3: "assets/home-angles/beeswax-tapers-3.png", slug: "beeswax-tapers" },
+      { name: "Cup № 12 / 30", price: "€38", tone: "tone-ink", label: "numbered cup", img: "assets/shelf/home/cup-12-30-cover.png", img2: "assets/home-angles/cup-12-30-detail.png", img3: "assets/home-angles/cup-12-30-3.png", slug: "cup-12-30" },
+      { name: "Brass Hook", price: "€22", tone: "tone-coffee", label: "cast hook", img: "assets/shelf/home/brass-hook-cover.png", img2: "assets/home-angles/brass-hook-detail.png", slug: "brass-hook" },
+      { name: "Match Striker", price: "€30", tone: "", label: "ceramic striker", img: "assets/shelf/home/match-striker-cover.png", img2: "assets/home-angles/match-striker-2.png", img3: "assets/home-angles/match-striker-3.png", slug: "match-striker" },
+      { name: "Small Bud Vase", price: "€45", tone: "tone-lavender", label: "bud vase", img: "assets/shelf/home/small-bud-vase-cover.png", img2: "assets/home-angles/small-bud-vase-2.png", img3: "assets/home-angles/small-bud-vase-3.png", slug: "small-bud-vase" },
+      { name: "Beeswax Tapers", price: "€18", tone: "", label: "pair of tapers", img: "assets/shelf/home/beeswax-tapers-cover.png", img2: "assets/home-angles/beeswax-tapers-2.png", img3: "assets/home-angles/beeswax-tapers-3.png", slug: "beeswax-tapers" },
     ],
   },
   vintage: {
@@ -7275,20 +7628,20 @@ const EM_WORLDS = {
     quote: "\u201CEverything here has already survived one century. It will outlast us politely.\u201D",
     shelfTitle: "Found, not made",
     shelf: [
-      { name: "The Aster Vessel", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/aster/aster-01-front.png", img2: "assets/aster/aster-02-front-3q.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
-      { name: "The Cassian Keepsake Box", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/products/cassian-box/01-hero.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
-      { name: "Brass Pocket Mirror", maker: "France, 1930s", price: "€95", tone: "tone-ink", label: "brass pocket mirror", img: "assets/shelf/vintage/brass-pocket-mirror.png", img2: "assets/vintage-angles/brass-pocket-mirror-2.png", img3: "assets/vintage-angles/brass-pocket-mirror-3.png", slug: "brass-pocket-mirror" },
-      { name: "Garnet Signet Ring", maker: "Vienna, c. 1910", price: "€420", tone: "tone-aubergine", label: "signet ring", img: "assets/shelf/vintage/garnet-signet-ring.png", img2: "assets/vintage-angles/garnet-signet-ring-detail.png", slug: "garnet-signet-ring" },
-      { name: "Apothecary Jars, Pair", maker: "Transylvania, 1940s", price: "€180", tone: "tone-coffee", label: "glass jars, pair", img: "assets/shelf/vintage/apothecary-jars-pair.png", img2: "assets/vintage-angles/apothecary-jars-pair-2.png", img3: "assets/vintage-angles/apothecary-jars-pair-3.png", slug: "apothecary-jars-pair" },
+      { name: "The Aster Vessel", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/shelf/vintage/aster-vessel-cover.png", img2: "assets/shelf/vintage/aster-vessel-detail.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
+      { name: "The Cassian Keepsake Box", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/shelf/vintage/cassian-keepsake-box-cover.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
+      { name: "Brass Pocket Mirror", maker: "France, 1930s", price: "€95", tone: "tone-ink", label: "brass pocket mirror", img: "assets/shelf/vintage/brass-pocket-mirror-white.png", img2: "assets/vintage-angles/brass-pocket-mirror-2.png", img3: "assets/vintage-angles/brass-pocket-mirror-3.png", slug: "brass-pocket-mirror" },
+      { name: "Garnet Signet Ring", maker: "Vienna, c. 1910", price: "€420", tone: "tone-aubergine", label: "signet ring", img: "assets/shelf/vintage/garnet-signet-ring-cover.png", img2: "assets/vintage-angles/garnet-signet-ring-detail.png", slug: "garnet-signet-ring" },
+      { name: "Apothecary Jars, Pair", maker: "Transylvania, 1940s", price: "€180", tone: "tone-coffee", label: "glass jars, pair", img: "assets/shelf/vintage/apothecary-jars-cover.png", img2: "assets/vintage-angles/apothecary-jars-pair-2.png", img3: "assets/vintage-angles/apothecary-jars-pair-3.png", slug: "apothecary-jars-pair" },
       { name: "Travel Chess Set", maker: "England, 1950s", price: "€260", tone: "", label: "folding chess set", img: "assets/shelf/vintage/travel-chess-set.png", img2: "assets/vintage-angles/travel-chess-set-2.png", img3: "assets/vintage-angles/travel-chess-set-3.png", slug: "travel-chess-set" },
-      { name: "Silk Opera Gloves", maker: "Paris, 1920s", price: "€150", tone: "tone-lavender", label: "opera gloves", img: "assets/shelf/vintage/silk-opera-gloves.png", img2: "assets/vintage-angles/silk-opera-gloves-2.png", img3: "assets/vintage-angles/silk-opera-gloves-3.png", slug: "silk-opera-gloves" },
-      { name: "Mantel Clock, Walnut", maker: "Black Forest, 1900s", price: "€540", tone: "tone-ink", label: "walnut mantel clock", img: "assets/shelf/vintage/mantel-clock-walnut.png", img2: "assets/vintage-angles/mantel-clock-walnut-2.png", img3: "assets/vintage-angles/mantel-clock-walnut-3.png", slug: "mantel-clock-walnut" },
+      { name: "Silk Opera Gloves", maker: "Paris, 1920s", price: "€150", tone: "tone-lavender", label: "opera gloves", img: "assets/shelf/vintage/silk-opera-gloves-cover.png", img2: "assets/vintage-angles/silk-opera-gloves-2.png", img3: "assets/vintage-angles/silk-opera-gloves-3.png", slug: "silk-opera-gloves" },
+      { name: "Mantel Clock, Walnut", maker: "Black Forest, 1900s", price: "€540", tone: "tone-ink", label: "walnut mantel clock", img: "assets/shelf/vintage/mantel-clock-walnut-cover.png", img2: "assets/vintage-angles/mantel-clock-walnut-2.png", img3: "assets/vintage-angles/mantel-clock-walnut-3.png", slug: "mantel-clock-walnut" },
     ],
     small: [
-      { name: "Postage Tin", price: "€28", tone: "tone-coffee", label: "lithographed tin", img: "assets/shelf/vintage/postage-tin.png", img2: "assets/vintage-angles/postage-tin-2.png", img3: "assets/vintage-angles/postage-tin-3.png", slug: "postage-tin" },
-      { name: "Glass Inkwell", price: "€45", tone: "", label: "pressed inkwell", img: "assets/shelf/vintage/glass-inkwell.png", img2: "assets/vintage-angles/glass-inkwell-2.png", img3: "assets/vintage-angles/glass-inkwell-3.png", slug: "glass-inkwell" },
-      { name: "Theatre Binoculars", price: "€120", tone: "tone-lavender", label: "opera binoculars", img: "assets/shelf/vintage/theatre-binoculars.png", img2: "assets/vintage-angles/theatre-binoculars-2.png", slug: "theatre-binoculars" },
-      { name: "Letter Opener", price: "€38", tone: "", label: "bone-handled opener", img: "assets/shelf/vintage/letter-opener.png", img2: "assets/vintage-angles/letter-opener-2.png", slug: "letter-opener" },
+      { name: "Postage Tin", price: "€28", tone: "tone-coffee", label: "lithographed tin", img: "assets/shelf/vintage/postage-tin-cover.png", img2: "assets/vintage-angles/postage-tin-2.png", img3: "assets/vintage-angles/postage-tin-3.png", slug: "postage-tin" },
+      { name: "Glass Inkwell", price: "€45", tone: "", label: "pressed inkwell", img: "assets/shelf/vintage/glass-inkwell-cover.png", img2: "assets/vintage-angles/glass-inkwell-2.png", img3: "assets/vintage-angles/glass-inkwell-3.png", slug: "glass-inkwell" },
+      { name: "Theatre Binoculars", price: "€120", tone: "tone-lavender", label: "opera binoculars", img: "assets/shelf/vintage/theatre-binoculars-cover.png", img2: "assets/vintage-angles/theatre-binoculars-2.png", slug: "theatre-binoculars" },
+      { name: "Letter Opener", price: "€38", tone: "", label: "bone-handled opener", img: "assets/shelf/vintage/letter-opener-cover.png", img2: "assets/vintage-angles/letter-opener-2.png", slug: "letter-opener" },
     ],
   },
 };
@@ -7301,7 +7654,7 @@ window.EM_WORLDS = EM_WORLDS;
   const COLORS = { "": {key:"natural",name:"Natural",hex:"#EAE2D1"}, "tone-aubergine":{key:"aubergine",name:"Aubergine",hex:"#401020"}, "tone-coffee":{key:"coffee",name:"Coffee",hex:"#755940"}, "tone-ink":{key:"ink",name:"Ink",hex:"#1C1C1C"}, "tone-lavender":{key:"lavender",name:"Lavender",hex:"#D4BAD1"} };
   const CAT_KW = { painting:["oil","paint","pigment","dusk","study","canvas","panel","tryptich","sketch"], sculpture:["carved","sculpture","form","oak","bronze","stone","vessel"], photography:["print","gelatin","photo","postcard"], "mixed media":["mixed","paper","graphite","fragment","offcut","suite"], apparel:["coat","shirt","trouser","dress","knit","tunic"], accessories:["scarf","belt","tote","bag","square","glove","pocket"], skincare:["oil","bar","balm","cleanse","serum","cream","soap"], mindfulness:["incense","journal","match","still","ritual"], gourmet:["tisane","salt","honey","tea","blend","chocolate","olive"], "décor":["vessel","vase","mirror","bowl","object","dish","print"], furniture:["chair","stool","table","bench","shelf","stand"], fragrance:["candle","scent","perfume","fragrance","incense","mist"], antiques:["opener","brass","antique","archive","bone","key"], jewelry:["ring","necklace","brooch","bracelet","jewel","pendant"], collectibles:["card","coin","stamp","suite"] };
   function priceNum(s){ return parseInt(String(s).replace(/[^0-9]/g,""),10) || 0; }
-  function catOf(p, idx){ const text=((p.name||"")+" "+(p.label||"")).toLowerCase(); const cats=w.chips.slice(1); for(let ci=0;ci<cats.length;ci++){ const kws=CAT_KW[cats[ci].toLowerCase()]||[]; for(let ki=0;ki<kws.length;ki++){ if(text.indexOf(kws[ki])>=0) return cats[ci]; } } return cats[idx % cats.length] || "All"; }
+  function catOf(p, idx){ if(p.cat) return p.cat; const text=((p.name||"")+" "+(p.label||"")).toLowerCase(); const cats=w.chips.slice(1); for(let ci=0;ci<cats.length;ci++){ const kws=CAT_KW[cats[ci].toLowerCase()]||[]; for(let ki=0;ki<kws.length;ki++){ if(text.indexOf(kws[ki])>=0) return cats[ci]; } } return cats[idx % cats.length] || "All"; }
   /* availability comes from EMCard's explicit status data, never the name */
   function soldOf(p){ return !EMCard.statusOf(p).purchasable; }
   /* the resolved creator a card actually displays */
@@ -7332,6 +7685,15 @@ window.EM_WORLDS = EM_WORLDS;
       syncCatUI();
       applyFilters();
     });
+    /* deep link from the home collage: select that subcategory on arrival by
+       driving the rail button, so rail, sheet and fstate stay in one path */
+    (function () {
+      var want = null;
+      try { want = sessionStorage.getItem("em_cat"); sessionStorage.removeItem("em_cat"); } catch (err) {}
+      if (!want) return;
+      var btn = catNamesNav.querySelector('button[data-cat="' + want + '"]');
+      if (btn) setTimeout(function () { btn.click(); }, 0);
+    })();
   }
   /* Repaints the rail and the sheet's Category checkboxes from fstate.cat, so
      the two entry points into the same array can never disagree. */
@@ -7432,6 +7794,30 @@ window.EM_WORLDS = EM_WORLDS;
       });
     });
   });
+
+  /* New In spans the whole site, so its Category filter is the site's own
+     category set and stays complete even where nothing has arrived yet — the
+     empty state covers those. Seeded into ROOM so the rail and the sheet read
+     from one source and cannot disagree. */
+  if (key === "newin") {
+    w.chips.slice(1).forEach(function (c) { ROOM.cat[c.toLowerCase()] = 1; });
+  }
+  /* Food's three objects all sit in one price band, so the relevance rule would
+     hide Price as a single-option control. Requested visible, so every band is
+     offered and the empty state covers the ones nothing falls into. */
+  if (key === "food") {
+    priceOpts.forEach(function (o) { if (o.val !== "all") ROOM.price[o.val] = 1; });
+  }
+
+  /* the rail is built before ROOM exists, straight from w.chips, so prune it
+     here against the same relevance map the sheet uses — otherwise New In
+     offers Fashion / Body & Beauty / Food buttons that return nothing */
+  if (catNamesNav) {
+    catNamesNav.querySelectorAll("button[data-cat]").forEach(function (b) {
+      var v = b.getAttribute("data-cat");
+      if (v && !ROOM.cat[v]) b.remove();
+    });
+  }
 
   band.insertAdjacentHTML("beforeend",
     '<div class="sheet-head"><span class="sheet-title">Filters</span><button type="button" class="sheet-close" id="sheet-close" aria-label="Close filters">✕</button></div>' +
@@ -7560,6 +7946,14 @@ window.EM_WORLDS = EM_WORLDS;
     /* sparse state — driven by visible count, never by category name.
        0 results stays with .filter-empty, so guard with shown > 0. */
     document.body.classList.toggle("is-sparse-shelf", shown > 0 && shown <= 3);
+    /* hiding/showing a shelf band changes document height, which leaves every
+       ScrollTrigger below it measured against the old page. On worlds where a
+       band collapses (e.g. Vintage's "Under €200"), the footer's .fade-up
+       triggers then sat past the shortened scroll range and never fired —
+       the newsletter kicker and subscribe form stayed at opacity 0. */
+    if (window.ScrollTrigger && ScrollTrigger.refresh) {
+      requestAnimationFrame(function(){ ScrollTrigger.refresh(); });
+    }
     if (countEl) countEl.textContent = shown + (shown === 1 ? " object" : " objects");
     var storyLink = document.getElementById("creator-story-link");
     if (storyLink) {
@@ -8593,8 +8987,8 @@ window.addEventListener("em-tweaks", (e) => {
     menu.setAttribute('aria-label','Menu');
     menu.innerHTML='<div class="mm-head"><a class="mm-mark" href="#/">É-MISHTO</a>'+
       '<button type="button" class="mm-close" aria-label="Close menu">\u2715</button></div>'+
-      '<div class="mm-scroll"><div class="mm-rail"><a class="mm-tile" href="#/world/newin"><span class="mm-tile-img"><img src="assets/shelf/front/curation-table-crop.png" alt="" loading="lazy"></span><span class="mm-tile-name">New In</span></a><a class="mm-tile" href="#/world/arts"><span class="mm-tile-img"><img src="assets/category/arts-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Art</span></a><a class="mm-tile" href="#/world/fashion"><span class="mm-tile-img"><img src="assets/category/fashion-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Fashion</span></a><a class="mm-tile" href="#/world/body"><span class="mm-tile-img"><img src="assets/category/body-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Body &amp; Beauty</span></a><a class="mm-tile" href="#/world/home"><span class="mm-tile-img"><img src="assets/category/home-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Home &amp; Objects</span></a><a class="mm-tile" href="#/world/food"><span class="mm-tile-img"><img src="assets/shelf/body/honey-wild.png" alt="" loading="lazy"></span><span class="mm-tile-name">Food</span></a><a class="mm-tile" href="#/world/vintage"><span class="mm-tile-img"><img src="assets/category/vintage-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Vintage</span></a></div>'+
-      '<nav class="mm-nav" aria-label="Main"><section class="mm-group" aria-labelledby="mm-g0"><span class="mm-label" id="mm-g0">01 — Shop</span><a href="#/world/newin">New In</a><a href="#/world/arts">Art</a><a href="#/world/fashion">Fashion</a><a href="#/world/body">Body &amp; Beauty</a><a href="#/world/home">Home &amp; Objects</a><a href="#/world/food">Food</a><a href="#/world/vintage">Vintage</a></section><section class="mm-group" aria-labelledby="mm-g1"><span class="mm-label" id="mm-g1">02 — Discover</span><a href="#/artists">Creators</a><a href="#/journal">Stories</a><a href="#/archive">Archive</a></section><section class="mm-group" aria-labelledby="mm-g2"><span class="mm-label" id="mm-g2">03 — About</span><a href="#/about">About É-MISHTO</a><a href="#/contact">Contact</a></section></nav></div>';
+      '<div class="mm-scroll"><div class="mm-rail"><a class="mm-tile" href="#/world/arts"><span class="mm-tile-img"><img src="assets/category/arts-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Art</span></a><a class="mm-tile" href="#/world/fashion"><span class="mm-tile-img"><img src="assets/category/fashion-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Fashion</span></a><a class="mm-tile" href="#/world/body"><span class="mm-tile-img"><img src="assets/category/body-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Body &amp; Beauty</span></a><a class="mm-tile" href="#/world/home"><span class="mm-tile-img"><img src="assets/category/home-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Home &amp; Objects</span></a><a class="mm-tile" href="#/world/food"><span class="mm-tile-img"><img src="assets/category/food-tile.png" alt="" loading="lazy"></span><span class="mm-tile-name">Food</span></a><a class="mm-tile" href="#/world/vintage"><span class="mm-tile-img"><img src="assets/category/vintage-hero.png" alt="" loading="lazy"></span><span class="mm-tile-name">Vintage</span></a></div>'+
+      '<nav class="mm-nav" aria-label="Main"><section class="mm-group" aria-labelledby="mm-g0"><span class="mm-label" id="mm-g0">01 — Shop</span><a href="#/world/newin">New In</a><a href="#/world/arts">Art</a><a href="#/world/fashion">Fashion</a><a href="#/world/body">Body &amp; Beauty</a><a href="#/world/home">Home &amp; Objects</a><a href="#/world/food">Food</a><a href="#/world/vintage">Vintage</a></section><section class="mm-group" aria-labelledby="mm-g1"><span class="mm-label" id="mm-g1">02 — Discover</span><a href="#/artists">Creators</a><a href="#/journal">Stories</a><a href="#/archive">Archive</a></section><section class="mm-group" aria-labelledby="mm-g2"><span class="mm-label" id="mm-g2">03 — About</span><a href="#/about">Why sell on É-MISHTO</a><a href="#/contact">Contact</a></section></nav></div>';
     document.body.appendChild(menu);
   }
   /* rev 02: ONE permanent utility bar, a sibling of the menu, always present at
@@ -8816,6 +9210,15 @@ window.__EM_SPA = true;
   setTimeout(lift, 6000);
 })();
   window.addEventListener('hashchange',function(){if((location.hash||'').indexOf('#/')===0){try{sessionStorage.setItem('em_nav','1');}catch(e){}location.reload();}});
+  /* collage tiles carry a subcategory; hand it to the world page on arrival */
+  document.addEventListener('click',function(e){
+    /* only a plain primary click navigates this tab — a modified click opens a
+       new tab, so writing the stash here would leave a stale category behind */
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var t=e.target.closest&&e.target.closest('a.hbc-img[data-cat]');
+    if(!t)return;
+    try{sessionStorage.setItem('em_cat',t.getAttribute('data-cat'));}catch(err){}
+  });
 })();
 </script>
 
