@@ -43,7 +43,9 @@
 html { scrollbar-width: thin; scrollbar-color: var(--ink-38) var(--white); }
 
 body {
-  background: var(--white);
+  /* every page sits on Home's white ground (--white is #FBFAF8, which read as
+     a faint cream beside the home page) */
+  background: #FFFFFF;
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 300;
@@ -296,6 +298,92 @@ body[data-world="vintage"] .filter-group.is-open .filter-trigger,body[data-world
   gap: 24px;
   margin-bottom: clamp(40px, 6vh, 72px);
 }
+/* ═══ DESKTOP + TABLET TYPOGRAPHY SYSTEM — APPROVED, LOCKED (rev. 14 Sep 2026) ═══
+   Do not change a value here without the client's sign-off. Phone (≤700px) has
+   its own locked tier block further down; it overrides everything below.
+
+   PRINCIPLE   Expression = serif (Cormorant Garamond)
+               Reading    = sans  (Gantari)
+               Function   = mono  (ui-monospace / SF Mono)
+               Human      = script (Meie Script)
+
+   STRUCTURE   Display type is fluid: clamp(tablet floor, vw slope, desktop
+               ceiling). Everything below 24px is FIXED — it holds one size from
+               701px to 1920px. Only the display layer scales.
+
+   DISPLAY CEILING IS 60px. Nothing above it is a title:
+               136px = home collage brand mark (h1.hero-title)
+                50px = handwritten signature (.script-name, Meie Script)
+
+   DISPLAY ROLES (tablet → desktop)
+     hero wordmark ................ 56 → 136   h1.hero-title
+     editorial section title ...... 42 → 60    #edit/#journal .beat-title
+     page title ................... 40 → 60    .page-title
+     world name ................... 30 → 60    .world-name
+     object title ................. 34 → 60    .object-name
+     dashboard title .............. 34 → 60    .dash-head h1
+     spotlight quote .............. 34 → 60    .spotlight-quote
+     subscribe statement .......... 32 → 60    .subscribe-line
+     application prompt ........... 30 → 58    .q-prompt
+     creator profile quote ........ 30 → 52    .profile-quote
+     path card title .............. 34 → 50    .path-card h2
+     review heading ............... 30 → 50    .ws-review h2
+     section heading .............. 30 → 46    h2 (structural)
+     workspace heading ............ 30 → 46    .ws-head h2
+     newsletter band h2 ........... 28 → 46    .foot-news-band h2
+     creator fold quote ........... 28 → 44    .creator-quote
+     panel heading ................ 26 → 40    .dash-panel h2
+     search input ................. 24 → 38    .head-search-box input
+     editorial quote / empty ...... 20 → 30    .edit-break-quote, .empty-public p
+     option title ................. 20 → 30    .opt-title
+     story title .................. 22 → 28    .entry-title
+     FAQ question ................. 19 → 25    .faq-q summary
+     search world name ............ 20 → 26    .search-results-list .world-name
+
+   READING
+     lead / intro ................. 19 → 23 serif      .page-intro p, .about-lede
+     secondary lede ............... 17 → 21 serif       .about-lede.dim
+     maker's note ................. 17 → 21 serif ital  .maker-quote
+     card copy .................... 16 sans /1.6        .path-card p
+     result + review copy ......... 16 sans /1.65       .q-result p, .ws-review-note
+     dashboard sub-line ........... 16 sans /1.6        .dash-sub
+     body ......................... 16 sans /1.6        body
+     editorial copy ............... 16 sans /1.65       .spotlight-bio
+     story dek .................... 14.5 sans /1.5      .entry-dek
+     supporting copy .............. 13–14 sans /1.5     footer, hints, card meta
+
+   PRODUCT
+     product name ................. 24 serif italic     .piece-name, .opt-name, .wish-name
+     object line .................. 20 serif italic     .sum-line .nm, .order-objs
+     creator ...................... 14 sans             .piece-maker
+     card price ................... 15 mono 0.12em      .piece-price, .order-total
+     object-page price ............ 18 sans 0.02em      .object-price
+     status ....................... 12 mono 0.16em      .piece-status, .order-status
+     category tab ................. 22 serif            .world-cat-names button
+
+   INTERFACE (mono, uppercase)
+     hero cue ..................... 15  0.30em   .vh-cue
+     hero tagline (Gantari) ....... 16  0.42em   .vh-tagline
+     micro label .................. 13  0.20em   .micro
+     button ....................... 13  0.18em   .btn-solid/.btn-ghost/.link-back
+     navigation ................... 13  0.16em   .head-cats a
+     step bar / tabs .............. 13  0.16em   .co-step, .seg button, .dash-nav
+     quiz micro ................... 13  .16–.24  .quiz-step/.quiz-exit/.q-kicker/.tag/.quiz-hint/.flag-note
+     workspace meta ............... 13  .16–.20  .ws-meta, .view-note
+     card number .................. 13  0.18em   .card-mono
+     specification label .......... 14  0.16em   .spec-row dt
+     filter control ............... 12  0.16em   .filter-trigger, .room-chip
+     action / metadata ............ 12  .14–.16  .acct, .order-meta, .muted-act, .opt-link
+     breadcrumb ................... 12  0.14em   .crumbs
+     form label ................... 11  0.14em   .field-label
+     curator note ................. 11  0.18em   .essence-note (ink-38)
+     form input (Gantari) ......... 16  0        .field-input
+
+   ACCENT
+     handwritten signature ........ 30 → 50 Meie Script, driftwood
+     italic byline ................ 16 serif italic, coffee
+*/
+
 /* structural H2 — one token. Editorial display headings (#edit/#journal
    .beat-title, .feature-title, .subscribe-line, pull-quotes) stay separate. */
 .beat-title,
@@ -311,9 +399,9 @@ body[data-world="vintage"] .filter-group.is-open .filter-trigger,body[data-world
   color: var(--ink);
 }
 .beat-title em { font-style: italic; }
-#edit .beat-title { font-size: clamp(42px, 5.6vw, 76px); }
+#edit .beat-title { font-size: clamp(42px, 5.6vw, 60px); }
 #edit { padding-top: 0; }
-#journal .beat-title { font-size: clamp(42px, 5.6vw, 76px); }
+#journal .beat-title { font-size: clamp(42px, 5.6vw, 60px); }
 
 /* split-line reveal scaffolding */
 .rv-line { display: block; overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; }
@@ -477,7 +565,7 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
 .world-name {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(30px, 4.2vw, 62px);
+  font-size: clamp(30px, 4.2vw, 60px);
   line-height: 1;
   transition: font-style 0s, transform var(--t) var(--ease), color var(--t) var(--ease);
   display: inline-block;
@@ -773,7 +861,7 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
 .spotlight-quote {
   font-family: var(--serif);  font-weight: 300;
   font-style: italic;
-  font-size: clamp(34px, 4.2vw, 62px);
+  font-size: clamp(34px, 4.2vw, 60px);
   line-height: 1.12;
   margin: 26px 0 36px;
   text-wrap: pretty;
@@ -900,7 +988,7 @@ body[data-route="journal"] .shelf-band {
 .subscribe-line {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(32px, 4.6vw, 64px);
+  font-size: clamp(32px, 4.6vw, 60px);
   line-height: 1.15;
   max-width: 22ch;
   text-wrap: pretty;
@@ -1140,7 +1228,7 @@ body[data-route="journal"] .shelf-band {
 .dash-head h1 {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(40px, 4.6vw, 72px);
+  font-size: clamp(40px, 4.6vw, 60px);
   line-height: 1.04;
 }
 .page-title { margin-top: 28px; }
@@ -1378,7 +1466,7 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
     grid-column: 1;
     align-self: start;
     padding: 13px 12px 0 0;
-    font-family: var(--mono); font-size: 11.5px;
+    font-family: var(--mono); font-size: var(--ph-label);
     line-height: 1.35;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
   }
@@ -1529,11 +1617,21 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
      figure (its own child) can sit between the quote and the bio. */
   body.spotlight-page .profile-head { display: contents; }
   body.spotlight-page .profile-head > div { display: contents; }
-  body.spotlight-page .profile-fold {
+  body.spotlight-page .profile-fold,
+  section.ws-preview-fold {
     display: flex;
     flex-direction: column;
     padding: 34px var(--gutter) 44px;
   }
+  /* the workspace preview reuses the spotlight markup, so it needs the same
+     single-column stacking — it just isn't inside body.spotlight-page. */
+  .ws-preview-fold .profile-head,
+  .ws-preview-fold .profile-head > div { display: contents; }
+  /* the green "public view" banner was 15px mono with 0.18em tracking. The base
+     rule sits ~1400 lines later, so this needs the route prefix to win. */
+  body[data-route="creator"] section.public-frame::before { font-size: 10px; letter-spacing: 0.14em; padding: 8px; margin-top: 14px; }
+  /* breathing room between the INTERNAL flag line and the green banner */
+  body[data-route="creator"] p.view-note { margin-bottom: 4px; }
   .profile-fold .crumbs { order: 1; }
   .profile-fold .script-name { order: 2; }
   .profile-fold .profile-quote { order: 3; }
@@ -1547,6 +1645,108 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
      11px mono uppercase label over a serif value at body size. */
   .profile-fold .profile-meta dt { font-size: 11px; letter-spacing: 0.16em; }
   .profile-fold .profile-meta dd { font-size: 14px; line-height: 1.5; }
+  /* bag step row joins the 10px subcategory tier so 01/02/03 sit comfortably */
+  /* the base .steps rule sits later in the sheet (L2037) at equal specificity,
+     so this needs the parent to win. */
+  .summary .steps span, .bag-summary .steps span, .steps span.is-now,
+  div.steps span { font-size: 10px; letter-spacing: 0.14em; }
+  /* total reads larger than the rows it sums */
+  .summary-row.total span { font-size: 20px; }
+  .note-act { font-size: 10px; }
+
+  /* checkout (Details) joins the shared tiers: 14 reading copy, 13 secondary,
+     12 mono controls/labels, 20 object name. The base rules for these sit later
+     in the sheet, so each needs a parent to win the cascade. */
+  /* four steps can't sit in one 390px row, so the bar scrolls horizontally as
+     one line instead of wrapping "04 A last look" over three lines in a tall
+     bordered cell. Base rules sit later in the sheet, hence the parent. */
+  /* four equal cells with the label centred in each, rather than four
+     natural-width labels spread apart (which made the divider cells uneven) */
+  div.co-stepbar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    overflow: hidden;
+    margin: 18px 0 34px;
+  }
+  div.co-stepbar::-webkit-scrollbar { display: none; }
+  div.co-stepbar .co-step {
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    padding: 14px 2px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    gap: 4px;
+  }
+  /* labels only — the step numbers are dropped on phone (kept in the markup so
+     desktop and any assistive reading order are unchanged) */
+  div.co-stepbar .co-step .n { display: none; }
+  /* Back reads as a bordered control beside Continue, on one line */
+  .co-nav .link-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    border: 1px solid var(--hairline);
+    padding: 11px 18px;
+    font-size: 11px;
+    transition: border-color var(--t) var(--ease), color var(--t) var(--ease);
+  }
+  .co-nav .link-back:hover { border-color: var(--ink); color: var(--aubergine); }
+  .co-nav { display: flex; align-items: center; gap: 12px; }
+  /* the section title sat flush against the first field label */
+  .co-stage .co-sec-title { margin-bottom: 30px; }
+  /* Last look recap joins the same 11px scale as the forms it summarises; the
+     150px label column doesn't fit 390px, so the rows stack. */
+  div.rev-row { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 14px 0; }
+  .rev-row .rev-k { font-size: 11px; letter-spacing: 0.1em; }
+  .rev-row .rev-v { font-size: 16px; line-height: 1.45; }
+  /* Edit sits at the end of the line rather than butting against the value.
+     The grid item contains the float, so the row's rule still clears. */
+  .rev-row .rev-v .rev-edit, button.rev-edit {
+    float: right;
+    margin-left: 14px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  /* the three identity tabs also wrapped into a 90px two-row box */
+  /* a plain 1fr track takes an auto minimum, so the nowrap tabs stretched the
+     column 28px past the grid's content box and everything lost its right
+     gutter. minmax(0,1fr) caps it; min-width:0 lets the flex rows shrink. */
+  section.checkout-grid { grid-template-columns: minmax(0, 1fr); }
+  section.checkout-grid > div { min-width: 0; }
+  div.seg { display: flex; width: 100%; min-width: 0; flex-wrap: nowrap; }
+  div.seg button { flex: 1 1 0; min-width: 0; padding: 13px 4px; font-size: 11px; letter-spacing: 0.06em; white-space: nowrap; }
+  p.co-sec-note { font-family: var(--sans); font-size: var(--ph-body); line-height: 1.5; }
+  /* bag summary note is reading copy too */
+  p.summary-note, .summary-note { font-family: var(--sans); font-size: var(--ph-body); line-height: 1.5; }
+  /* delivery options + their sub-lines and prices join the same reading size */
+  label.opt, .co-stage label.opt { font-size: 11px; }
+  /* delivery lines read as controls, matching the button type exactly */
+  .opt .opt-sub, .co-stage .opt-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 0;
+  }
+  .opt .opt-price, .co-stage .opt-price { font-size: 11px; }
+  /* thinner rows: the arrival line is the only content now */
+  .co-stage label.opt { grid-template-columns: 18px 1fr; padding: 11px 16px; }
+  .co-stage .opt-link { font-size: 16px; }
+  h3.co-subhead { font-size: 12px; }
+  label.opt, .checkout-wrap label.opt { font-size: 13px; }
+  /* base .sum-line rules sit later in the sheet at equal specificity (L2128) */
+  div.sum-line .nm, .sum-line span.nm { font-size: 20px; }
+  div.sum-line .pr, .sum-line span.pr { font-size: 13px; }
+  .sum-line > span { font-size: 13px; }
+  label.region-field, .region-field { font-size: 12px; }
+  button.region-close, .region-close { font-size: 14px; }
+  /* the three steps spread the full button width, so "A last look" ends flush
+     with the button's right edge and the gaps between them are equal. */
+  div.steps { gap: 0; justify-content: space-between; }
 
   .spotlight-name { order: 5; margin-top: 30px; }
   .spotlight-grid > br { display: none; }
@@ -1636,9 +1836,9 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
     order: 1;
     flex: 1 1 100%;
     white-space: nowrap;
-    /* 11.5px keeps the credit on one line: its ink measures 306px against
-       332px of content width at 390px */
-    font-size: 11.5px;
+    /* on-tier at 12px: its ink measures ~319px against 332px of content
+       width at 390px, so the credit still holds one line */
+    font-size: var(--ph-action);
     letter-spacing: 0.1em;
   }
   .foot-base .region-trigger { display: none; }
@@ -1801,7 +2001,7 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
   font-family: var(--serif);
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(36px, 4vw, 62px);
+  font-size: clamp(36px, 4vw, 60px);
   line-height: 1;
   margin-top: 24px;
 }
@@ -1989,7 +2189,7 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
 .bag-item .ph { aspect-ratio: 3 / 4; }
 .bag-item .ph::after { content: ""; }
 .bag-item-name { font-family: var(--serif); font-style: italic; font-size: 20px; }
-.bag-item-meta { font-size: 15px; color: var(--ink-60); margin-top: 4px; }
+.bag-item-meta { font-size: 14px; color: var(--ink-60); margin-top: 4px; }
 .bag-item-remove {
   font-family: var(--mono);
   font-size: 15px;
@@ -2033,6 +2233,17 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
 .steps { display: flex; gap: 28px; margin-top: 26px; }
 .steps span { font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-38); white-space: nowrap; }
 .steps span.is-now { color: var(--ink); }
+/* inline add/remove for the optional creator's note */
+.note-act {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-38);
+  background: none; border: 0; padding: 0 0 1px; margin-left: 10px;
+  border-bottom: 1px solid var(--hairline); cursor: pointer;
+  transition: color var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+.note-act:hover { color: var(--aubergine); border-color: var(--aubergine); }
+.note-act:focus-visible { outline: 1px solid var(--aubergine); outline-offset: 3px; }
+.summary-row span:last-child .note-act { margin-left: 0; }
 
 /* ===== bag quantity + checkout (added) ===== */
 .bag-actions { display:flex; flex-direction:column; align-items:flex-start; }
@@ -2048,19 +2259,19 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
 
 .checkout-grid { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:clamp(40px,6vw,110px); padding:clamp(120px,16vh,170px) var(--gutter) clamp(80px,12vh,140px); align-items:start; }
 .co-stepbar { display:flex; border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline); margin:22px 0 44px; }
-.co-step { flex:1; padding:16px 4px; font-family:var(--mono); font-size: 15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); display:flex; gap:9px; align-items:baseline; justify-content:center; border-right:1px solid var(--hairline); transition:color var(--t) var(--ease); }
+.co-step { flex:1; padding:16px 4px; font-family:var(--mono); font-size: 13px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); display:flex; gap:9px; align-items:baseline; justify-content:center; border-right:1px solid var(--hairline); transition:color var(--t) var(--ease); }
 .co-step:last-child { border-right:none; }
-.co-step .n { font-size: 14px; opacity:0.7; }
+.co-step .n { font-size: 13px; opacity:0.7; }
 .co-step.is-now { color:var(--ink); }
 .co-step.is-done { color:var(--coffee); }
 .co-stage[hidden] { display:none; }
 .co-sec-title { margin-bottom:10px; }
 .co-sec-title em { font-style:italic; }
 .co-sec-note { color:var(--ink-60); margin-bottom:34px; max-width:56ch; }
-.co-subhead { font-family:var(--mono); font-size: 15px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-60); margin:40px 0 16px; }
+.co-subhead { font-family:var(--mono); font-size: 13px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-60); margin:40px 0 16px; }
 
 .seg { display:inline-flex; border:1px solid var(--hairline); margin-bottom:34px; flex-wrap:wrap; }
-.seg button { font-family:var(--mono); font-size: 15px; letter-spacing:0.16em; text-transform:uppercase; padding:13px 22px; background:none; border:none; color:var(--ink-38); cursor:pointer; border-right:1px solid var(--hairline); transition:background var(--t) var(--ease), color var(--t) var(--ease); }
+.seg button { font-family:var(--mono); font-size: 13px; letter-spacing:0.16em; text-transform:uppercase; padding:13px 22px; background:none; border:none; color:var(--ink-38); cursor:pointer; border-right:1px solid var(--hairline); transition:background var(--t) var(--ease), color var(--t) var(--ease); }
 .seg button:last-child { border-right:none; }
 .seg button.is-active { background:var(--ink); color:var(--cream); }
 .co-pane[hidden] { display:none; }
@@ -2081,17 +2292,20 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .opt.is-active .dot { border-color:var(--cream); }
 .opt.is-active .dot::after { content:""; position:absolute; inset:3px; border-radius:50%; background:var(--cream); }
 .opt-name { font-family:var(--serif); font-style:italic; font-size:24px; display:block; }
-.opt-sub { font-size: 15px; color:var(--ink-60); margin-top:3px; display:block; }
+.opt-sub { font-size: 14px; color:var(--ink-60); margin-top:3px; display:block; }
 .opt-price { font-family:var(--mono); font-size: 15px; letter-spacing:0.12em; white-space:nowrap; }
 
 .co-nav { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-top:46px; padding-top:26px; border-top:1px solid var(--hairline); }
-.link-back { font-family:var(--mono); font-size: 15px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; cursor:pointer; transition:color var(--t) var(--ease); }
-.link-back:hover { color:var(--aubergine); }
+/* Back reads as a bordered control beside Continue, matching its height and
+   button tier — the one structural difference the phone pass left behind.
+   Phone keeps its own tighter override (11px / 11x18). */
+.link-back { display:inline-flex; align-items:center; gap:12px; font-family:var(--mono); font-size: 13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); background:none; border:1px solid var(--hairline); padding:18px 30px; cursor:pointer; white-space:nowrap; transition:color var(--t) var(--ease), border-color var(--t) var(--ease); }
+.link-back:hover { color:var(--aubergine); border-color:var(--ink); }
 
 .sum-line { display:grid; grid-template-columns:1fr auto; gap:10px; padding:11px 0; border-bottom:1px solid var(--hairline); align-items:center; }
-.sum-line .nm { font-family:var(--serif); font-style:italic; font-size: 19px; }
-.sum-line .q { font-family:var(--mono); font-size: 14px; color:var(--ink-38); letter-spacing:0.08em; }
-.sum-line .pr { font-family:var(--mono); font-size: 15px; letter-spacing:0.08em; white-space:nowrap; }
+.sum-line .nm { font-family:var(--serif); font-style:italic; font-size: 20px; }
+.sum-line .q { font-family:var(--mono); font-size: 12px; color:var(--ink-38); letter-spacing:0.08em; }
+.sum-line .pr { font-family:var(--mono); font-size: 15px; letter-spacing:0.12em; white-space:nowrap; }
 
 .rev-row { display:grid; grid-template-columns:150px 1fr; gap:24px; padding:18px 0; border-bottom:1px solid var(--hairline); align-items:start; }
 .rev-row:first-child { border-top:1px solid var(--hairline); }
@@ -2116,38 +2330,40 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .path-card { border:1px solid var(--hairline); padding:clamp(28px,3.5vw,48px); display:flex; flex-direction:column; gap:14px; min-height:340px; transition:border-color var(--t) var(--ease); }
 .path-card:hover { border-color:var(--ink-38); }
 .path-card .micro { color:var(--driftwood); }
-.path-card h2 { font-family:var(--serif); font-weight:300; font-style:italic; font-size:clamp(34px,4vw,58px); line-height:1; }
-.path-card p { color:var(--ink); flex:1; }
+.path-card h2 { font-family:var(--serif); font-weight:300; font-style:italic; font-size:clamp(34px,4vw,50px); line-height:1; }
+/* creator / collector card copy is reading text, so it takes the sans body
+   tier rather than the serif lede — matching the phone treatment. */
+.path-card p { color:var(--ink); flex:1; font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.6; text-wrap:pretty; }
 .path-card .btn-solid { align-self:flex-start; margin-top:6px; font-size:13px; padding:14px 24px; }
 .auth-pane[hidden] { display:none; }
 .dash-head { display:flex; justify-content:space-between; align-items:baseline; gap:20px; margin-bottom:42px; flex-wrap:wrap; }
 /* smaller functional H1 variant — dashboard/account */
-.dash-head h1 { font-size: clamp(34px, 4.4vw, 62px); }
+.dash-head h1 { font-size: clamp(34px, 4.4vw, 60px); }
 .dash-head h1 em { font-style:italic; }
 .dash-layout { display:grid; grid-template-columns:220px 1fr; gap:clamp(36px,5vw,72px); align-items:start; }
 .dash-nav { display:flex; flex-direction:column; border-top:1px solid var(--hairline); }
-.dash-nav button { text-align:left; font-family:var(--mono); font-size: 15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; border-bottom:1px solid var(--hairline); padding:16px 4px; cursor:pointer; transition:color var(--t) var(--ease); display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.dash-nav button { text-align:left; font-family:var(--mono); font-size: 13px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; border-bottom:1px solid var(--hairline); padding:16px 4px; cursor:pointer; transition:color var(--t) var(--ease); display:flex; justify-content:space-between; align-items:center; gap:8px; }
 .dash-nav button:hover { color:var(--ink); }
 .dash-nav button.is-active { color:var(--ink); }
 .dash-panel[hidden] { display:none; }
 .dash-panel h2 { font-family:var(--serif); font-weight:300; font-size:clamp(26px,3vw,40px); margin-bottom:8px; }
 .dash-panel h2 em { font-style:italic; }
-.dash-sub { font-family:var(--serif); font-size:18px; color:var(--ink); margin-bottom:30px; text-wrap:pretty; max-width:56ch; }
+.dash-sub { font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.6; color:var(--ink); margin-bottom:30px; text-wrap:pretty; max-width:56ch; }
 .info-row { display:grid; grid-template-columns:170px 1fr; gap:24px; padding:18px 0; border-bottom:1px solid var(--hairline); align-items:baseline; }
 .info-row:first-child { border-top:1px solid var(--hairline); }
-.info-k { font-family:var(--mono); font-size: 15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-60); }
+.info-k { font-family:var(--mono); font-size: 13px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-60); }
 .info-v { font-family:var(--serif); font-size:18px; line-height:1.5; }
 .order-card { border:1px solid var(--hairline); padding:24px 26px; margin-bottom:16px; display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; }
 .order-thumbs { display:flex; gap:6px; }
 .order-thumbs img { width:52px; height:52px; object-fit:cover; background:var(--cream); }
-.order-meta { font-family:var(--mono); font-size: 15px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-38); }
-.order-objs { font-family:var(--serif); font-style:italic; font-size:19px; margin:8px 0 6px; }
-.order-status { font-family:var(--mono); font-size: 14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--coffee); }
-.order-total { font-family:var(--mono); font-size: 16px; letter-spacing:0.1em; text-align:right; white-space:nowrap; }
+.order-meta { font-family:var(--mono); font-size: 12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-38); }
+.order-objs { font-family:var(--serif); font-style:italic; font-size:20px; margin:8px 0 6px; }
+.order-status { font-family:var(--mono); font-size: 12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--coffee); }
+.order-total { font-family:var(--mono); font-size: 12px; letter-spacing:0.12em; text-align:right; white-space:nowrap; }
 .wish-card { border:1px solid var(--hairline); padding:18px 22px; margin-bottom:16px; display:grid; grid-template-columns:64px 1fr auto; gap:20px; align-items:center; }
 .wish-card .ph { aspect-ratio:3/4; }
 .wish-name { font-family:var(--serif); font-style:italic; font-size:24px; }
-.wish-meta { font-size: 15px; color:var(--ink-60); margin-top:3px; }
+.wish-meta { font-size: 14px; color:var(--ink-60); margin-top:3px; }
 .pay-card, .addr-card { border:1px solid var(--hairline); padding:22px 26px; margin-bottom:16px; }
 /* account cards adopt the Why-sell .path-card language: the same hairline box
    with roomier padding and a border-colour lift on hover. Grid layouts kept. */
@@ -2159,9 +2375,9 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 @media (max-width: 560px) {
   .order-card, .wish-card, .pay-card, .addr-card { padding: 22px 20px; }
 }
-.card-mono { font-family:var(--mono); font-size: 16px; letter-spacing:0.18em; }
+.card-mono { font-family:var(--mono); font-size: 13px; letter-spacing:0.18em; }
 .card-line { display:flex; justify-content:space-between; align-items:center; gap:16px; }
-.muted-act { font-family:var(--mono); font-size: 14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; cursor:pointer; transition:color var(--t) var(--ease); }
+.muted-act { font-family:var(--mono); font-size: 12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:none; cursor:pointer; transition:color var(--t) var(--ease); }
 .muted-act:hover { color:var(--aubergine); }
 .btn-ghost-sm { display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size: 13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink); border:1px solid var(--ink); padding:12px 20px; background:none; cursor:pointer; margin-top:8px; transition:background var(--t) var(--ease), color var(--t) var(--ease); }
 .btn-ghost-sm:hover { background:var(--ink); color:var(--cream); }
@@ -2173,7 +2389,6 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .about-lede,
 .page-intro p,
 .co-sec-note,
-.path-card p,
 .cd-block p, .cd-block a,
 .maker-note {
   font-family: var(--serif);
@@ -2190,9 +2405,9 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 /* .sec-head h2 → structural H2 token */
 .sec-head h2 em { font-style:italic; }
 .room-filter { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:42px; }
-.room-chip { font-family:var(--mono); font-size: 15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); background:none; border:1px solid var(--hairline); padding:9px 16px; cursor:pointer; transition:background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease); }
-.room-chip:hover { color:var(--ink); border-color:var(--ink-38); }
-.room-chip.is-active { background:var(--ink); color:var(--cream); border-color:var(--ink); }
+.room-chip { font-family:var(--mono); font-size: 12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink); background:none; border:1px solid var(--hairline); padding:13px 22px; cursor:pointer; transition:background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease); }
+.room-chip:hover { color:var(--aubergine); border-color:var(--ink-38); }
+.room-chip.is-active { background:var(--aubergine); color:var(--white); border-color:var(--aubergine); }
 .maker-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:clamp(20px,2.4vw,38px); }
 .maker-card { display:flex; flex-direction:column; gap:12px; }
 .maker-card .ph { aspect-ratio:4/5; }
@@ -2372,7 +2587,7 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 
 @media (max-width: 880px){
   .checkout-grid { grid-template-columns:1fr; }
-  .co-step { font-size: 14px; letter-spacing:0.08em; }
+  .co-step { font-size: 13px; letter-spacing:0.08em; }
   .co-summary-wrap { position:static !important; }
 }
 
@@ -2435,7 +2650,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 }
 .quiz-step {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--ink-38);
@@ -2443,7 +2658,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 .quiz-step b { color: var(--ink); font-weight: 400; }
 .quiz-exit {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-60);
@@ -2466,7 +2681,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 
 .q-kicker {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--driftwood);
@@ -2508,7 +2723,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 .q-option:hover { padding-left: 16px; color: var(--aubergine); }
 .q-option .tag {
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.18em;
   color: var(--ink-38);
   padding-top: 8px;
@@ -2588,7 +2803,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 }
 .quiz-back:hover { color: var(--ink); }
 .quiz-back[hidden] { visibility: hidden; }
-.quiz-hint { font-family: var(--mono); font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-38); }
+.quiz-hint { font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-38); }
 
 /* result screens */
 .q-result { text-align: center; max-width: 720px; margin: 0 auto; }
@@ -2627,7 +2842,7 @@ body[data-world="vintage"] { --cream-deep: #E2DAC9; }
 .q-result .flag-note {
   margin-top: 30px;
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-38);
@@ -2673,7 +2888,7 @@ body.is-pass { background: var(--white); }
 .view-note {
   text-align: center;
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-38);
@@ -2705,11 +2920,21 @@ body.is-pass { background: var(--white); }
 /* private workspace */
 .workspace { padding: clamp(40px, 6vh, 70px) var(--gutter) clamp(80px, 12vh, 130px); }
 .ws-section { border-top: 1px solid var(--hairline); padding: clamp(44px, 6.5vh, 72px) 0; }
+/* submitted-for-review panel: centred, reusing the checkout seal treatment */
+.ws-review { text-align: center; max-width: 560px; margin: 0 auto; border-top: none; }
+.ws-review .seal-star { width: clamp(46px, 6vw, 62px); height: auto; color: var(--driftwood); margin: 0 auto 28px; display: block; transform-origin: 50% 50%; animation: sealGrow 2600ms cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.ws-review h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 4vw, 50px); line-height: 1.04; }
+.ws-review h2 em { font-style: italic; color: var(--aubergine); }
+.ws-review-note { margin-top: 18px; font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 1.65; color: var(--ink-read); text-wrap: pretty; }
+/* kicker-above-image exists for phone only — hidden at every larger width */
+.feature-kicker-top { display: none; }
+.ws-review .steps { justify-content: center; margin-top: 28px; flex-wrap: wrap; gap: 20px; }
+.ws-review .ws-step-nextwrap { justify-content: center; gap: 24px; margin-top: 38px; flex-wrap: wrap; }
 .ws-section:first-of-type { border-top: none; }
 .ws-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 40px; }
 /* .ws-head h2 → structural H2 token */
 .ws-head h2 em { font-style: italic; }
-.ws-head .ws-meta { font-family: var(--mono); font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-38); text-align: right; }
+.ws-head .ws-meta { font-family: var(--mono); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-38); text-align: right; }
 
 .field-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 48px; }
 .private-panel { background: rgba(117, 89, 64, 0.05); border: 1px solid rgba(117, 89, 64, 0.22); border-top: 1px solid rgba(117, 89, 64, 0.22); padding: clamp(28px, 4vh, 44px) clamp(20px, 3vw, 36px); border-radius: 2px; margin-top: 12px; }
@@ -2818,7 +3043,60 @@ textarea.field-input:focus { border-color: var(--ink); }
   margin-bottom: 14px;
   text-wrap: pretty;
 }
-.essence-note { margin-top: 12px; font-family: var(--serif); font-style: italic; color: var(--driftwood); }
+/* ——— signature font trial (home Artist Spotlight only) ———
+   Four client-supplied faces the signature cycles through on click. Meie Script
+   stays option 01. Remove this block + the .sig-* rules + the trial script to
+   revert; nothing else on the site references these families. */
+@font-face { font-family: "Jane Austen"; src: url("assets/fonts/jane-austen.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Vienna Romance";     src: url("assets/fonts/vienna-romance.ttf")     format("truetype"); font-display: swap; }
+@font-face { font-family: "Romento";            src: url("assets/fonts/romento.ttf")            format("truetype"); font-display: swap; }
+@font-face { font-family: "Garitson";           src: url("assets/fonts/garitson.otf")           format("opentype"); font-display: swap; }
+@font-face { font-family: "Lamar Pen";           src: url("assets/fonts/lamar-pen.ttf")          format("truetype"); font-display: swap; }
+
+/* the signature becomes a quiet button while the trial is live */
+button.spotlight-name {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--script);
+  font-size: clamp(30px, 3.6vw, 50px);
+  line-height: 1.1;
+  color: var(--driftwood);
+  margin-top: 44px;
+  transition: opacity var(--t) var(--ease);
+}
+button.spotlight-name:hover { opacity: 0.78; }
+button.spotlight-name:focus-visible { outline: 1px solid var(--driftwood); outline-offset: 6px; }
+button.spotlight-name:focus:not(:focus-visible) { outline: none; }
+/* each option overrides only the family — size, colour and position never move */
+/* Jane Austen ships one weight, so it can only be thinned optically: it renders
+   the widest and heaviest of the five, and ~88% brings its stroke into line. */
+button.spotlight-name[data-sig="1"] { font-family: "Jane Austen", var(--script); font-size: clamp(26px, 3.2vw, 44px); }
+button.spotlight-name[data-sig="2"] { font-family: "Vienna Romance", var(--script); }
+button.spotlight-name[data-sig="3"] { font-family: "Romento", var(--script); }
+button.spotlight-name[data-sig="4"] { font-family: "Garitson", var(--script); }
+/* Lamar Pen draws the largest of the six (312px wide vs Meie's 260), so it
+   carries its own smaller size. */
+button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); font-size: 40px; }
+/* trial label — mono micro, sits under the signature */
+.sig-label {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(241, 235, 222, 0.45);
+}
+
+/* no-break helper: keeps a short phrase from splitting across lines */
+.nb { white-space: nowrap; }
+.essence-note { margin-top: 12px; font-family: var(--mono); font-style: normal; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.6; color: var(--ink-38) !important; }
 
 /* draft listing strip */
 .draft-strip { margin-top: 34px; display: grid; gap: 0; border-top: 1px solid var(--hairline); }
@@ -2902,13 +3180,11 @@ textarea.field-input:focus { border-color: var(--ink); }
   .profile-fold .crumbs { color: rgba(241, 235, 222, 0.38); }
   .light-fold { background: var(--white); color: var(--ink); }
   .profile-fold .profile-bio p { color: rgba(241, 235, 222, 0.72); }
-  /* workspace public preview sits on light beige — burgundy stays an accent */
-  .ws-preview-fold .micro { color: var(--ink-60) !important; }
-  .ws-preview-fold .crumbs, .ws-preview-fold .crumbs a { color: var(--ink-60) !important; }
-  .ws-preview-fold .crumbs a:hover { color: var(--aubergine) !important; }
-  .ws-preview-fold .profile-bio p, .ws-preview-fold .profile-meta dd { color: var(--ink) !important; }
-  .ws-preview-fold .profile-quote, .ws-preview-fold .script-name { color: var(--aubergine) !important; }
+  /* the preview is the spotlight page: same burgundy ground, same cream ink */
   .ws-preview-fold .spotlight-portrait .ph { background: transparent !important; }
+  /* desktop keeps the preview's original generous fold padding; the ≤560px
+     block overrides it with the spotlight page's 34px/gutter/44px. */
+  .ws-preview-fold { padding: clamp(64px, 9vh, 110px) 0 clamp(48px, 7vh, 80px); }
 </style>
 
 <style id="em-loader-css">
@@ -3174,16 +3450,70 @@ textarea.field-input:focus { border-color: var(--ink); }
   body.mm-open { overflow: hidden !important; }
 }
 
-/* ═══ PHONE TYPOGRAPHY SYSTEM — UNDER VISUAL REVIEW ══════════════════════
+/* ═══ PHONE TYPOGRAPHY SYSTEM — APPROVED, LOCKED (14 Sep 2026) ═══════════
+   LOCKED: these nine tiers are signed off. Do not change a value, add a tier,
+   or introduce a new size here without an explicit instruction naming this
+   block. Treat it exactly like the desktop scale — a fixed contract that new
+   phone work conforms to, not a starting point to adjust.
+
    Phone-only type hierarchy, ≤700px. Tablet (768) and desktop keep the
    approved scale untouched — nothing here applies above 700px.
-   Contextual selectors only: no blanket .micro override.
-   To revert: delete this whole block. */
+
+   NINE TIERS. Every phone type rule resolves to one of these — if a value
+   is not on this list it is a defect, not a variant. Audited in use across
+   Home / category / object / Stories.
+
+     --ph-display   30px  serif   page + section display titles, hero statements
+     --ph-heading   24px  serif   shelf + section headings ("Smaller, still soulful")
+     --ph-title     20px  serif   card names, object names, option titles
+     --ph-lead      14px  serif   signatures, bylines, script accents, taglines
+     --ph-body      13px  sans    ALL reading copy, form inputs, placeholders
+     --ph-action    12px  mono    buttons, CTAs, statuses, prices, crumbs
+     --ph-label     11px  mono    micro labels, kickers, field labels, chips
+     --ph-nano      10px  mono    subcategory names, row numbers
+     --ph-nano-sm    9px  mono    tertiary in-panel links ("Explore →")
+
+   Rules of the system:
+   · serif = display only, never reading copy. sans = reading copy only.
+     mono = interface only (uppercase, tracked).
+   · body copy never goes below 13px; interface text never above 12px.
+   · a new size is never introduced to solve a fitting problem — reuse the
+     nearest tier and adjust tracking, width or wrapping instead.
+   · new phone work CONFORMS to these tiers; the tiers do not move to
+     accommodate new work.
+
+   DECLARED EXCEPTIONS (not text on the scale, do not "fix" these):
+     .script-name  25px  Meie Script — handwritten signature, its own family
+     .us-plus      22px  the ＋ glyph in upload slots — an icon, not copy
+     .seal-star    46px  the É-MISHTO star mark — artwork
+
+   CASCADE NOTE: media queries add no specificity, and most base rules sit
+   500–1500 lines LATER in this sheet, so an equal-specificity phone rule
+   silently loses. Prefix with a tag/id/attribute (`h1#bag-title`,
+   `div.sum-line`, `body[data-route="creator"] span.us-label`) and ALWAYS
+   verify the computed value after editing.
+
+   To revert the whole system: delete this block. (Reverting is an explicit
+   decision, not a cleanup step — the block is load-bearing for every phone
+   page and removing it returns the phone site to the desktop clamp scale.) */
 @media (max-width: 700px) {
+
+  /* the nine tiers, declared once — reference these, never raw px */
+  :root {
+    --ph-display: 30px;
+    --ph-heading: 24px;
+    --ph-title: 20px;
+    --ph-lead: 14px;
+    --ph-body: 13px;
+    --ph-action: 12px;
+    --ph-label: 11px;
+    --ph-nano: 10px;
+    --ph-nano-sm: 9px;
+  }
 
   /* ——— display / editorial · Cormorant ——— */
   .page-title { font-size: 38px; line-height: 1.02; }
-  .object-name { font-size: 34px; line-height: 1.02; }
+  .object-name { font-size: 30px; line-height: 1.02; }
   .feature-title { font-size: 30px; line-height: 1.08; }
   .spotlight-quote { font-size: 30px; line-height: 1.08; }
   /* one editorial-statement tier on phone: the subscribe line, both Home
@@ -3196,7 +3526,7 @@ textarea.field-input:focus { border-color: var(--ink); }
      20 card/story title · 14 body · 11 micro & actions.            */
 
   /* page titles */
-  .page-title, .object-title { font-size: 34px; line-height: 1.08; }
+  .page-title, .object-title { font-size: 30px; line-height: 1.08; }
 
   /* editorial statements — ledes, pull quotes, break quotes */
   .about-fold h2, .edit-break-quote, .profile-quote,
@@ -3211,9 +3541,178 @@ textarea.field-input:focus { border-color: var(--ink); }
   /* card / story titles */
   .draft-name, .bag-item-name, .wish-name, .story-prompt { font-size: 20px; line-height: 1.15; }
 
-  /* reading copy */
-  .page-intro p, #world-intro, .page-intro .sign, .essence-note,
-  .field-hint, .field-input, .draft-meta { font-size: 14px; line-height: 1.5; font-weight: 300; }
+  /* reading copy — sans per the system rule (serif is display only) */
+  .page-intro p, #world-intro, .essence-note,
+  .field-hint, .draft-meta { font-family: var(--sans); font-size: var(--ph-body); line-height: 1.5; font-weight: 300; }
+  /* signatures stay serif — they are a display accent, not reading copy */
+  .page-intro .sign { font-size: var(--ph-lead); line-height: 1.5; font-weight: 300; }
+  /* Account dashboard follows the bag hierarchy exactly:
+     20 object name · 13 meta + price · 12 status/interface label · 11 actions.
+     Each needs a parent selector — the base rules sit later in the sheet. */
+  .acct-dash .dash-nav button, .dash-nav button { font-size: 11px; }
+  /* profile rows follow the bag hierarchy: 12 mono label, 13 value. The 170px
+     label column doesn't fit 390px, so the rows stack like the checkout recap. */
+  .info-row { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; }
+  .info-row .info-k, .info-k { font-size: 12px; letter-spacing: 0.12em; }
+  /* Apply flow follows the collector-account rules: 16 sub-line/lead,
+     13 secondary + typed values, 11 labels and actions, 20 option titles. */
+  /* the "01 / 06" counter was 15px, so the bare "/ 06" text node inherited it
+     while the bold 01 inside sat at 11 — one tier for the whole counter. */
+  .quiz-step, .quiz-top .quiz-step { font-size: 11px; }
+  /* the question is a section heading, not a page title */
+  .q-prompt, .quiz-stage .q-prompt { font-size: 20px; line-height: 1.2; }
+  /* the result screen speaks the path-card language: 14px body, 13px secondary
+     line, 11px footnote. These agree with the later block, so no conflict. */
+  .q-sub, .quiz-stage .q-sub { font-size: 13px; line-height: 1.5; }
+  /* creator workspace: the mono blocks were 15px with 2.4–3px tracking, which
+     reads as shouting on a phone. All interface mono drops to the 11px label
+     tier, and the section heading to 24 since it is not a page title. */
+  p.view-note, .ws-frame p.view-note { font-size: 11px; letter-spacing: 0.14em; line-height: 1.5; }
+  span.ws-meta, .ws-head span.ws-meta { font-size: 11px; letter-spacing: 0.14em; line-height: 1.6; }
+  button.view-tab, .view-switch button.view-tab { font-size: 11px; letter-spacing: 0.14em; }
+  button.ws-step-btn, .ws-steps button.ws-step-btn { font-size: 11px; }
+  .ws-head h2, div.ws-head h2 { font-size: 24px; white-space: nowrap; }
+  /* heading on its own line, meta beneath it, both left-aligned */
+  div.ws-head {
+    display: block;
+    text-align: left;
+  }
+  div.ws-head span.ws-meta {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+  }
+  /* photo guidance matches the field placeholders beneath it: 13px, ink-60 */
+  p.photo-rules, .upload-row p.photo-rules {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-38);
+  }
+  /* the <b> inside kept its dark bold styling, breaking the line's uniformity */
+  p.photo-rules b { font-weight: 300; color: inherit; }
+  /* feature kicker sits above the image, like the entry cards; flow copy hides */
+  article.feature .entry-kicker { display: none; }
+  article.feature div.feature-kicker-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    /* the feature grid's 32px row-gap already sits below this row; pull back so
+       the total clears the image by 18px, matching the entry cards */
+    margin-bottom: -14px;
+  }
+  article.feature div.feature-kicker-top span.micro { font-size: 11px; letter-spacing: 0.2em; }
+  /* upload-slot labels join the 11px field-label tier */
+  body[data-route="creator"] span.us-label { font-size: 11px; letter-spacing: 0.14em; }
+  /* the burgundy pull-quote was smaller than the copy it follows */
+  body[data-route="creator"] p.essence-note { font-size: 14px; line-height: 1.45; }
+  /* "Next — Objects →" was breaking the arrow onto its own line */
+  body[data-route="creator"] .ws-section .btn-solid,
+  body[data-route="creator"] .ws-section a.hero-cta { white-space: nowrap; }
+  /* step 03 carries its own 1fr 1fr field grid and a 3-up upload row, neither of
+     which the earlier phone rules reached — hence the clipped right column. */
+  .workspace .field-grid, .ws-section .field-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .workspace .field.col-2, .ws-section .field.col-2 { grid-column: 1 / -1; min-width: 0; }
+  .workspace .upload-row, .ws-section .upload-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+  }
+  .workspace .upload-slot, .ws-section .upload-slot { min-width: 0; }
+  /* some grids/rows sit outside .workspace (public preview panel), so scope the
+     rule to the whole creator route instead of the workspace subtree. */
+  body[data-route="creator"] .field-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  body[data-route="creator"] .upload-row { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  body[data-route="creator"] .ws-steps { flex-wrap: wrap; gap: 10px 14px; }
+  /* keep 01 / 02 / 03 on one line — 03 Objects was wrapping to its own row */
+  body[data-route="creator"] .ws-stepnav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+  /* crumbs span the same width as the step row below, so ARTS ends flush with
+     03 OBJECTS and the divider beneath them */
+  body[data-route="creator"] .workspace > .crumbs {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  body[data-route="creator"] button.ws-step-btn {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  body[data-route="creator"] .ws-steps button { max-width: 100%; white-space: normal; }
+  /* the Draft / In review / Published segment was wider than the viewport inside
+     an overflow:hidden parent, so "Published" was clipped rather than wrapped. */
+  /* .draft-row was a 4-column grid crushed into 332px (64px thumb, 42px title,
+     47px for the whole status segment). On phone the thumb and title share the
+     first row; the segment and its note each take a full-width row below. */
+  body[data-route="creator"] .draft-row {
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+    gap: 4px 14px;
+    align-items: center;
+  }
+  body[data-route="creator"] .draft-row > .status-seg,
+  body[data-route="creator"] .draft-row > .draft-note,
+  body[data-route="creator"] .draft-row > span:last-child { grid-column: 2 / -1; }
+  body[data-route="creator"] .status-seg {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    overflow: visible;
+    gap: 6px;
+    min-width: 0;
+    margin-top: 6px;
+    padding: 0;
+  }
+  /* the active tint sat inset because the buttons were shorter than the segment */
+  /* the outer 1px border was clipping the active tint on every side. Each cell
+     now owns its border, so fill and border are a single box — nothing inset. */
+  body[data-route="creator"] .status-seg { border: 0 !important; }
+  body[data-route="creator"] .status-seg button {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 11px;
+    padding: 9px 4px;
+    height: auto;
+    align-self: stretch;
+    margin-block: 0;
+    border: 1px solid var(--hairline) !important;
+  }
+  .q-result p, .q-result.q-pass p, .q-result.q-stop p { font-size: 14px; line-height: 1.5; font-weight: 300; }
+  .q-result p.flag-note, p.flag-note { font-size: 11px; }
+  .q-option .opt-note, .opt-note { font-size: 13px; }
+  .q-input-line input, .q-field input, .quiz-stage input { font-size: 13px; font-weight: 300; }
+
+  /* profile values match the Last look recap's 16px value tier */
+  .info-row .info-v, .info-v { font-size: 16px; line-height: 1.5; }
+  /* the tab row wrapped into two lines and collided with the panel heading */
+  .dash-layout .dash-nav { gap: 6px; margin-bottom: 26px; }
+  .dash-layout .dash-nav button { padding: 9px 12px; }
+  /* dashboard sub-lines are reading copy: sans, on the body tier */
+  .dash-panel .dash-sub, .dash-sub { font-family: var(--sans); font-size: var(--ph-body); line-height: 1.5; }
+  .order-card .order-objs, .order-objs { font-size: 20px; }
+  .order-card .order-meta, .order-meta { font-size: 12px; }
+  .order-card .order-status, .order-status { font-size: 12px; }
+  .order-card .order-total, .order-total { font-size: 13px; }
+  .wish-card .wish-meta, .wish-meta { font-size: 13px; }
+  .dash-panel .muted-act, button.muted-act { font-size: 11px; }
+  .pay-card .card-mono, .addr-card .card-mono, .card-mono { font-size: 13px; }
+
+  /* FAQ answers read as body copy, matching the spotlight bio: Gantari 14/1.5
+     rather than 19px serif. */
+  .faq-a {
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+    text-wrap: pretty;
+  }
 
   /* micro + controls */
   .pb-head .legal-tag, .legal-tag, .quiz-back, .status-hint, .sheet-close,
@@ -3229,12 +3728,12 @@ textarea.field-input:focus { border-color: var(--ink); }
   .entry-title { font-size: 20px; line-height: 1.2; }
   .world-cat-names button { font-size: 18px; line-height: 1.25; }
   .piece-name { font-size: 20px; line-height: 1.15; }
-  .page-intro p { font-size: 18px; line-height: 1.45; }
+  .page-intro p { font-size: var(--ph-body); line-height: 1.5; }
 
   /* ——— remaining routes brought onto the phone tiers ———
      these sit after the rules they override, so no !important is needed. */
-  .page-head .page-intro p { font-size: 14px; line-height: 1.5; font-weight: 300; }
-  .page-intro .sign { font-size: 14px; }
+  .page-head .page-intro p { font-family: var(--sans); font-size: var(--ph-body); line-height: 1.5; font-weight: 300; }
+  .page-intro .sign { font-size: var(--ph-lead); }
   #story-cat-names button, #artist-role-tabs button, .world-cat-names button { font-size: 14px; }
   .feature p.fade-up, .feature .entry-dek { font-size: 14px; line-height: 1.5; font-weight: 300; }
   /* object page's editorial statement */
@@ -3291,7 +3790,10 @@ textarea.field-input:focus { border-color: var(--ink); }
   /* "View all Vintage →" moves below the product list: the band becomes a flex
      column and the link is ordered last, out of the heading block. */
   .object-page .shelf-band, main .shelf-band { display: flex; flex-direction: column; }
-  .shelf-band .shelf-head { display: contents; }
+  /* `display: contents` renders the children even when the parent carries the
+     hidden attribute, so an authored-hidden heading must be excluded */
+  .shelf-band .shelf-head:not([hidden]) { display: contents; }
+  .shelf-band .shelf-head[hidden] { display: none; }
   .shelf-band .shelf-head .shelf-title { order: 1; margin-bottom: 30px; }
   .shelf-band .shelf { order: 2; }
   .shelf-band .shelf-head .world-view-all { order: 3; margin-top: 26px; }
@@ -3433,7 +3935,7 @@ textarea.field-input:focus { border-color: var(--ink); }
 
   /* Why sell on É-MISHTO adopts the Home phone scale: 34 page title,
      24 section heading, 18 card name, 16 lede, 14 body, 11 micro. */
-  .about-intro h1 { font-size: 34px; }
+  .about-intro h1 { font-size: 30px; }
   /* reading copy switches to the Home body face (Gantari 14/1.5) instead of
      the display serif; headings and the italic display line stay Cormorant. */
   .about-lede, .about-lede.dim { font-family: var(--sans); font-size: 14px; line-height: 1.5; font-weight: 300; }
@@ -3450,30 +3952,31 @@ textarea.field-input:focus { border-color: var(--ink); }
   /* account creation + apply flow follow the Home hierarchy:
      34 page title · 24 section heading · 18 option title · 14 body ·
      11 mono micro. Buttons use the shared 11px / 13x22 size. */
-  .account-wrap .page-title { font-size: 34px; }
-  .dash-head h1 { font-size: 34px; }
+  .account-wrap .page-title { font-size: 30px; }
+  .dash-head h1 { font-size: 30px; }
   .dash-panel h2 { font-size: 24px; }
   .acct-auth .link-back, .acct-auth .seg button, .link-back { font-size: 11px; }
   .account-wrap .crumbs, .account-wrap .crumbs a, .account-wrap .crumbs span { font-size: 11px; }
-  .field-label, .field-input, .field input { font-size: 14px; font-weight: 300; }
+  /* values the user reads or types sit at 16px; the mono field LABELS stay 11 */
+  .field-label, .field-label span { font-size: 11px; font-weight: 300; }
+  .field-input, .field input, .field select, .field textarea,
+  .co-stage select, .co-stage option { font-size: 13px; font-weight: 300; }
   .opt-link { font-size: 11px; }
   .btn-ghost-sm { font-size: 11px; padding: 9px 15px; }
   .q-kicker, .q-option .tag, .quiz-hint, .flag-note, .quiz-rail span { font-size: 11px; }
   /* the question IS each screen's title, so it sits on Home's page-title
      tier (34px) alongside the result heading — not the 24px section tier. */
-  .q-prompt { font-size: 34px; line-height: 1.08; }
+  .q-prompt { font-size: 30px; line-height: 1.08; }
   .q-sub { font-size: 14px; font-weight: 300; }
-  .q-result h2 { font-size: 34px; }
+  .q-result h2 { font-size: 30px; }
   .q-result p { font-size: 14px; }
   .q-field .field-label { font-size: 11px; }
-  .q-input-line input { font-size: 14px; font-weight: 300; }
   /* these four need matching specificity to beat their own scoped rules */
   .dash-panel .btn-ghost-sm, .order-card .btn-ghost-sm, .wish-card .btn-ghost-sm,
   .pay-card .btn-ghost-sm, .addr-card .btn-ghost-sm { font-size: 11px; padding: 9px 15px; }
   .q-result .flag-note { font-size: 11px; }
   .quiz-exit, .quiz-top b, .quiz-top strong { font-size: 11px; }
   .q-input-line label, .q-field label { font-size: 11px; }
-  .q-result p, .q-result.q-pass p, .q-result.q-stop p { font-size: 14px; line-height: 1.5; font-weight: 300; }
   .q-option .opt-title { font-size: 20px; }
   .acct-auth .btn-solid, .auth-pane .btn-solid { font-size: 11px; padding: 11px 18px; }
   .about-wrap .crumbs, .about-wrap .crumbs a, .about-wrap .crumbs span { font-size: 11px; }
@@ -3601,7 +4104,38 @@ body.spotlight-page em, body.spotlight-page i {
 <main>
 
   <!-- 00 · mood hero -->
-  <section class="video-hero" id="hero-video-section" data-invert="" data-screen-label="00 Intro" style="cursor:pointer"><video id="hero-video" autoplay muted loop playsinline webkit-playsinline="true" preload="auto"><source src="assets/video/hero-landing.mp4" type="video/mp4"></video><script>(function(){var s=document.getElementById("hero-video-section");var v=document.getElementById("hero-video");if(!s||!v)return;
+  <section class="video-hero" id="hero-video-section" data-invert="" data-screen-label="00 Intro" style="cursor:pointer"><video id="hero-video" autoplay muted loop playsinline webkit-playsinline="true" preload="auto"><source src="assets/video/hero-landing.mp4" type="video/mp4"></video><script>
+/* ——— signature font trial · home Artist Spotlight only ———
+   Click (or Enter/Space, via the native button) advances to the next face.
+   The choice persists in localStorage so the client's pick survives a reload
+   and the route re-render. Delete this script + the .sig-* CSS to revert. */
+(function () {
+  var NAMES = ["01 · Meie Script", "02 · Jane Austen", "03 · Vienna Romance", "04 · Romento", "05 · Garitson", "06 · Lamar Pen"];
+  var KEY = "em_sig_font";
+  function paint(btn, label, i) {
+    btn.setAttribute("data-sig", String(i));
+    if (label) label.textContent = NAMES[i];
+  }
+  function wire() {
+    var btn = document.getElementById("sig-trial");
+    if (!btn || btn.dataset.wired) return;
+    btn.dataset.wired = "1";
+    var label = document.getElementById("sig-label");
+    var i = 0;
+    try { var v = parseInt(localStorage.getItem(KEY), 10); if (v >= 0 && v < NAMES.length) i = v; } catch (e) {}
+    paint(btn, label, i);
+    btn.addEventListener("click", function () {
+      i = (i + 1) % NAMES.length;
+      paint(btn, label, i);
+      try { localStorage.setItem(KEY, String(i)); } catch (e) {}
+    });
+  }
+  wire();
+  document.addEventListener("DOMContentLoaded", wire);
+  window.addEventListener("load", wire);
+})();
+</script>
+<script>(function(){var s=document.getElementById("hero-video-section");var v=document.getElementById("hero-video");if(!s||!v)return;
 s.addEventListener("click",function(){if(v.paused){v.play();}else{v.pause();}});
 /* ——— 0.8× test ———
    The source is 24 fps, so 0.8× still yields ~19 unique frames per second —
@@ -3826,7 +4360,7 @@ slow();
           <span class="rv-line">colors.”</span>
         </blockquote>
         <p class="spotlight-bio fade-up">Born in Belgium. Now based in Marrakech after leaving the Flemish countryside behind. Founder <span class="bio-keep">of LRNCE,</span> where handwoven textiles, sculptural ceramics, and painted objects come together through collaborations with local artisans.<br>Her work blends bold color, organic forms, <span class="bio-keep">and the quiet</span><br>poetry of everyday life.</p>
-        <span class="spotlight-name fade-up">Laurence Leenaert</span>
+        <button type="button" class="spotlight-name fade-up" id="sig-trial" data-sig="0" aria-label="Laurence Leenaert — tap to try the next signature font">Laurence Leenaert</button><span class="sig-label" id="sig-label">01 · Meie Script</span>
         <br>
         <a class="spotlight-cta fade-up" href="#/spotlight">Read her story · six works available <span>→</span></a>
       </div>
@@ -4734,6 +5268,7 @@ slow();
   </section>
 
   <article class="feature" data-screen-label="Story feature" style="padding-top:0;">
+    <div class="feature-kicker-top" aria-hidden="true"><span class="micro">Interview · № 25</span><span class="micro">06 min</span></div>
     <div class="ph ph-reveal has-img" data-label="laurence at work — studio floor"><img src="assets/shelf/front/laurence-studio-crouch.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <div class="ph-inner" data-speed="0.96"></div>
     </div>
@@ -5085,6 +5620,7 @@ slow();
   })();</script>
 
   <article class="feature" data-screen-label="Feature story">
+    <div class="feature-kicker-top" aria-hidden="true"><span class="micro">Interview · № 25</span><span class="micro">06 min</span></div>
     <a class="ph ph-reveal has-img" href="#/spotlight" data-label="laurence at work — studio floor"><img src="assets/shelf/front/laurence-studio-crouch.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <div class="ph-inner" data-speed="0.96"></div>
     </a>
@@ -5469,7 +6005,7 @@ slow();
       <span class="co-step is-now" data-step="identity"><span class="n">01</span> You</span>
       <span class="co-step" data-step="shipping"><span class="n">02</span> Shipping</span>
       <span class="co-step" data-step="payment"><span class="n">03</span> Payment</span>
-      <span class="co-step" data-step="review"><span class="n">04</span> A last look</span>
+      <span class="co-step" data-step="review"><span class="n">04</span> Last look</span>
     </div>
 
     <div class="co-stage" data-stage="identity">
@@ -5498,7 +6034,7 @@ slow();
         </div>
         <p class="field-hint" style="margin-top:16px;">An account keeps your orders, wishlist, and the creators you follow in one quiet place.</p>
       </div>
-      <div class="co-nav"><a class="link-back" href="#/bag">← Back to bag</a><button class="btn-solid" type="button" data-next="shipping">Continue to shipping →</button></div>
+      <div class="co-nav"><a class="link-back" href="#/bag">← Back to bag</a><button class="btn-solid" type="button" data-next="shipping">Continue →</button></div>
     </div>
 
     <div class="co-stage" data-stage="shipping" hidden>
@@ -5515,8 +6051,8 @@ slow();
       </div>
       <h3 class="co-subhead">Delivery method</h3>
       <div class="opt-list" id="ship-methods">
-        <label class="opt is-active" data-ship="standard" data-cost="60"><span class="dot"></span><span><span class="opt-name">Crated &amp; insured</span><span class="opt-sub" data-eta></span></span><span class="opt-price">€60</span></label>
-        <label class="opt" data-ship="express" data-cost="120"><span class="dot"></span><span><span class="opt-name">Express, white-glove</span><span class="opt-sub" data-eta></span></span><span class="opt-price">€120</span></label>
+        <label class="opt is-active" data-ship="standard" data-cost="60"><span class="dot"></span><span class="opt-sub" data-eta></span></label>
+        <label class="opt" data-ship="express" data-cost="120"><span class="dot"></span><span class="opt-sub" data-eta></span></label>
       </div>
       <div class="co-nav"><button class="link-back" type="button" data-back="identity">← You</button><button class="btn-solid" type="button" data-next="payment">Continue to payment →</button></div>
     </div>
@@ -5755,7 +6291,7 @@ slow();
         <div class="dash-panel" data-tab="address" hidden style="margin-top:-24px;">
           <h2>Address <em>book</em></h2>
           <p class="dash-sub">Where your objects come home to.</p>
-          <div class="addr-card"><div class="card-line"><span class="card-mono">Home</span><button class="muted-act" type="button">Edit</button></div><p class="info-v" style="margin-top:12px;font-size:18px;">Mara Velez<br>14 Rue de Sévigné<br>Lisbon 1200-001<br>Portugal</p></div>
+          <div class="addr-card"><div class="card-line"><span class="card-mono">Home</span><button class="muted-act" type="button">Edit</button></div><p class="info-v" style="margin-top:12px;">Mara Velez<br>14 Rue de Sévigné<br>Lisbon 1200-001<br>Portugal</p></div>
           <button class="btn-ghost-sm" type="button">Add an address</button>
         </div>
       </div>
@@ -5915,7 +6451,7 @@ slow();
 <section class="about-section alt" data-screen-label="Partners">
   <div class="sec-head"><h2>In good <em>company</em></h2><span class="micro">Partners &amp; friends of É-MISHTO</span></div>
   <div class="partner-grid">
-    <div class="partner-cell"><span class="partner-name">Hasenkamp</span><span class="partner-role">Crated, insured logistics</span></div>
+    <div class="partner-cell"><span class="partner-name">Hasenkamp</span><span class="partner-role">Packed, insured logistics</span></div>
     <div class="partner-cell"><span class="partner-name">The Lacuna Institute</span><span class="partner-role">Conservation &amp; care</span></div>
     <div class="partner-cell"><span class="partner-name">Slow Press</span><span class="partner-role">Editorial &amp; print</span></div>
     <div class="partner-cell"><span class="partner-name">Stripe</span><span class="partner-role">Encrypted payments</span></div>
@@ -6045,7 +6581,7 @@ slow();
   </div>
 </header>
 
-<main style="background:#f5f2ed;">
+<main>
 
   <section class="faq-wrap" data-screen-label="FAQ" style="margin-left:auto;margin-right:auto;">
   <div class="crumbs fade-up"><a href="#/">É-MISHTO</a><span>/</span><span>FAQ</span></div>
@@ -6192,7 +6728,7 @@ slow();
   </div>
 </header>
 
-<main style="background:#f5f2ed;">
+<main>
 
   <section class="contact-grid" data-screen-label="Contact">
   <div>
@@ -6929,14 +7465,14 @@ slow();
           Not a producer? <button id="producer-toggle" type="button" aria-pressed="false" class="quiz-back" style="color: var(--coffee);">Toggle producer block</button> — shown automatically when your world is Body.
         </p>
 
-      <div class="ws-step-nextwrap" style="margin-top:40px;"><button type="button" class="btn-solid" data-goto-step="2">Next — Business &amp; legal →</button></div>
+      <div class="ws-step-nextwrap" style="margin-top:40px;"><button type="button" class="btn-solid" data-goto-step="2">Business &amp; legal →</button></div>
       </div>
 
       <!-- BUSINESS & LEGAL (always private) -->
       <div class="ws-section private-panel" data-ws-step="2">
         <div class="ws-head">
           <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:22px;height:22px;vertical-align:-4px;margin-right:8px;"><rect x="5" y="11" width="14" height="9" rx="1"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Business &amp; <em>legal.</em></h2>
-          <span class="ws-meta">Never shown publicly, on your profile or product pages<br>used only for payouts, invoicing and compliance</span>
+          <span class="ws-meta">Never shown publicly, on your profile or product pages — used only for payouts, invoicing and compliance</span>
         </div>
         <p class="field-hint" style="margin-bottom: 22px;">This section is always private. It is never visible to buyers or on your public spotlight, under any circumstance.</p>
         <div class="field-grid">
@@ -6970,7 +7506,7 @@ slow();
           </div>
         </div>
 
-        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="1">← Back to profile</button><button type="button" class="btn-solid" data-goto-step="3">Next — Objects →</button></div>
+        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="1">← Back to profile</button><button type="button" class="btn-solid" data-goto-step="3">Objects →</button></div>
       </div>
 
       <!-- THE OBJECT -->
@@ -7072,7 +7608,7 @@ slow();
             <div class="field col-2">
               <div class="field-label"><span>The price you want to receive</span><span class="vis vis-private">Private</span></div>
               <div class="price-pair">
-                <div class="field-input" contenteditable="true" data-placeholder="€ —  (guaranteed to you)" style="font-size: 20px;"></div>
+                <div class="field-input" contenteditable="true" data-placeholder="€ —  (guaranteed to you)"></div>
               </div>
               <div class="price-note"></div>
             </div>
@@ -7099,7 +7635,7 @@ slow();
               <button type="button" data-status="private">Private</button>
               <button type="button" data-status="published">Published</button>
             </div>
-            <span class="micro status-hint" style="color: var(--ink-38);">private until we publish</span>
+            <span class="micro status-hint" style="color: var(--ink-38);">private until we approve</span>
           </div>
           <div class="draft-row">
             <div class="ph tone-lavender" data-label=""></div>
@@ -7113,7 +7649,17 @@ slow();
           </div>
         </div>
 
-        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="2">← Back to business &amp; legal</button><button type="button" class="btn-solid">Done — submit for curator review</button></div>
+        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="2">← Back</button><button type="button" class="btn-solid" id="ws-submit">Done</button></div>
+      </div>
+
+      <!-- submitted for review: shown after Done, reuses the checkout seal treatment -->
+      <div class="ws-section ws-review" data-ws-step="4">
+        <svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor" role="img" aria-label="É-MISHTO"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg>
+        <h2>With <em>our editors.</em></h2>
+        <p class="ws-review-note">Your spotlight is in review for the next 48 hours.<br>Our team reads every submission — if anything needs a change, <span class="nb">we will reach out.</span> Otherwise it goes live as it stands.</p>
+        <p class="ws-review-note">You will receive an email either way.</p>
+        <div class="steps"><span>In review</span><span>Within 48 hours</span></div>
+        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="3">← Back to objects</button><a class="btn-solid" href="#/">Keep wandering →</a></div>
       </div>
 
     </div>
@@ -7122,7 +7668,7 @@ slow();
   <!-- ============ PUBLIC SPOTLIGHT PREVIEW ============ -->
   <section class="view-panel public-frame" data-view="public" data-screen-label="Public spotlight preview">
 
-    <section class="profile-fold ws-preview-fold" style="background:#f5f2ed; color:var(--ink); padding: clamp(64px,9vh,110px) 0 clamp(48px,7vh,80px);">
+    <section class="profile-fold ws-preview-fold">
       <div class="profile-head">
         <figure class="spotlight-portrait">
           <div class="ph ph-reveal has-img" data-label="laurence leenaert — studio portrait"><img src="assets/shelf/front/artist-spotlight-portrait.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
@@ -7380,7 +7926,10 @@ slow();
   var FALLBACK_IMG = {
     "Dusk Study II": "assets/shelf/arts/dusk-study-ii.png",
     "The Lavender Hour": "assets/shelf/arts/threshold-north-window.png",
-    "Small Dusk": "assets/shelf/arts/small-dusk.png"
+    "Small Dusk": "assets/shelf/arts/small-dusk.png",
+    "The Empty Room, Morning": "assets/shelf/arts/empty-chair.png",
+    "Dawn Fragment": "assets/shelf/arts/field-notes-august.png",
+    "Indy": "assets/shelf/front/indy.png"
   };
 
   /* normalise a product: distinct creator + category, never merged.
@@ -8897,7 +9446,7 @@ window.addEventListener("em-tweaks", (e) => {
 
   window.__creator = { setView, world, flagged, isProducer };
 
-  var HINTS = { draft: "private — in progress", private: "private until we publish", published: "live on your spotlight" };
+  var HINTS = { draft: "private — in progress", private: "private until we approve", published: "live on your spotlight" };
   document.querySelectorAll(".status-seg").forEach(function(seg){
     seg.addEventListener("click", function(e){
       var btn = e.target.closest("button[data-status]"); if (!btn) return;
@@ -8917,6 +9466,8 @@ window.addEventListener("em-tweaks", (e) => {
     var wrap = document.querySelector(".workspace"); if (wrap) wrap.scrollIntoView({block:"start"});
   }
   stepBtns.forEach(function(b){ b.addEventListener("click", function(){ goStep(b.getAttribute("data-goto-step")); }); });
+  var submit = document.getElementById("ws-submit");
+  if (submit) submit.addEventListener("click", function(){ goStep(4); });
   if (stepPanels.length) goStep(1);
 })();
 
@@ -8974,7 +9525,16 @@ window.addEventListener("em-tweaks", (e) => {
     var btn = e.target.closest("[data-quickadd]"); if (!btn) return;
     e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) e.stopImmediatePropagation();
     var C = window.EMCart; if (!C) return;
-    C.add({ id: btn.getAttribute("data-id"), name: btn.getAttribute("data-name"), maker: btn.getAttribute("data-maker") || "", price: parseFloat(btn.getAttribute("data-price")) || 0, img: btn.getAttribute("data-img") || "", qty: 1, max: 99 });
+    /* data-price can arrive empty when a card is rendered from a record with no
+       priceNum, which used to add the object at €0. Fall back to the price the
+       card actually displays before giving up. */
+    var price = parseFloat(btn.getAttribute("data-price")) || 0;
+    if (!price) {
+      var card = btn.closest(".piece") || btn.parentElement;
+      var shown = card ? card.querySelector(".piece-price") : null;
+      if (shown) price = parseInt(String(shown.textContent).replace(/[^0-9]/g, ""), 10) || 0;
+    }
+    C.add({ id: btn.getAttribute("data-id"), name: btn.getAttribute("data-name"), maker: btn.getAttribute("data-maker") || "", price: price, img: btn.getAttribute("data-img") || "", qty: 1, max: 99 });
     var prev = btn.textContent;
     btn.textContent = "Added ✓";
     btn.classList.add("is-added");
@@ -9001,9 +9561,20 @@ window.addEventListener("em-tweaks", (e) => {
       var control='<div class="qty" data-id="'+i.id+'">'+dec+'<span class="qty-val">'+i.qty+'</span>'+inc+'</div>';
       return '<div class="bag-item"><div class="ph '+(i.img?"has-img":(i.tone||""))+'" data-label="">'+(i.img?('<img src="'+i.img+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">'):'')+'</div><div class="bag-actions"><span class="bag-item-name">'+i.name+'</span><p class="bag-item-meta">'+i.maker+' · '+i.meta+'</p>'+control+'<button class="bag-item-remove" type="button" data-rm="'+i.id+'">Remove</button></div><span class="bag-item-price">'+eur(i.price*i.qty)+'</span></div>';
     }).join('');
-    var sub=C.subtotal(), ship=60, total=sub+ship;
-    if(sumEl){ sumEl.innerHTML='<span class="micro">The quiet sum</span><div class="summary-row" style="margin-top:18px;"><span>Objects ('+C.totalQty()+')</span><span>'+eur(sub)+'</span></div><div class="summary-row"><span>Crating &amp; insured delivery</span><span>'+eur(ship)+'</span></div><div class="summary-row"><span>Creator’s notes</span><span>Included</span></div><div class="summary-row total"><span>Total</span><span>'+eur(total)+'</span></div><a class="btn-solid" href="#/checkout" style="width:100%;justify-content:center;margin-top:18px;">Continue, gently →</a><div class="steps"><span class="is-now">01 Bag</span><span>02 Details</span><span>03 A last look</span></div><p class="summary-note">No account needed. No urgency banners. Your bag keeps for thirty days.</p>'; }
+    var sub=C.subtotal(), ship=60;
+    /* creator's note is an optional €5 line; the choice persists per browser */
+    var noteOn = (function(){ try { return localStorage.getItem('em_bag_note') !== 'off'; } catch(e){ return true; } })();
+    var note = noteOn ? 5 : 0, total = sub + ship + note;
+    if(sumEl){ sumEl.innerHTML='<span class="micro">Your order</span><div class="summary-row" style="margin-top:18px;"><span>Objects ('+C.totalQty()+')</span><span>'+eur(sub)+'</span></div><div class="summary-row"><span>Packed &amp; insured delivery</span><span>'+eur(ship)+'</span></div><div class="summary-row"><span>Creator’s notes'+(noteOn?' <button type="button" class="note-act" data-note="off">Remove</button>':'')+'</span><span>'+(noteOn?eur(note):'<button type="button" class="note-act" data-note="on">Add · €5</button>')+'</span></div><div class="summary-row total"><span>Total</span><span>'+eur(total)+'</span></div><a class="btn-solid" href="#/checkout" style="width:100%;justify-content:center;margin-top:18px;">Continue →</a><div class="steps"><span class="is-now">01 Bag</span><span>02 Details</span><span>03 Last look</span></div><p class="summary-note">No account needed. No urgency banners. Your bag keeps for thirty days.</p>'; }
     vis(itemsEl); vis(sumEl);
+  }
+  if(sumEl && !sumEl.__noteWired){
+    sumEl.__noteWired = 1;
+    sumEl.addEventListener('click', function(e){
+      var b = e.target.closest('[data-note]'); if(!b) return;
+      try { localStorage.setItem('em_bag_note', b.getAttribute('data-note')); } catch(err){}
+      render();
+    });
   }
   itemsEl.addEventListener('click', function(e){
     var rm=e.target.closest('[data-rm]'); if(rm){ C.remove(rm.getAttribute('data-rm')); return; }
@@ -9050,11 +9621,22 @@ window.addEventListener("em-tweaks", (e) => {
   var sumEl=document.getElementById('co-summary');
   function renderSummary(){
     if(!sumEl){ return; }
-    var items=C.items(), sub=C.subtotal(), total=sub+ship.cost, z=zoneOf();
+    var items=C.items(), sub=C.subtotal(), z=zoneOf();
+    /* same optional €5 creator's note as the bag, read from the same key */
+    var noteOn = (function(){ try { return localStorage.getItem('em_bag_note') !== 'off'; } catch(e){ return true; } })();
+    var note = noteOn ? 5 : 0, total = sub + ship.cost + note;
     var lines=items.map(function(i){ return '<div class="sum-line"><span><span class="nm">'+i.name+'</span> <span class="q">×'+i.qty+'</span></span><span class="pr">'+eur(i.price*i.qty)+'</span></div>'; }).join('');
-    var shipName=ship.method==='express'?'Express, white-glove':'Crating &amp; insured';
-    sumEl.innerHTML='<span class="micro">Your order</span><div style="margin-top:16px;">'+lines+'</div><div class="summary-row" style="margin-top:4px;"><span>Subtotal</span><span>'+eur(sub)+'</span></div><div class="summary-row"><span>'+shipName+'</span><span>'+eur(ship.cost)+'</span></div><div class="summary-row total"><span>Total</span><span>'+eur(total)+'</span></div><p class="summary-note">Estimated arrival — '+etaText(ship.method,z)+'. Each object ships with its creator’s handwritten note.</p>';
+    var shipName=ship.method==='express'?'Express, white-glove':'Packed &amp; insured delivery';
+    sumEl.innerHTML='<span class="micro">Your order</span><div style="margin-top:16px;">'+lines+'</div><div class="summary-row" style="margin-top:4px;"><span>Objects ('+C.totalQty()+')</span><span>'+eur(sub)+'</span></div><div class="summary-row"><span>'+shipName+'</span><span>'+eur(ship.cost)+'</span></div><div class="summary-row"><span>Creator’s notes'+(noteOn?' <button type="button" class="note-act" data-note="off">Remove</button>':'')+'</span><span>'+(noteOn?eur(note):'<button type="button" class="note-act" data-note="on">Add · €5</button>')+'</span></div><div class="summary-row total"><span>Total</span><span>'+eur(total)+'</span></div><p class="summary-note">Estimated arrival — '+etaText(ship.method,z)+'. Each object ships with its creator’s handwritten note.</p>';
     vis(sumEl);
+    if(!sumEl.__noteWired){
+      sumEl.__noteWired = 1;
+      sumEl.addEventListener('click', function(e){
+        var b = e.target.closest('[data-note]'); if(!b) return;
+        try { localStorage.setItem('em_bag_note', b.getAttribute('data-note')); } catch(err){}
+        renderSummary();
+      });
+    }
   }
   function val(id){ var el=document.getElementById(id); return el?(el.value||'').trim():''; }
   function activeEmail(){ var m=idSeg?idSeg.querySelector('button.is-active'):null; var mode=m?m.getAttribute('data-mode'):'guest'; return val(mode==='signin'?'si-email':(mode==='register'?'rg-email':'g-email')); }
@@ -9066,14 +9648,14 @@ window.addEventListener("em-tweaks", (e) => {
     var addr=addrParts.length?addrParts.join('<br>'):'No address added yet';
     var contact=[activeEmail(), val('sh-phone')].filter(function(x){ return x; }).join(' · ')||'No contact added yet';
     function row(k,v,edit){ return '<div class="rev-row"><span class="rev-k">'+k+'</span><div class="rev-v">'+v+(edit?(' <button class="rev-edit" type="button" data-back="'+edit+'">Edit</button>'):'')+'</div></div>'; }
-    rc.innerHTML=row('Delivering to', (who||'Name not added')+'<br>'+addr, 'shipping')+row('Contact', contact, 'identity')+row('Delivery', (ship.method==='express'?'Express, white-glove':'Crated &amp; insured')+' · arrives in '+etaText(ship.method,zoneOf())+' · '+eur(ship.cost), 'shipping')+row('Paying with', payLabel(), 'payment')+row('Objects', C.items().map(function(i){ return i.name+' ×'+i.qty; }).join('<br>'), null);
+    rc.innerHTML=row('Delivering to', (who||'Name not added')+'<br>'+addr, 'shipping')+row('Contact', contact, 'identity')+row('Delivery', (ship.method==='express'?'Express, white-glove':'Packed &amp; insured')+' · arrives in '+etaText(ship.method,zoneOf())+' · '+eur(ship.cost), 'shipping')+row('Paying with', payLabel(), 'payment')+row('Objects', C.items().map(function(i){ return i.name+' ×'+i.qty; }).join('<br>'), null);
   }
   var place=document.getElementById('place-order');
   if(place){ place.addEventListener('click', function(){
     var order='ÉM-'+Math.random().toString(36).slice(2,7).toUpperCase();
     var eta=etaText(ship.method, zoneOf());
     var items=C.items().slice();
-    var done='<section class="co-done" data-screen-label="Order placed"><svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg><h1 class="page-title">It’s <em>yours.</em></h1><p class="co-sec-note">Order '+order+' is with us. A receipt is on its way to your inbox, and each maker has been told their work has found a home.</p><div class="steps" style="justify-content:center;margin-top:30px;flex-wrap:wrap;gap:20px;"><span>Packed with care</span><span>Arrives in '+eta+'</span></div><a class="btn-solid" href="#/" style="margin-top:34px;">Back to the house →</a></section>';
+    var done='<section class="co-done" data-screen-label="Order placed"><svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg><h1 class="page-title">It’s <em>yours.</em></h1><p class="co-sec-note">Order '+order+' is with us.<br>A receipt is on its way to your inbox, and each maker has been told their work has found a home.</p><div class="steps" style="justify-content:center;margin-top:30px;flex-wrap:wrap;gap:20px;"><span>Packed with care</span><span>Arrives in '+eta+'</span></div><a class="btn-solid" href="#/" style="margin-top:34px;">Keep wandering →</a></section>';
     root.outerHTML=done;
     items.forEach(function(i){ C.remove(i.id); });
   }); }

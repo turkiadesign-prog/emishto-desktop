@@ -1304,3 +1304,444 @@ still used `aster-01-front.png`. Both now point at
 guide; no "Earrings" subcategory in the data (the Home collage tile points at
 Fashion \u203a Accessories). The 0.8\u00d7 hero video rate remains the floor for a 24 fps
 source \u2014 a genuinely calmer hero needs a retimed re-export, not a browser change.
+
+## SESSION OF 13 SEP (NIGHT) \u2014 BAG + CHECKOUT PHONE PASS
+
+Phone refinement **still IN PROGRESS**. Desktop untouched.
+
+**Copy.** Bag summary heading "The quiet sum" \u2192 **Your order**; "Crating & insured
+delivery" \u2192 **Packed & insured delivery**; bag CTA "Continue, gently" \u2192 **Continue**;
+checkout nav **\u2190 Back to bag** / **Continue \u2192**; step 04 "A last look" \u2192
+**Last look**. Contact page's ELSEWHERE block removed. Why-sell "Come in." \u2192
+**Two ways in.** (30px, kicker removed, `#F5F2ED` ground, Account's card copy verbatim,
+second button now routes to `#/account`). "In good company" 30px, kicker \u2192
+PARTNERS & FRIENDS OF É-MISHTO.
+
+**Optional creator's note (new behaviour).** Creator's notes is now a **€5 line, included
+by default**, with an inline REMOVE / ADD · €5 action. Both the bag and the checkout
+summary read the same `localStorage` key `em_bag_note`, so the state and totals never
+diverge. Totals recalculate both ways (€1040 \u2194 €1045 on a one-object bag).
+
+**Checkout order card now identical to the bag card.** Same rows in the same order:
+Objects (n) \u00b7 Packed & insured delivery \u00b7 Creator's notes [toggle] \u00b7 Total. Checkout
+previously showed a per-item line plus "Subtotal" and the old delivery wording, and had
+no note line.
+
+**Page titles unified.** Seven rules were at 34px on phone; all now **30px** \u2014 the same
+tier as "This week we love". Covers bag, object, category, Why-sell, account dashboard,
+Apply prompt and Apply result. The phone scale is now
+**30 \u2192 24 \u2192 20 \u2192 14 \u2192 13 \u2192 12 \u2192 11 \u2192 10**.
+
+**Checkout overflow (real defect).** Content ran under the right edge with the left
+gutter intact \u2014 the phone rule used a plain `1fr` grid column, which takes an **auto
+minimum**, so the nowrap identity tabs stretched the column 28px past the grid's content
+box and every child inherited that width. Fixed with `grid-template-columns: minmax(0,
+1fr)` + `min-width: 0` on the flex rows. Gutters now symmetric at 24px; zero overflow.
+**A plain `1fr` track is not safe next to nowrap content \u2014 always `minmax(0,1fr)`.**
+
+**Step bar.** Was a flex row whose four labels wrapped ("04 A LAST LOOK" over three lines
+in a tall bordered cell). Now a **4-column grid of equal 83px cells** with each label
+centred, numbers hidden on phone (`.n { display: none }`, kept in markup for desktop),
+11px, nothing clipping. Bag's 3-step row uses `justify-content: space-between` so
+"Last look" ends flush with the button edge, gaps equal at 30px.
+
+**Form scale.** Labels, inputs and hints all **11px** while filling in details; identity
+tabs 11px; `.co-sec-title` gained 30px of space above the first field (it sat flush
+against FIRST NAME). Bag "Total" row raised to 20px. `\u2190 Back to bag` is now a bordered
+41px control matching Continue's height, on one line.
+
+**Cascade traps hit repeatedly this session (worth reading before editing phone CSS).**
+Media queries add **no specificity**, and most base rules sit 500\u20131500 lines *later* in
+the sheet, so an equal-specificity phone rule silently loses. Needed `div.steps span`,
+`div.sum-line`, `h1#bag-title`, `p.co-sec-note`, `section.checkout-grid`. Two of my
+selectors also named classes that don't exist (`.co-seg`, `.co-line` \u2014 the real ones
+are `.seg`, `.sum-line`), and one stale 12px tab rule from an earlier pass sat two lines
+after its replacement. **Verify the computed value after every phone type change.**
+
+**Still open.** Mobile Pass 2 B-level refinements, handwriting fonts, photography upload
+guide; no "Earrings" subcategory in the data. Hero video stays at 0.8\u00d7 \u2014 a calmer
+hero needs a retimed re-export, not a browser change.
+
+## SESSION OF 13 SEP (LATE) \u2014 CREATOR WORKSPACE PHONE PASS
+
+Phone refinement **still IN PROGRESS**. Desktop untouched throughout.
+
+**Typography.** Workspace mapped onto the established phone scale
+(30 \u2192 24 \u2192 20 \u2192 16 \u2192 14 \u2192 13 \u2192 12 \u2192 11 \u2192 10):
+step headings \u2192 24px on one line (`white-space: nowrap`) with the meta line moved
+beneath them, both left-aligned to the 24px gutter (was heading and meta competing
+horizontally); upload-slot labels 12 \u2192 **11px** to match the field labels above them;
+the photo-guidance line ("A good-quality portrait\u2026") 14px/`#3A3A3A` \u2192
+**13px / rgb(118,118,118) / weight 300**, identical to the field placeholders \u2014 its
+inner `<b>` needed `font-weight: 300; color: inherit` or it kept its dark bold styling
+and broke the line's uniformity.
+
+**Step buttons.** "Next \u2014 Business & legal \u2192" and "Next \u2014 Objects \u2192" were
+wrapping the arrow onto its own line; given `white-space: nowrap` (244px / 171px, both
+inside the gutter) and then simplified to **BUSINESS & LEGAL \u2192** / **OBJECTS \u2192**
+\u2014 the "Next \u2014" prefix dropped.
+
+**Publish copy.** Approval state now reads **live on your spotlight**.
+
+**Selector traps (same family as the checkout pass).** Two of my selectors named classes
+that do not exist \u2014 `.ws-nav` / `.ws-foot` (the real scope is `.ws-section`), after
+`.co-seg` / `.co-line` earlier. **Grep the class before writing a phone rule**, and
+verify the computed value after: media queries add no specificity and most base rules sit
+500\u20131500 lines later in the sheet, so an equal-specificity phone rule silently loses.
+Tag/attribute prefixes (`body[data-route="creator"] span.us-label`, `p.photo-rules b`)
+are what carry these.
+
+**Backgrounds.** Base `body` is `#FFFFFF` (Home's white) sitewide; **Account and Apply
+keep the cream `#f5f2ed`** via inline wrapper styles. Checkout, Bag, FAQ and Why-sell
+follow the white.
+
+**Open / unresolved.** One request was left unimplemented: "the small text in burgundy \u2014
+make it a hint bigger". A scan of all three workspace steps found only two burgundy text
+roles (`.us-info` at 12px and the `<em>` inside step headings at 24px), neither an
+obvious match for "small text" \u2014 needs the user to point at the element before
+changing anything. Also still open: Mobile Pass 2 B-level refinements, handwriting fonts,
+photography upload guide, no "Earrings" subcategory in the data, and the hero video stays
+at 0.8\u00d7 pending a retimed re-export.
+
+## PHONE TYPOGRAPHY SYSTEM \u2014 \u2705 APPROVED AND LOCKED (14 SEP)
+
+> **LOCKED.** These nine tiers are signed off and must stay untouched. Do not change a
+> value, add a tier, or introduce a new size without an explicit instruction naming this
+> system. New phone work **conforms** to the tiers; the tiers do not move to accommodate
+> new work. If a piece of copy will not fit, change tracking, width or wrapping \u2014 never
+> the tier. This has the same status as the approved desktop scale.
+
+The phone type scale is now a **declared system**, not an accumulation of
+per-request sizes. It lives in one place: the commented block above
+`@media (max-width: 700px)` in index.html, which declares nine tokens on `:root`.
+
+### The nine tiers
+
+| token | px | family | role |
+|---|---|---|---|
+| `--ph-display` | 30 | serif | page + section display titles, hero statements |
+| `--ph-heading` | 24 | serif | shelf + section headings |
+| `--ph-title` | 20 | serif | card names, object names, option titles |
+| `--ph-lead` | 14 | serif | signatures, bylines, script accents, taglines |
+| `--ph-body` | 13 | sans | ALL reading copy, form inputs, placeholders |
+| `--ph-action` | 12 | mono | buttons, CTAs, statuses, prices, crumbs |
+| `--ph-label` | 11 | mono | micro labels, kickers, field labels, chips |
+| `--ph-nano` | 10 | mono | subcategory names, row numbers |
+| `--ph-nano-sm` | 9 | mono | tertiary in-panel links ("Explore \u2192") |
+
+### Rules
+
+1. **serif = display only**, never reading copy. **sans = reading copy only.**
+   **mono = interface only** (uppercase, tracked).
+2. Body copy never below 13px; interface text never above 12px.
+3. A new size is never introduced to solve a fitting problem \u2014 reuse the nearest
+   tier and adjust tracking, width or wrapping.
+4. Reference the tokens, never raw px, in new phone rules.
+
+### Declared exceptions (not text on the scale)
+
+`.script-name` 25px Meie Script (handwritten signature, own family) \u00b7
+`.us-plus` 22px (the \uff0b glyph, an icon) \u00b7 `.seal-star` 46px (the star mark, artwork).
+
+### Off-tier values found and resolved in this pass
+
+`.chip-band .filter-label` 11.5 \u2192 11 \u00b7 `.foot-base .micro` 11.5 \u2192 12 (its ink
+measures ~319px against 332px, so the credit still holds one line) \u00b7
+`.page-intro p` / `#world-intro` 18 \u2192 13 **and serif \u2192 sans** (it was reading copy in
+the display face) \u00b7 `.co-sec-note` 16 \u2192 13 sans \u00b7 `.dash-sub` 16 \u2192 13 sans \u00b7
+`.summary-note` serif \u2192 sans.
+
+**Verified across eight routes** (home, category, object, Stories, account incl. revealed
+dashboard/auth panels, bag, creator workspace, why-sell): every text value resolves to
+one of the nine tiers, no serif reading copy remains, no overflow.
+
+### Also in this session
+
+Creator workspace: **submitted-for-review screen** after DONE (golden `.seal-star`,
+"With *our editors.*", 48-hour review copy, IN REVIEW / WITHIN 48 HOURS chips, Back to
+objects + Keep wandering) wired via `goStep(4)`; step buttons simplified to
+**BUSINESS & LEGAL \u2192** / **OBJECTS \u2192**; the price field's hardcoded inline
+`font-size` removed then set to 25px on request; three empty preview cards given imagery
+via `FALLBACK_IMG` (The Empty Room, Dawn Fragment, Indy).
+
+Stories: the feature kicker (**INTERVIEW \u00b7 № 25** / **06 MIN**) now sits **above** the
+image on phone, matching the entry cards exactly (11px, 2.2px tracking, 18px clear \u2014 it
+needs `margin-bottom: -14px` because the feature grid's own 32px row-gap stacks beneath
+it). An overlay-on-photo version was built first and removed. "Recent entries" no longer
+renders: the markup already carried `hidden`, but the phone rule
+`.shelf-head { display: contents }` rendered its children anyway \u2014 `hidden` heads now
+get `display: none`.
+
+**Mobile refinement is still IN PROGRESS.** Open: Mobile Pass 2 B-level refinements,
+handwriting fonts, photography upload guide, no "Earrings" subcategory in the data, hero
+video at 0.8\u00d7 pending a retimed re-export.
+
+## DESKTOP + TABLET TYPOGRAPHY SYSTEM \u2014 \u2705 APPROVED AND LOCKED (14 SEP)
+
+> **LOCKED.** Signed off, same status as the phone system. Do not change a clamp, add a
+> step, or introduce a size without an explicit instruction naming this system. New work
+> above 700px **conforms** to these roles; the roles do not move. No value was altered
+> when defining this \u2014 it documents the approved scale exactly as built.
+
+### One scale, two ends \u2014 why there is no separate tablet stylesheet
+
+Above 700px every display role is a `clamp(FLOOR, SLOPE, CEILING)`. The bands are the
+two ends of that same clamp:
+
+| band | width | where type sits |
+|---|---|---|
+| **Tablet** | 701\u20131000px | on the clamp **floor** (verified at 768px) |
+| **Mid** | 1000\u20131560px | riding the **vw slope** (verified at 1440px) |
+| **Desktop** | \u22651560px | on the clamp **ceiling** |
+
+So **the floor column is the tablet scale and the ceiling column is the desktop scale.**
+Nothing is duplicated per band \u2014 change a clamp and both ends move together, which is
+why the two are locked as one system rather than two.
+
+### Roles \u2014 floor \u2192 ceiling
+
+**Brand / display \u00b7 Cormorant 300**
+
+| role | floor \u2192 ceiling | slope |
+|---|---|---|
+| hero wordmark | 56 \u2192 136 | 8.4vw |
+| signature (Meie Script) | 56 \u2192 110 | 7vw |
+| editorial section title | 42 \u2192 76 | 5.6vw |
+| page title | 40 \u2192 72 | 4.6vw |
+| subscribe statement | 32 \u2192 64 | 4.6vw |
+| world name / spotlight quote | 34 \u2192 62 | 4.2vw |
+| dashboard h1 | 34 \u2192 62 | 4.4vw |
+| object name | 32 \u2192 60 | 4.4vw |
+| path-card h2 | 34 \u2192 58 | 4vw |
+| section heading | 30 \u2192 46 | 3.2vw |
+| shelf title | 28 \u2192 42 | 3vw |
+| dash panel h2 | 26 \u2192 40 | 3vw |
+| feature / empty quote | 20 \u2192 30 | 2.4vw |
+| search world name | 20 \u2192 26 | 2.2vw |
+
+**Editorial body \u00b7 Cormorant** \u2014 card/object name **24** fixed \u00b7 category tab **22**
+fixed \u00b7 lede 19 \u2192 23 (1.7vw) \u00b7 maker quote 17 \u2192 21 (1.5vw) \u00b7 signature line
+**16** fixed.
+
+**Functional \u00b7 Gantari** \u2014 object price **18** \u00b7 hero tagline **16** \u00b7 maker line
+**14** \u00b7 reading copy + footer links **13**. All fixed.
+
+**Interface \u00b7 mono uppercase tracked** \u2014 hero cue **15** \u00b7 micro label **13** \u00b7
+action/status **12** \u00b7 chevron **11**. All fixed.
+
+### Rules
+
+1. Cormorant = display + editorial. Gantari = reading copy and functional values.
+   mono = interface only.
+2. **Everything below 24px is fixed, not fluid** \u2014 the interface layer does not scale
+   with the viewport, only the display layer does.
+3. A new display role reuses an existing clamp; it does not get its own.
+
+### Layout breakpoint ladder (separate from type \u2014 grids and spacing only)
+
+560 \u00b7 600 \u00b7 700 \u00b7 720 \u00b7 760 \u00b7 820 \u00b7 880 \u00b7 920 \u00b7 1200 \u00b7 1340, plus
+`min-width` 561 \u00b7 921 \u00b7 1341 (the desktop header band).
+
+### Finding, logged not fixed
+
+14 display roles share only about **9 distinct ceilings** \u2014 62/62/60/58 and 46/42/40 sit
+within a few px at 1440px. Phone was reduced to nine tiers; this band carries more
+display steps, by design and by history. Collapsing those clusters would visibly alter
+approved pages (object, account, why-sell, path cards), so it needs an explicit decision.
+The obvious merges would be 62\u219260 (four roles) and 46\u219242 (three roles).
+
+## ACCOUNT + BAG \u2014 PHONE WORK CARRIED TO DESKTOP / TABLET (14 SEP)
+
+Audit of what the phone pass left phone-only. **Most of it was already shared** \u2014 the
+copy and data changes were markup, and the card treatment went into base CSS, so desktop
+and tablet already had them. Only one genuine gap, now closed.
+
+### Already shared (no action needed)
+
+\u00b7 All copy: **Your order** (was "The quiet sum"), **Packed & insured delivery** (was
+"Crating & insured"), **Continue**, **\u2190 Back to bag**, **Last look** \u2014 markup, so
+every width had them. Verified: each string appears in both the bag and checkout markup.
+\u00b7 The optional **Creator's notes \u20ac5** line and its REMOVE / ADD action \u2014 markup +
+shared `localStorage` key `em_bag_note`, so bag and checkout never diverge at any width.
+\u00b7 **Checkout order card = bag order card** (Objects / Packed & insured / Creator's notes
+/ Total) \u2014 markup.
+\u00b7 Account card treatment \u2014 `.order-card / .wish-card / .pay-card / .addr-card` carry
+`padding: clamp(22px,2.6vw,34px)` + `border-color` hover in **base** CSS, so desktop got
+the path-card language at the time it was applied.
+\u00b7 Step bar \u2014 desktop `.co-step` was already `flex: 1` + `justify-content: center`,
+i.e. equal cells with centred labels. The phone grid rewrite was solving a phone-only
+wrapping problem, not a structural difference.
+\u00b7 `.co-sec-title` 30px clearance above the first field \u2014 base.
+
+### The one gap \u2014 fixed
+
+**`\u2190 Back to bag` was a plain 15px text link on desktop** while phone had it as a
+bordered control paired with Continue. Now bordered at every width, and sized to match
+`.btn-solid` exactly: **13px mono / 0.18em / padding 18px 30px / 1px border**, against
+Continue's identical 13px / 18px 30px \u2014 so the two controls are the same height, one
+outlined and one filled. 15px \u2192 13px moves it onto the existing **button tier**, so it
+conforms to the locked desktop scale rather than adding a value.
+
+Cascade note: the phone override `.co-nav .link-back` sits at L1674, *earlier* than the
+new base rule at L2289, but wins on phone by specificity (0,2,0 vs 0,1,0); the phone
+`.link-back { 11px }` at L3891 sits later and wins on size. Phone keeps 11px / 11\u00d718.
+
+### Left width-specific on purpose (not defects)
+
+\u00b7 Step **numbers** (01\u201304) show on desktop, hidden on phone \u2014 the markup keeps them
+at both widths for reading order; only the phone display is suppressed, for width.
+\u00b7 `.co-nav`: desktop `space-between` (wide column, controls at the extremes) vs phone
+`gap: 12px` (grouped).
+\u00b7 `.seg` identity tabs: desktop inline-flex at natural width / 15px; phone full-width
+equal columns / 11px.
+\u00b7 `.bag-item` 72px thumb grid, `.field-grid` single column, `.ws-steps` wrapping \u2014
+all phone layout accommodations.
+
+**Desktop typography was not altered** beyond the Back control's move onto the button
+tier. Both type systems remain locked.
+
+## BAG + ACCOUNT \u2014 BROUGHT ONTO THE SITE TIERS (DESKTOP / TABLET)
+
+The bag, account and checkout cluster had grown its own scale: **15px and 16px mono
+throughout**, where the rest of the site's interface layer is **12\u201313px**. 15px mono
+appears nowhere else except the hero "Scroll" cue. Nineteen values moved onto existing
+tiers \u2014 **no tier was added or changed**, so both type systems stay locked.
+
+**Interface \u2192 13px** (micro/button tier): `.co-step` + its `.n` (was 15/14),
+`.co-subhead`, `.seg button`, `.dash-nav button`, `.card-mono` (was 16).
+**Metadata \u2192 12px** (action/status tier, matching `.piece-status` and `.crumbs`):
+`.order-meta` (was 15), `.order-status` (was 14), `.muted-act` (was 14),
+`.sum-line .q` (was 14).
+**Prices \u2192 15px / 0.12em** (the site's product-price treatment): `.order-total`
+(was 16 / 0.1em), `.sum-line .pr` (tracking only).
+**Sans metadata \u2192 14px** (matching `.piece-maker`): `.bag-item-meta`, `.opt-sub`,
+`.wish-meta` \u2014 all were 15.
+**Object lines \u2192 20px serif**: `.sum-line .nm` and `.order-objs` were 19px, one off
+from `.bag-item-name`'s 20 \u2014 a near-duplicate with no purpose.
+**`.dash-sub` 18px serif \u2192 16px sans**: it is reading copy, and the system's own rule
+is serif for display, sans for reading. Now on the body tier, matching its phone
+counterpart's role.
+
+**Buttons were already correct** \u2014 every button in the cluster computes 13px mono /
+0.18em (`.btn-solid`, `.btn-ghost`, `.btn-ghost-sm`, `.commerce .btn-solid`). Padding
+varies by context (12\u00d720 to 18\u00d730), which is contextual sizing, not inconsistency.
+The mismatch being seen was the surrounding interface text, not the buttons.
+
+Phone is unaffected \u2014 its own tier block overrides all of these.
+
+## DESKTOP + TABLET TYPOGRAPHY \u2014 REV. 14 SEP, LOCKED
+
+The full spec now lives as a comment banner at the top of the stylesheet in
+`index.html` (search "DESKTOP + TABLET TYPOGRAPHY SYSTEM"). That banner is the
+source of truth; this section records what changed to reach it.
+
+### The rule that now governs the display layer
+
+**60px is the display ceiling.** Only two things sit above it, and neither is a title:
+`h1.hero-title` 136px (the home collage brand mark) and `.script-name` 50px
+(handwritten signature, Meie Script).
+
+Brought down this session: page title 72\u219260 (`.page-title` \u2014 one rule behind
+every H1 on the site), home + Stories section titles 76\u219260, world name 62\u219260,
+object title 62\u219260, dashboard title 62\u219260, spotlight quote 62\u219260,
+subscribe statement 64\u219260, path-card titles 58\u219250.
+
+**Audit warning.** My first "everywhere is 60" sweep missed `.page-title` because I
+excluded line ranges by guess to skip the phone blocks, and those guessed boundaries
+cut out real base CSS. **Never audit by line range** \u2014 scan the whole file and filter
+by selector. The client caught the miss.
+
+### Bag / account / checkout \u2014 off its own scale
+
+This cluster had grown a private scale of **15\u201316px mono** while the rest of the
+site's interface layer is **12\u201313px** (15px mono appears nowhere else except the
+hero "Scroll" cue). Twenty-six values moved onto existing tiers; **no tier was added
+or changed.**
+
+\u2192 13px: `.co-step` + `.n`, `.co-subhead`, `.seg button`, `.dash-nav button`,
+`.card-mono` (16), `.info-k`, `.ws-meta`, `.view-note`, `.quiz-step`, `.quiz-exit`,
+`.q-kicker`, `.q-option .tag`, `.quiz-hint`, `.flag-note`
+\u2192 12px: `.order-meta`, `.order-status`, `.order-total` (price tier 15/0.12em),
+`.muted-act`, `.sum-line .q`, `.room-chip` (filter-control role)
+\u2192 14px sans: `.bag-item-meta`, `.opt-sub`, `.wish-meta`
+\u2192 20px serif: `.sum-line .nm`, `.order-objs` (were 19 \u2014 one off `.bag-item-name`)
+\u2192 16px sans: `.dash-sub` (was 18 serif), `.ws-review-note` (was 14),
+`.path-card p` (was the 19\u219223 serif lede)
+\u2192 11px: `.essence-note` \u2014 mono, uppercase, 0.18em, `--ink-38`, with
+`!important` because a later shared rule forces burgundy on that class
+
+**Buttons were already correct** \u2014 every one computes 13px mono / 0.18em. Padding
+varies by context (12\u00d720 to 18\u00d730), which is contextual, not inconsistent. What
+read as a button mismatch was the interface text around them sitting two sizes large.
+
+### Other changes this session
+
+\u00b7 `.link-back` (\u2190 Back to bag) was a plain 15px text link on desktop while phone
+had it bordered. Now bordered at every width and sized to `.btn-solid` exactly
+(13px / 18\u00d730 / 1px border), so Back and Continue are the same height.
+\u00b7 `.room-chip` (ALL / ARTS / FASHION\u2026) now follows the category filter's control
+language: 12px / 0.16em, ink at rest, **burgundy** fill when active (was near-black),
+padding 13\u00d722.
+\u00b7 `.nb { white-space: nowrap }` \u2014 **the helper had no CSS rule at all**; spans using
+it were inert. Added, then used to keep "we will reach out." intact.
+\u00b7 Creator portraits added to all 11 cards in the Why-sell "Our creators" grid.
+\u00b7 "In good company" inverted to burgundy; its grid moved to 6/3/2 columns to stop an
+orphaned cell (`auto-fill` gave 5+1, stranding For\u00eat).
+\u00b7 Copy: "we will reach out" phrase protected; review notes at the result-copy tier.
+
+### Editing this system safely
+
+Media queries add **no specificity**, and most base rules sit 500\u20131500 lines *later*
+in the sheet, so an equal-specificity phone rule silently loses. Several edits this
+session needed a tag or id prefix (`div.steps span`, `h1#bag-title`, `p.co-sec-note`).
+Two of my selectors also named classes that do not exist (`.co-seg`, `.co-line` \u2014 the
+real ones are `.seg`, `.sum-line`), and one stale rule sat *after* its replacement.
+**Verify the computed value after every type change.** Multi-line vs single-line rule
+formatting also breaks exact-string edits \u2014 read the rule before replacing it.
+
+## SIGNATURE FONT TRIAL \u2014 LIVE, AWAITING CLIENT PICK (14 Sep)
+
+A **client-facing font chooser** on the home Artist Spotlight signature. Scoped to that
+one element; nothing else on the site references these families.
+
+**How it works.** The gold "Laurence Leenaert" is now a real
+`<button id="sig-trial" class="spotlight-name">`. Each click advances `data-sig`
+0\u21925\u21920, and a CSS attribute rule swaps only the family. A mono 11px label
+(`#sig-label`) under it names the option so the client can say "04" instead of
+describing it. The pick persists in `localStorage` under **`em_sig_font`**, so it
+survives reloads and route re-renders.
+
+**The six options**
+
+| # | Family | File | Size |
+|---|---|---|---|
+| 01 | Meie Script *(current, Google)* | \u2014 | shared |
+| 02 | Jane Austen | `assets/fonts/jane-austen.ttf` | `clamp(26px,3.2vw,44px)` |
+| 03 | Vienna Romance | `assets/fonts/vienna-romance.ttf` | shared |
+| 04 | Romento | `assets/fonts/romento.ttf` | shared |
+| 05 | Garitson | `assets/fonts/garitson.otf` | shared |
+| 06 | Lamar Pen | `assets/fonts/lamar-pen.ttf` | `40px` fixed |
+
+Shared size = `clamp(30px, 3.6vw, 50px)`, 25px on phone. Options 02 and 06 carry their
+own because they draw largest \u2014 measured widths for "Laurence Leenaert" at 33px:
+Lamar Pen 312 \u00b7 Jane Austen 291 \u00b7 Garitson 270 \u00b7 Meie 260 \u00b7 Romento 233 \u00b7
+Vienna Romance 183.
+
+**Verified.** All six pass `document.fonts.check()` and render at their own widths (not
+silently falling back). Colour, position and the 44px top margin never move between
+options. Native button, so Enter/Space work; gold focus ring on `:focus-visible` only.
+
+**Two notes.** Unused webfonts load lazily, so a `fonts.check()` on a fresh page returns
+false for options not yet shown \u2014 that is correct behaviour, not a failure; call
+`fonts.load()` first when testing. And these are **single-weight files**: CSS cannot
+thin the letterforms, so "make it thinner" was handled optically by reducing size
+(option 02). True thinning needs a Light cut as a separate file.
+
+**To finalise once the client picks:** set that family on `.spotlight-name`, then delete
+the `@font-face` block, the `button.spotlight-name` + `[data-sig]` + `.sig-label` rules,
+the trial `<script>`, the `#sig-label` span, and the unused files in `assets/fonts/`.
+Revert the button to `<span class="spotlight-name fade-up">`. Each piece is contiguous
+and commented as the trial.
+
+The creator profile signature (`.script-name`) is **not** part of the trial and stays on
+Meie Script \u2014 it will need the same family applied by hand when the pick is made.
