@@ -1745,3 +1745,21 @@ and commented as the trial.
 
 The creator profile signature (`.script-name`) is **not** part of the trial and stays on
 Meie Script \u2014 it will need the same family applied by hand when the pick is made.
+
+### Signature trial \u2014 two phone fixes (14 Sep, after first review)
+
+**Label jumped to the top of the spotlight (my bug).** The phone `.spotlight-grid` is a
+one-column grid whose children carry explicit `order` values \u2014 kicker 1, quote 2,
+portrait 3, bio 4, name 5, CTA 6 (the wrapping `div` is `display: contents`, so they are
+all grid items). `#sig-label` was added without an order, defaulted to **0** and rendered
+above the kicker. Fixed with `.sig-label { order: 5 }`.
+**Rule for anything added to that section: give it an `order`, or it goes to the top.**
+
+**"See the full edit" collided with the last card's TAKE IT HOME.** `#edit` is a plain
+block \u2014 not a flex/grid \u2014 so this was not an ordering issue. Added
+`#edit .shelf-foot { margin-top: 48px }` at \u2264560px as clearance.
+**Caveat: the mechanism is unconfirmed.** The preview was unresponsive throughout, so
+this treats the symptom. If the real cause is the last `.piece` overflowing its own box
+(it is a flex column with `.piece-foot { margin-top: auto }`, and the swipe treatment
+gives `.ph` a wider inner track), the clearance holds but the overflow remains. Worth a
+live measurement next session.

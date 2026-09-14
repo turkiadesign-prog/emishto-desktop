@@ -1751,6 +1751,9 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
   .spotlight-name { order: 5; margin-top: 30px; }
   .spotlight-grid > br { display: none; }
   .spotlight-cta { order: 6; margin-top: 26px; }
+  /* the trial label is a new child of this ordered grid; without an order of
+     its own it defaults to 0 and jumps above the kicker. Sits with the name. */
+  .sig-label { order: 5; }
 
   /* image fills its frame: the inline width:124% / object-fit:contain /
      right-center offset are authored on the element for the desktop collage
@@ -3778,6 +3781,9 @@ button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); f
      own top spacing (which only makes sense when it sits beside a heading). */
   #edit .shelf.shelf-small { margin-top: 40px; padding-top: 0; border-top: 0; }
   #edit .shelf.shelf-small > .piece:first-child { margin-top: 0; padding-top: 0; }
+  /* "See the full edit" sat against the last card's TAKE IT HOME on phone.
+     #edit is a normal block, so this is clearance, not a reorder. */
+  #edit .shelf-foot { margin-top: 48px; }
   /* the "Selected for you" band follows the same rule at its junction */
   #edit .shelf-band, #edit .shelf-band .shelf { margin-top: 40px; padding-top: 0; }
   .about-maker .micro { margin-top: 0; }
