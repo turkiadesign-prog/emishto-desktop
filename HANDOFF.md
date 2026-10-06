@@ -1763,3 +1763,310 @@ this treats the symptom. If the real cause is the last `.piece` overflowing its 
 (it is a flex column with `.piece-foot { margin-top: auto }`, and the swipe treatment
 gives `.ph` a wider inner track), the clearance holds but the overflow remains. Worth a
 live measurement next session.
+
+## RESPONSIVE EXPERIMENT \u2014 ATTEMPTED, THEN FULLY ROLLED BACK (16 Sep)
+
+Client feedback: zooming out made images larger while type stayed capped, so no more
+of the collection became visible. Phase 1 converted the product grids to
+`auto-fill minmax()`. **It altered the approved compositions too much and was rolled
+back in full at the client's instruction.** No responsive work is in the build.
+
+**Reverted to these original values:**
+`.shelf` \u2192 `repeat(4, 1fr)` · `.shelf.shelf-small` \u2192 `repeat(4, 1fr)`
+`.shelf-band .shelf:not(.shelf-small)` \u2192 `repeat(3, 1fr)`
+`.journal-grid` \u2192 `repeat(3, 1fr)` · `.world-sub-grid` \u2192 `repeat(6, 1fr)`
+`--gutter` \u2192 `clamp(24px, 5vw, 88px)`
+Container queries, `cqi` units and the product-card clamps were **only ever proposals**
+\u2014 never written to the file, so nothing to undo.
+
+**What the investigation established (keep for any future attempt):**
+
+\u00b7 **Two baseline compositions exist, not one.** `.shelf-band .shelf:not(.shelf-small)`
+(0,3,0) governs category / archive / creator / object-related / spotlight at **3 columns**.
+Plain `.shelf` governs only the **home** shelves at **4**, and `.shelf.shelf-small`
+governs both small shelves at **4**. A single universal grid rule cannot serve both \u2014
+that was the core mistake of Phase 1.
+\u00b7 My audit wrongly named `.shelf` as the one governing rule for all product grids.
+\u00b7 The sparse rule `body.is-sparse-shelf \u2026` is (0,4,1) \u2014 strictly more specific than
+the named-shelf rule \u2014 so it is **not** disturbed by changing the latter. I reported
+that as a blocker in error; check specificity arithmetic before claiming one.
+\u00b7 Floors that would preserve both baselines exactly at 1440: **320px** for the 3-col
+group (340px collapses to 2 columns at 125% zoom), **270px** for the 4-col group.
+\u00b7 Capping at 5 columns needs a `max-width` on the grid (a 6th appears once width
+exceeds `6\u00b7floor + 5\u00b7gap`): 2080px and 1790px respectively.
+\u00b7 `auto-fill` is the wrong tool for a fixed small item set \u2014 `.world-sub-grid` has
+2\u20134 subcategories and gained 3\u20135 permanently empty tracks, shrinking tiles.
+\u00b7 A card-level `cqi` clamp needs **per-group coefficients**: today the same 24px name
+sits in a 409px card (3-col) and a 298px card (4-col), so one coefficient cannot
+preserve both baselines.
+
+**Untouched by the rollback** (verified): sparse state, all phone and tablet overrides,
+both locked type systems, `.piece-name` 24px / phone 20px, `.studio-strip`,
+`.maker-grid` (its `auto-fill` is pre-existing, from the earlier Creators work),
+`.foot-trust` / `.foot-cols` auto-fit, the signature trial, `.nb`, `.essence-note`,
+`#edit .shelf-foot` 48px clearance.
+
+## CATEGORY PAGES — FILTERS → OBJECTS SPACING (A + B, 29 Sep)
+
+Client feedback: too much vertical distance before the first objects. Two spacing
+changes, scoped to `body[data-route="world"]` at \u2265921px only:
+
+A \u00b7 `.page-head` bottom padding `clamp(48px, 7vh, 80px)` \u2192 `clamp(32px, 4.5vh, 52px)`
+B \u00b7 `.chip-band + .shelf-band` top padding `clamp(64px, 10vh, 110px)` \u2192 `clamp(40px, 5vh, 64px)`
+
+First product Y at 1440\u00d7900: 521 \u2192 **453** (Art, Vintage, Food sparse, New In identical).
+At 1440\u00d7780: 485 \u2192 **427**. Page-head top, the second shelf (90px @900), tablet, phone,
+Archive, Creators and Stories are unchanged (verified live).
+Option C (hiding the "FILTER" label) was offered and **not** approved \u2014 label kept.
+
+## UI STATES — PASS 1 (#1–#4, 29 Sep)
+
+**#1 One-of-one quantity (was HIGH).** The cart (`em_cart_v1`) now stores a per-item
+`max`. `capOf()` reads it from `EMCard.STATUS` when the object is known (unique \u2192 1,
+repeatable \u2192 99), otherwise from an explicit `item.max` (the object page's
+`data-add-max`). `add()` and `setQty()` clamp to it, and `items()` normalises items
+already stored (fixes old bags holding "2 \u00d7" a unique piece). New API: `EMCart.has(id)`,
+`EMCart.maxOf(item)`. The bag renders **no \u2212 / + for max-1 items**; + disables at each
+item's own max. The object page swaps Take it home for **In your bag \u2014 view \u2192** on load
+if the object is already in the bag, so a reload no longer re-offers it.
+
+**#2 Checkout validation.** `required(stage)` collects visible `input/select.field-input`
+in the step (active identity pane, active payment method), skipping passwords, fields
+labelled Optional, `sh-apt` and `sh-phone`. Continue validates the current step; Place
+the order validates identity \u2192 shipping \u2192 payment and jumps to the first incomplete
+step. PayPal / bank transfer have no fields, so they never block.
+
+**#3 Account validation.** Sign in requires `li-email`; Create account requires
+`rg-first`, `rg-last`, `rg-em`.
+
+Both use `window.EMForm` (defined at the end of the cart script): `check(fields)` marks
+each empty field with `<span class="field-error">Required</span>` under it,
+`aria-invalid` + `aria-describedby`, focuses the first, and clears on input/change.
+Style: 11px mono 0.14em uppercase burgundy (the form-label tier) plus a burgundy
+underline. No banners or popups.
+
+**#4 Delivery options.** Each `label.opt` contains a visually hidden
+`<input type="radio" name="ship-method">` (1\u00d71, absolute, so the 18px / 1fr / auto
+grid is unchanged). Click and radio `change` share `pickShip()`, which keeps
+`.is-active`, the radio's checked state and the summary in sync. Keyboard focus shows a
+1px burgundy outline on the option (`.opt:has(.opt-radio:focus-visible)`).
+
+Not done yet (approved for later): #5 newsletter confirmation, #6 newsletter input
+focus, #7 empty-bag link, and section C polish.
+
+## UI STATES — PASS 2 (#5–#7, 29 Sep)
+
+**#5 Newsletter confirmation.** A capture-phase `submit` listener for
+`form.subscribe-form` (appended to the notify script, so it covers all 16 copies)
+prevents the default and, if the email is non-empty and valid, shows
+**Subscribed ✓** for 2.4s. Empty or invalid input just refocuses the field. No backend.
+To avoid layout shift (the confirmation is ~6px wider than "Subscribe →"), the original
+label keeps the button width but turns transparent, and an absolutely positioned
+`span.sub-done` sits over it, right-aligned, running into the existing 18px gap. The
+button gets `aria-live="polite"` while it shows.
+
+**#6 Newsletter focus.** The underline belongs to the form, not the input, so the rule
+is `.subscribe-form:has(input:focus) { border-bottom-color: var(--ink) }`. Rest
+`rgba(28,28,28,.16)` \u2192 focus `rgb(28,28,28)`, same on Home and the lilac footer band.
+
+**#7 Empty bag.** One action, **Explore New In →** (`#/world/newin`), in a `.fe-acts`
+row under the message. It reuses the filter empty-state action styling: the six
+`.filter-empty .fe-acts…` selectors were extended to also match `.bag-empty .fe-acts…`.
+
+Section C polish is still not done.
+
+## STORIES — SLIGHTLY MORE COMPACT (#1–#3, 29 Sep)
+
+Client: the Stories direction is approved; make the catalogue slightly more compact.
+Three Stories-only overrides, `body[data-route="journal"]` at \u2265561px (phone untouched,
+shared rules unchanged):
+
+\u00b7 `.page-head` bottom `clamp(48px, 7vh, 80px)` \u2192 `clamp(32px, 4.5vh, 52px)` (matches categories)
+\u00b7 `.shelf-band` top (divider \u2192 first row) `clamp(64px, 10vh, 110px)` \u2192 `clamp(40px, 6vh, 72px)`,
+  now equal to the 6vh margin above the divider, so the line is centred
+\u00b7 `.shelf-band` bottom (last row \u2192 footer) `clamp(80px, 12vh, 140px)` \u2192 `clamp(64px, 8vh, 96px)`
+
+1440\u00d7900: page 2215 \u2192 2121 (\u22124.2%), six-story section 1442 \u2192 1370 (\u22125.0%) \u2014 measured live.
+1024\u00d7800: 1854 \u2192 1769. 768\u00d71024: 2964 \u2192 2855. Phone 390 unchanged.
+Cards, 4:3 images, row gap + row line, lead story and its 72px gap unchanged.
+#4 (title rule \u2192 dek 22 \u2192 16) offered and **not** approved.
+
+## BODY & BEAUTY TAXONOMY (29 Sep)
+
+Target: **Body & Beauty = Skincare + Mindfulness**; the three pantry products live on
+**Food** only. Route `#/world/body`, data key `body`, `data-world/room="body"` unchanged.
+
+\u00b7 Body world: `name "Body."\u2192"Body & Beauty."`, `crumb "Body"\u2192"Body & Beauty"` (breadcrumb +
+  document title). Intro \u2192 "Skincare and mindfulness. Small-batch rituals…".
+\u00b7 `chips` \u2192 `["All","Skincare","Mindfulness"]`; Morning Tisane № 1, Salt of the Coast and
+  Honey, Wild removed from the Body `shelf`/`small` arrays (Food keeps them, same IDs).
+  `gourmet` removed from `CAT_KW` (no world uses it).
+\u00b7 Home category index: subtitle \u2192 "Skincare · Mindfulness"; Gourmet tile removed.
+\u00b7 Apply quiz note \u2192 "Skincare, mindfulness."
+\u00b7 Card category line for the three products "Body · Gourmet" \u2192 "Food".
+
+Deliberately kept (short labels or creator metadata, not the category name):
+Home index row "Body" (siblings read "Home", "Arts"), Creators chip "Body", quiz option
+title "Body", workspace world label `{ body: "Body" }`, creator cards
+Maison Brume "Skincare · Body · Grasse" and Sava Botanica "Gourmet · Body · Ljubljana".
+Body sign still says "14 rituals this season" (now 6 products) \u2014 copy, not changed.
+
+**Taxonomy cleanup (29 Sep).** Sava Botanica (maker of the three pantry products) moved
+from Body to Food: card `data-room="food"`, `href="#/world/food"`, label
+"Gourmet · Food · Ljubljana" ("Gourmet" kept as a descriptive creator discipline). A
+**Food** chip was added to the Creators filter (between Home and Vintage, same markup)
+so Food creators can be filtered at all. The filter script is generic by `data-room`.
+Maison Brume is unchanged. Body sign "14 rituals this season" \u2192
+"small-batch rituals this season" (no hard-coded count). Home index rows now read
+"Body & Beauty" and "Home & Objects".
+
+## POINT 6 — VISUAL CONSISTENCY (B1 + B2, 30 Sep)
+
+**B1 · Search overlay.** 11 route templates (journal, bag, checkout, account, about,
+faq, contact, legal, artists, apply, creator) had a reduced overlay: no Close \u2715, no
+scrim, no Objects/Creators/Stories quick chips, results outside `.head-search-box`,
+and **no inline close script**. Each was replaced with the exact block from the world
+template (overlay markup + its adjacent inline `<script>`). All 17 routes now carry the
+same overlay. No CSS or shared JS changed.
+Test note: the scrim fades in via a CSS transition, which does not run in off-screen
+test frames \u2014 read its opacity with `transition: none` or it reports 0.
+
+**B2 · Art.** Visible category name "Arts" \u2192 "Art" in all 33 places: breadcrumb /
+content-map name + crumb, "View all Art", card meta lines ("Art \u00b7 Painting"), Creators
+filter chip, creator locations, Apply quiz option, workspace world labels and label maps.
+Internal `arts` keys, `data-room="arts"`, `#/world/arts` (46\u00d7) untouched; no code
+matched on the display string.
+
+Section C (button heights, lead-story link colour, New In meta, creator filter styles)
+intentionally left as is.
+
+**Order confirmation = Apply "There's a fit." (30 Sep).** `.co-done` now matches
+`.q-result.q-pass` exactly: seal `clamp(46px, 6vw, 74px)` as `inline-block` with 18px
+margin (the inline line box adds the same ~7px the Apply seal gets, giving 25px phone /
+26px desktop to the title), title `margin-top: 0` (a phone rule had added 28px), 24px
+title \u2192 text. Phone (\u2264700px): left-aligned like the Apply result, paragraphs and the
+"Packed with care / Arrives in" row anchored left. Desktop stays centred.
+
+**Home collage captions (6 Oct).** Each of the three linked collage images
+(`a.hbc-img`) now carries a `<span class="hbc-cap">` naming where it leads:
+"Fashion · Accessories →", "Vintage · Antiques →", "Home & Objects · Furniture →".
+11px mono / 0.18em / uppercase / `--ink-60`, 12px under the image, burgundy on hover.
+`a.hbc-img` switched to `overflow: visible` so the caption can hang below (the images
+fill the anchor exactly and have no zoom, so nothing else escapes). Phone (\u2264700px):
+caption wraps to the image width at 10px / 0.12em; no horizontal overflow, and the
+Furniture caption clears the "Objects with soul" label by 32px.
+Phone (\u2264560px): `.hbc-c` (chair) raised from 60.5% to `top: 51%` so its caption no
+longer crowds "Objects with soul". Caption \u2192 label 38\u201366px (430\u2192353px),
+wordmark \u2192 image 47px. Desktop/tablet unchanged. The collage caption hover line
+spans the full caption width.
+
+**Home collage — six worlds on phone (6 Oct).** Below the chair the collage continues
+in the same zigzag with three more linked tiles: `.hbc-d` Art · Painting (left,
+`arts-hero.png`), `.hbc-e` Body & Beauty · Skincare (right, `body-hero.png`),
+`.hbc-f` Food (left, `food-tile.png`). Same caption + hover-line treatment.
+Phone only (\u2264560px): the section grows to `calc(var(--h0) * 0.51 + 830px)`; the
+original tiles, wordmark and text are re-expressed against `--h0` (the old
+`clamp(520px, 100vh, 780px)` height) so they keep their exact positions, and
+"Objects with soul" moves below Food. Tops: D +200px, E +340px, F +480px, text +690px
+after the chair's top. No overlaps or overflow at 353/390/430. Desktop: the three
+tiles are `display: none` (selector `a.hbc-img.hbc-d` etc. \u2014 plain `.hbc-d` loses to
+`a.hbc-img { display: block }`); desktop composition unchanged. No hover image on
+the new three (only one asset each).
+**Superseded the same day:** the phone collage is no longer a zigzag. At \u2264560px
+`.hero-brand-collage` is a 2-column grid (`row-gap: 84px`, `column-gap: 20px`), tiles
+`position: relative`, ordered: Fashion \u00b7 Vintage / É\u00b7MISHTO (full width, 16px
+margin) / Home & Objects \u00b7 Art / Body & Beauty \u00b7 Food / "Objects with soul". The
+`--h0` positioning was removed. Clear space: captions \u2192 next row 41px, row 1 \u2192
+wordmark 57px, wordmark \u2192 row 2 100px. Desktop unchanged (still 3 tiles, absolute).
+
+## CREATOR SUBMISSION STATUS (6 Oct)
+
+Three real states, shown read-only: **Draft** ("private — in progress") \u2192 Submit \u2192
+**In review** ("private until we approve") \u2192 team approval \u2192 **Public** ("live on your
+spotlight"). The status pills are now `<span>`s in `.status-seg` (`role="status"`,
+`aria-current` on the active one, `cursor: default`) \u2014 same visuals, not clickable.
+`data-status` values are `draft / review / public` (were draft / private / published).
+`.draft-row[data-state]` holds the state; `setState(row, st)` updates pill + hint.
+**Done \u2192 Submit**: moves the row marked `data-current="true"` (Dusk Study II, the
+submission being edited) from Draft to In review, then shows the existing review panel.
+Nothing on the page can set Public. Filter above the list reuses `.room-chip`:
+All · Drafts · In review · Public (`aria-pressed`). Demo rows: one per state.
+Demo list now has four rows: Dusk Study II (Draft, `data-current`), Vessel Study, Ash
+Glaze (Draft), The Empty Room, Morning (In review), Untitled (no. 9) (Public) \u2014 so a
+draft remains after Submit.
+
+## HOME PHONE UPDATES (6 Oct)
+\u00b7 Phone collage is a 2-column grid: Fashion \u00b7 Vintage / É\u00b7MISHTO / Home & Objects \u00b7
+Art / Body & Beauty \u00b7 Food. Captions put the subcategory on a second line (all widths).
+\u00b7 Category index (`#worlds-accordion`): on phone the 01\u201306 numbers are hidden and a
+56px square `.world-thumb` (assets/category/*) sits in their place. Desktop keeps the
+numbers, no thumbs. A sixth **Food** row was added (desktop + phone), its panel shows the
+three pantry products (images in `assets/shelf/body/`).
+
+**White tiles on New In + Food (6 Oct).** These were the only two worlds without the
+`body[data-world="X"] .ph … { background:#FFFFFF !important }` rule, so transparent
+product PNGs showed the warm-white `.ph` tile behind them. Added both, mirroring Art.
+New In's Aster Vessel cover is now `assets/shelf/newin/aster-vessel-cover.png`
+(transparent); its Vintage record keeps `assets/shelf/vintage/aster-vessel-cover.png`.
+Product-image swaps are now done one at a time on the user's instruction.
+
+**Object page "Selected for you" (6 Oct).** White tiles on the related shelf
+(`body[data-route="object"] .shelf-band .ph …`, main gallery untouched) and
+`.shelf-head` gets `margin-bottom: clamp(32px, 4.5vh, 48px)` there (was 1px between
+"View all Vintage →" and the first card). Phone keeps its own reordered head.
+
+## RESPONSIVE EXTENSION — BROWSER ZOOM / VIEWPORT WIDTH (7 Oct, final pass)
+
+One CSS block at the end of the main stylesheet ("RESPONSIVE EXTENSION"). **Nothing
+changes from 1181px to 1799px** (normal laptop/desktop at 100%), and phone/tablet
+(\u2264920px) and the sparse-shelf rule are untouched. Outside that band grids add or
+drop columns so the card stays near its approved size \u2014 zooming out shows more of
+the collection rather than bigger copies of the same cards.
+
+| Grid | 921\u20131180 | 1181\u20131799 (approved) | wider |
+|---|---|---|---|
+| Home `.shelf` / `.shelf-small` | 3 | 4 | 5 \u22651800 · 6 \u22652100 · 7 \u22652500 |
+| Category/Archive/related (`.shelf-band .shelf`) | 3 | 3 | 4 \u22651800 · 5 \u22652200 · 6 \u22652700 |
+| Creators `#artist-role-grid` | 4 | 5 | 6 \u22651700 · 7 \u22652000 · 8 \u22652400 |
+| Stories `.journal-grid` (6 items) | 3 | 3 | 6 \u22652000 (row divider hidden there) |
+
+Measured: 1440 unchanged (Art 3+4 @406/296px, Home 4 @296, Stories 3 @404, Creators
+5 @235). 2160 (\u224867% zoom): Art 4+5 @467/366, Home 5 @366, Stories 6 @296, Creators
+7 @258. 1152 (\u2248125%): Home/small shelves 3, Creators 4. No overflow at 390, 768,
+1152, 1440, 2160, 2880. Typography unchanged \u2014 card width now stays near-constant, so
+the fixed card type stays in proportion. Fixed-count galleries (`.studio-strip`,
+`.about-gallery`, `.world-sub-grid`, `.partner-grid`) left as is: more columns would
+only create empty cells. Revert = delete the block.
+
+## RESPONSIVE COMPOSITION — CARD AS ONE COMPOSITION (7 Oct, rev. 3)
+
+**Root cause** (client-confirmed): grid cards were sized as a share of the viewport
+(`repeat(n, 1fr)`, gaps `2.4vw` / `2.6vw`, row gaps `7vh`, Stories title `2vw`)
+while card type is fixed px. Browser zoom shrinks px but widens the viewport by the
+same factor, so fr/vw/vh grew back: on-screen card constant, text smaller.
+Rev. 2 also failed in the client's view because it switched itself off inside the
+preview iframe, and it only changed column counts (cards still fr between steps).
+
+**Fix — px hand-off when zoomed** (script in <head> + "RESPONSIVE COMPOSITION rev. 3"
+block, end of stylesheet; all ≥921px):
+- Zoom: `z = baseline dpr / current dpr` (Chrome / Edge / Firefox, **works in the
+  preview iframe**). Baseline = dpr snapped to a real device scale, stored once per
+  session in `sessionStorage.em_dpr0`. Safari (fixed dpr) top-level falls back to
+  innerWidth / outerWidth.
+- When zoomed, the script computes the 100% values from the 100% viewport
+  (`innerWidth / z`): `--zcard` (card px), `--zgap`, `--vwb` / `--vhb` (1vw / 1vh at
+  100%), `--zcols` = whole cards that fit (caps: category 5, Stories 4, creators 7),
+  `--zcols2` (small shelf, 4-up base), `--zcols3` (sparse, max 3), `--zg` = centred
+  gutter so title / filters / grid keep one left edge. Grids use
+  `repeat(var(--zcols), var(--zcard))` \u2014 cards never stretch.
+- Other routes zoomed out: content held at its 100% width (unchanged from rev. 2).
+- 100% zoom: no `html[data-zoom]`, nothing applies.
+
+**Verified:** 100% at 1280/1440/1512/1728/1920 identical (category card 360/406/
+426/491/554, image 480–739, name 24px, gaps as before). 1440 zoomed: card stays 406px
+/ image 541 / name 24px in CSS at every level \u2192 on screen card 365·325·305·272 and
+name 21.6·19.2·18.0·16.1 at 90·80·75·67% (same ratio); columns 3·3·4·4; title and grid
+aligned. Stories 3\u21924 (card 404, title 28), row line continuous. Creators 5\u21926\u21927
+(card 235). Zoom in 110·125·150%: category 2·2·1, Stories 2, creators 3, card and text
+grow together, no overflow. Phone 390 unchanged. Preview iframe: script live,
+baseline 1, 100% \u2192 no change.

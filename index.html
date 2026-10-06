@@ -268,6 +268,18 @@ body[data-route="faq"] .site-head a, body[data-route="faq"] .site-head .wordmark
 .ph.has-img,.ph.has-img::before{background:var(--white)!important;background-image:none!important;background-color:var(--white)!important;}
 .spotlight-portrait .ph.has-img,.spotlight-portrait .ph.has-img::before{background:transparent!important;background-color:transparent!important;}
 body[data-world="arts"] { background:#FFFFFF; }
+/* Object page "Selected for you": the heading + View all sat 1px above the first
+   card. Breathing room under the head (desktop/tablet; phone reorders the head). */
+body[data-route="object"] .shelf-band > .shelf-head { margin-bottom: clamp(32px, 4.5vh, 48px); }
+/* Object page "Selected for you" shelf: same white tiles as the category pages,
+   so transparent product PNGs sit on white. Main gallery untouched. */
+body[data-route="object"] .shelf-band .ph.has-img,body[data-route="object"] .shelf-band .ph.has-img::before,body[data-route="object"] .shelf-band .ph { background-color:#FFFFFF!important; background:#FFFFFF!important; }
+/* New In and Food were the only worlds without white tiles, so transparent
+   product PNGs showed the warm-white tile behind them. Mirrors Art exactly. */
+body[data-world="newin"] { background:#FFFFFF; }
+body[data-world="newin"] .ph.has-img,body[data-world="newin"] .ph.has-img::before,body[data-world="newin"] .ph,body[data-world="newin"] .filter-trigger:hover,body[data-world="newin"] .filter-option:hover,body[data-world="newin"] .filter-panel { background-color:#FFFFFF!important; background:#FFFFFF!important; }
+body[data-world="food"] { background:#FFFFFF; }
+body[data-world="food"] .ph.has-img,body[data-world="food"] .ph.has-img::before,body[data-world="food"] .ph,body[data-world="food"] .filter-trigger:hover,body[data-world="food"] .filter-option:hover,body[data-world="food"] .filter-panel { background-color:#FFFFFF!important; background:#FFFFFF!important; }
 body[data-world="arts"] .ph.has-img,body[data-world="arts"] .ph.has-img::before,body[data-world="arts"] .ph,body[data-world="arts"] .filter-trigger:hover,body[data-world="arts"] .filter-option:hover,body[data-world="arts"] .filter-panel { background-color:#FFFFFF!important; background:#FFFFFF!important; }
 body[data-world="fashion"],body[data-world="body"],body[data-world="home"],body[data-world="vintage"],
 body[data-route="front"],body[data-route="journal"],body[data-route="bag"],body[data-route="artists"] { background:#FFFFFF; }
@@ -468,6 +480,19 @@ h1.hero-title .upright { font-style: normal; }
 /* collage tiles route to their category */
 a.hbc-img { display: block; cursor: pointer; }
 a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6px; }
+/* shop-the-category caption under each collage image. The anchor stops clipping
+   (the images fill it exactly, so nothing else escapes) and the caption hangs
+   just below the image on the 11px mono label tier. */
+a.hbc-img { overflow: visible; }
+.hbc-cap { position: absolute; left: 0; top: 100%; display: inline-block; margin-top: 12px; white-space: nowrap; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-60); transition: color var(--t) var(--ease); }
+a.hbc-img:hover .hbc-cap, a.hbc-img:focus-visible .hbc-cap { color: var(--aubergine); }
+/* a fine burgundy line draws in under the caption on hover, focus and tap */
+.hbc-cap::after { content: ""; display: block; width: 0; height: 1px; margin-top: 6px; background: var(--aubergine); transition: width var(--t) var(--ease); }
+a.hbc-img:hover .hbc-cap::after, a.hbc-img:focus-visible .hbc-cap::after, a.hbc-img:active .hbc-cap::after { width: 100%; }
+@media (max-width: 700px) {
+  /* phone images are narrow: the caption wraps to the image's own width */
+  .hbc-cap { right: 0; white-space: normal; margin-top: 8px; font-size: 10px; letter-spacing: 0.12em; line-height: 1.4; }
+}
 .hbc-hover .hbc-alt { opacity: 0; transition: opacity var(--t) var(--ease); }
 .hbc-hover:hover .hbc-alt { opacity: 1; }
 .hbc-hover:hover .hbc-base { opacity: 0; }
@@ -482,6 +507,7 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
 .spot-b { top: 42%; left: 46%; width: 48%; aspect-ratio: 1.05; z-index: 2; box-shadow: -14px 14px 36px rgba(0,0,0,0.3); }
 .hbc-a { top: 13.5%; left: 4%; width: 17%; aspect-ratio: 1 / 1; }.hbc-b { top: 7.5%; left: 69.5%; width: 17.3%; aspect-ratio: 1 / 1; }
 .hbc-c { top: 60.5%; left: 60%; width: 16.5%; aspect-ratio: 1 / 1; }
+a.hbc-img.hbc-d, a.hbc-img.hbc-e, a.hbc-img.hbc-f { display: none; aspect-ratio: 1 / 1; }
 .hbc-wordmark {
   position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%);
   width: clamp(235px, 23.5vw, 360px); color: var(--ink);
@@ -595,6 +621,18 @@ a.hbc-img:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 6
   color: inherit;
 }
 .world-row:focus-visible { outline: 2px solid var(--aubergine); outline-offset: 4px; }
+/* category index thumbnail — phone only; desktop never shows it */
+.world-thumb { display: none; }
+@media (max-width: 560px) {
+  /* number · thumbnail · text — the picture sits on the number's side */
+  /* phone: picture replaces the number — picture · name / subcategories */
+  #worlds-accordion .world-row { grid-template-columns: 56px minmax(0, 1fr); column-gap: 16px; }
+  #worlds-accordion .world-row .num { display: none; }
+  #worlds-accordion .world-row .world-name { grid-column: 2; grid-row: 1; }
+  #worlds-accordion .world-row .world-meta { grid-column: 2; grid-row: 2; }
+  #worlds-accordion .world-row .world-thumb { grid-column: 1; display: block; grid-row: 1 / span 2; align-self: center; width: 56px; aspect-ratio: 1 / 1; overflow: hidden; background: var(--cream); }
+  .world-row .world-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+}
 .world-panel { height: 0; overflow: hidden; transition: height 420ms var(--ease); }
 .world-panel-inner { padding: 4px 0 clamp(28px, 4vh, 44px); opacity: 0; transform: translateY(-10px); transition: opacity 380ms var(--ease), transform 380ms var(--ease); }
 .world-panel-head { display: flex; justify-content: flex-end; margin-bottom: clamp(16px, 2.2vh, 24px); }
@@ -1021,6 +1059,8 @@ body[data-route="journal"] .shelf-band {
   letter-spacing: 0.04em;
 }
 .subscribe-form input::placeholder { color: var(--ink-38); }
+/* keyboard/mouse focus in the email field darkens the existing underline to ink */
+.subscribe-form:has(input:focus) { border-bottom-color: var(--ink); }
 .subscribe-form button {
   font-family: var(--mono);
   font-size: 12px;
@@ -1289,6 +1329,22 @@ body[data-route="journal"] .shelf-band {
 .shelf-band { padding: clamp(64px, 10vh, 110px) var(--gutter) 0; }
 .shelf-band .shelf:not(.shelf-small) { grid-template-columns: repeat(3, 1fr); row-gap: clamp(48px, 7vh, 80px); }
 .shelf-band:last-of-type, .shelf-band.is-last-band { padding-bottom: clamp(80px, 12vh, 140px); }
+/* Category pages, desktop: the filter band and the first shelf it controls read
+   as one unit. Only the page-head's bottom padding and the band directly after
+   #chip-band tighten; the page-head top, later shelves and all other routes keep
+   their spacing. Tablet/phone have their own layouts and are excluded. */
+@media (min-width: 921px) {
+  body[data-route="world"] .page-head { padding-bottom: clamp(32px, 4.5vh, 52px); }
+  body[data-route="world"] .chip-band + .shelf-band { padding-top: clamp(40px, 5vh, 64px); }
+}
+/* Stories catalogue, desktop + tablet: slightly more compact. The divider → first
+   row gap now matches the 6vh margin above the divider, the ending before the
+   footer band is lighter, and the page-head bottom matches category pages.
+   Shared rules are untouched; phone (≤560px) keeps its own spacing. */
+@media (min-width: 561px) {
+  body[data-route="journal"] .page-head { padding-bottom: clamp(32px, 4.5vh, 52px); }
+  body[data-route="journal"] .shelf-band { padding-top: clamp(40px, 6vh, 72px); padding-bottom: clamp(64px, 8vh, 96px); }
+}
 /* sparse category (1–3 visible objects): keep the desktop 3-track grid so the
    cards stay anchored left at their normal width and the remaining space reads
    as negative space — never a 2+1 orphan row. Cards hold ~199px at 701px, the
@@ -2282,6 +2338,13 @@ body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-column
 input.field-input, select.field-input { width:100%; background:none; border:none; border-bottom:1px solid var(--hairline); outline:none; border-radius:0; }
 input.field-input::placeholder { color:var(--ink-38); }
 input.field-input:focus, select.field-input:focus { border-color:var(--ink); }
+/* required-field state — the existing 11px mono form-label tier, burgundy */
+.field-input[aria-invalid="true"] { border-bottom-color: var(--aubergine); }
+.field-error { display:block; margin-top:8px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--aubergine); }
+/* delivery options are real radios; the existing dot stays the only indicator */
+.opt { position: relative; }
+.opt-radio { position:absolute; width:1px; height:1px; margin:0; padding:0; opacity:0; pointer-events:none; }
+.opt:has(.opt-radio:focus-visible) { outline:1px solid var(--aubergine); outline-offset:3px; }
 select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; background-image:linear-gradient(45deg,transparent 50%,var(--ink-60) 50%),linear-gradient(135deg,var(--ink-60) 50%,transparent 50%); background-position:calc(100% - 10px) 8px, calc(100% - 5px) 8px; background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:24px; }
 .opt-link { font-family:var(--mono); font-size: 12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-38); transition:color var(--t) var(--ease); }
 .opt-link:hover { color:var(--aubergine); }
@@ -2320,6 +2383,21 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .co-done { padding:clamp(120px,18vh,210px) var(--gutter); text-align:center; max-width:640px; margin:0 auto; }
 .co-done .seal-star { width:62px; height:auto; color:var(--driftwood); margin:0 auto 30px; display:block; transform-origin:50% 50%; animation:sealGrow 2600ms cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 .co-done .co-sec-note { margin-left:auto; margin-right:auto; }
+/* order confirmation follows the Apply "There's a fit." result: title with 24px
+   below it, then sans reading paragraphs (16/1.65, ink-read, 52ch, 14px apart) */
+.co-done .page-title { line-height:1.08; margin-bottom:24px; }
+.co-done p.co-sec-note { font-family:var(--sans); font-size:16px; font-weight:400; line-height:1.65; color:var(--ink-read); max-width:52ch; margin:0 auto 14px; text-wrap:pretty; }
+/* seal and title spacing follow the Apply "There's a fit." result exactly:
+   same seal size, 18px seal→title, no extra title margin, 24px title→text */
+.co-done .seal-star { width: clamp(46px, 6vw, 74px); margin: 0 0 18px; display: inline-block; vertical-align: baseline; }
+.co-done h1.page-title { margin-top: 0; }
+@media (max-width: 700px) {
+  /* phone: left-aligned like the Apply result */
+  .co-done { text-align: left; max-width: none; }
+  .co-done p.co-sec-note { margin-left: 0; margin-right: 0; }
+  .co-done .steps { justify-content: flex-start !important; }
+}
+@media (max-width: 700px) { .co-done p.co-sec-note { font-size:14px; line-height:1.5; font-weight:300; } }
 
 /* ===== account (added) ===== */
 .acct { font-family:var(--mono); font-size: 12px; letter-spacing:0.16em; color:var(--ink-60); text-transform:uppercase; transition:color var(--t) var(--ease); position:relative; padding-top:4px; padding-bottom:4px; }
@@ -2355,7 +2433,7 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .info-row { display:grid; grid-template-columns:170px 1fr; gap:24px; padding:18px 0; border-bottom:1px solid var(--hairline); align-items:baseline; }
 .info-row:first-child { border-top:1px solid var(--hairline); }
 .info-k { font-family:var(--mono); font-size: 13px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-60); }
-.info-v { font-family:var(--serif); font-size:18px; line-height:1.5; }
+.info-v { font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.6; }
 .order-card { border:1px solid var(--hairline); padding:24px 26px; margin-bottom:16px; display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center; }
 .order-thumbs { display:flex; gap:6px; }
 .order-thumbs img { width:52px; height:52px; object-fit:cover; background:var(--cream); }
@@ -2520,15 +2598,15 @@ select.field-input { appearance:none; -webkit-appearance:none; cursor:pointer; b
 .filter-empty[hidden] { display:none; }
 /* colour comes from the global italic rule (burgundy), same as .bag-empty / .maker-empty */
 .filter-empty .fe-msg { font-family:var(--serif); font-style:italic; font-size:20px; margin:0; max-width:34ch; text-wrap:pretty; }
-.filter-empty .fe-acts { display:flex; align-items:center; flex-wrap:wrap; gap:18px; margin-top:26px; }
-.filter-empty .fe-acts > * { font-family:var(--mono); font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-60); background:none; border:none; border-bottom:1px solid transparent; padding:0 0 3px; cursor:pointer; transition:color var(--t) var(--ease), border-color var(--t) var(--ease); }
-.filter-empty .fe-acts > *:hover { color:var(--aubergine); border-bottom-color:var(--aubergine); }
-.filter-empty .fe-acts > *:focus-visible { outline:1px solid var(--aubergine); outline-offset:5px; }
+.filter-empty .fe-acts, .bag-empty .fe-acts { display:flex; align-items:center; flex-wrap:wrap; gap:18px; margin-top:26px; }
+.filter-empty .fe-acts > *, .bag-empty .fe-acts > * { font-family:var(--mono); font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-60); background:none; border:none; border-bottom:1px solid transparent; padding:0 0 3px; cursor:pointer; transition:color var(--t) var(--ease), border-color var(--t) var(--ease); }
+.filter-empty .fe-acts > *:hover, .bag-empty .fe-acts > *:hover { color:var(--aubergine); border-bottom-color:var(--aubergine); }
+.filter-empty .fe-acts > *:focus-visible, .bag-empty .fe-acts > *:focus-visible { outline:1px solid var(--aubergine); outline-offset:5px; }
 .filter-empty .fe-sep { color:var(--ink-38); border:none; padding:0; cursor:default; }
 .filter-empty .fe-sep:hover { color:var(--ink-38); border-bottom-color:transparent; }
 @media (max-width:560px) {
   .filter-empty { padding-bottom:clamp(90px,14vh,140px); }
-  .filter-empty .fe-acts { gap:14px; }
+  .filter-empty .fe-acts, .bag-empty .fe-acts { gap:14px; }
 }
 
 /* ===== region & currency (added) ===== */
@@ -3110,11 +3188,14 @@ button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); f
 .draft-state { font-family: var(--mono); font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-38); }
 .draft-state.published { color: #1F6B49; }
 .status-seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 2px; overflow: hidden; }
-.status-seg button { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; background: none; border: none; border-right: 1px solid var(--hairline); color: var(--ink-38); cursor: pointer; }
-.status-seg button:last-child { border-right: none; }
-.status-seg button.is-active[data-status="published"] { background: rgba(31,138,91,0.12); color: #1F6B49; }
-.status-seg button.is-active[data-status="private"] { background: rgba(117,89,64,0.14); color: #6B4F38; }
-.status-seg button.is-active[data-status="draft"] { background: var(--cream-deep); color: var(--ink-60); }
+.status-seg > span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; background: none; border: none; border-right: 1px solid var(--hairline); color: var(--ink-38); cursor: default; }
+.status-seg > span:last-child { border-right: none; }
+.status-seg > span.is-active[data-status="public"] { background: rgba(31,138,91,0.12); color: #1F6B49; }
+.status-seg > span.is-active[data-status="review"] { background: rgba(117,89,64,0.14); color: #6B4F38; }
+.status-seg > span.is-active[data-status="draft"] { background: var(--cream-deep); color: var(--ink-60); }
+.ws-status-filter { margin: 34px 0 0; }
+.ws-status-filter + .draft-strip { margin-top: 20px; }
+.draft-row[hidden] { display: none; }
 
 /* ===== PUBLIC SPOTLIGHT PREVIEW (reuses spotlight styles, tinted) ===== */
 .public-frame { position: relative; }
@@ -3677,7 +3758,8 @@ button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); f
   /* the outer 1px border was clipping the active tint on every side. Each cell
      now owns its border, so fill and border are a single box — nothing inset. */
   body[data-route="creator"] .status-seg { border: 0 !important; }
-  body[data-route="creator"] .status-seg button {
+  body[data-route="creator"] .status-seg > span {
+    text-align: center;
     flex: 1 1 auto;
     min-width: 0;
     font-size: 11px;
@@ -3851,7 +3933,7 @@ button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); f
   .entry-read, .ar-tile { font-size: 11px; }
   .world-panel-all { font-size: 11px; }
   .shelf-foot .micro { font-size: 11px; }
-  .filter-empty .fe-acts > * { font-size: 11px; }
+  .filter-empty .fe-acts > *, .bag-empty .fe-acts > * { font-size: 11px; }
   /* card status (AVAILABLE / SOLD / IN PRIVATE COLLECTION) joins the same
      11px micro tier as the action beside it. */
   .piece-status, .sold-label { font-size: 11px; }
@@ -3883,10 +3965,21 @@ button.spotlight-name[data-sig="5"] { font-family: "Lamar Pen", var(--script); f
      .hbc-b is re-anchored by its RIGHT edge (63.5 + 40 = 103.5%, the same
      right edge it has today) so growing it cannot push the composition
      further right or introduce overflow. */
-  .hbc-a { width: 35%; }
-  .hbc-b { width: 40%; left: 63.5%; }
-  /* third collage image 28 → 36%; square ratio, position and hover untouched */
-  .hbc-c { width: 36%; }
+  /* PHONE COLLAGE = aligned rows, no zigzag:
+       Fashion · Vintage
+       É·MISHTO
+       Home & Objects · Art
+       Body & Beauty · Food
+       Objects with soul
+     The section becomes a 2-column grid; tiles leave absolute positioning.
+     Captions still hang under each image (absolute), so rows leave room for them. */
+  .hero-brand-collage { height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; row-gap: 84px; padding-top: 24px; padding-bottom: 72px; }
+  .hero-brand-collage a.hbc-img { position: relative; top: auto; left: auto; width: auto; display: block; aspect-ratio: 1 / 1; }
+  .hbc-a { order: 1; } .hbc-b { order: 2; }
+  .hbc-wordmark { order: 3; grid-column: 1 / -1; position: static; transform: none; justify-self: center; margin: 24px 0 0; }
+  .hbc-c { order: 4; } .hbc-d { order: 5; }
+  .hbc-e { order: 6; } .hbc-f { order: 7; }
+  .hbc-text { order: 8; grid-column: 1 / -1; position: static; max-width: none; min-width: 0; margin-top: 32px; }
   /* the ONLY phone rule for this label — uppercase, mono and colour inherited */
   .hbc-text .micro { font-size: 11px; letter-spacing: 0.22em; }
 
@@ -4037,7 +4130,119 @@ em, i,
 body.spotlight-page em, body.spotlight-page i {
   color: inherit;
 }
+
+/* ═══ RESPONSIVE COMPOSITION — browser zoom (7 Oct 2026, rev. 3) ═══
+   WHY CARDS DIDN'T SCALE WITH THE TEXT: grid cards were sized as a share of the
+   viewport (repeat(n, 1fr), gaps in vw, row gaps in vh) while card type is fixed
+   px. Browser zoom shrinks px but widens the viewport by the same factor, so the
+   fr/vw/vh widths grew back and the card stayed the same size on screen.
+   FIX: a script in <head> reads the real zoom (--z) and, only when zoomed, hands
+   the grids the exact PIXEL sizes they have at 100%: --zcard (card width),
+   --zgap (column gap), --vhb / --vwb (1vh / 1vw as at 100%). Card, image, type and
+   spacing are then all fixed px, so they scale together as one composition.
+   Columns are whole cards only (--zcols); the content width snaps to them and is
+   centred via --zg, so title, filters and grid keep one left edge.
+     · 100% zoom → no html[data-zoom] → none of this applies. Approved, untouched.
+     · Other routes (Home, object, bag, checkout, account…) zoomed out → content
+       held at its 100% width, so the whole page scales as one.
+   Phone / tablet (≤920px) untouched. */
+@media (min-width: 921px) {
+  html[data-zoom] body:is([data-route="world"],[data-route="archive"],[data-route="journal"],[data-route="artists"]) { --gutter: var(--zg); }
+  html[data-zoom] body:is([data-route="world"],[data-route="archive"],[data-route="journal"],[data-route="artists"]) .shelf-band .shelf:not(.shelf-small) {
+    grid-template-columns: repeat(var(--zcols), var(--zcard)); column-gap: var(--zgap);
+    row-gap: clamp(48px, calc(7 * var(--vhb)), 80px); justify-content: start;
+  }
+  html[data-zoom] body:is([data-route="world"],[data-route="archive"],[data-route="journal"],[data-route="artists"]) .shelf.shelf-small { grid-template-columns: repeat(var(--zcols2), var(--zcard2)); column-gap: var(--zgap); justify-content: start; }
+  html[data-zoom] body.is-sparse-shelf .shelf-band .shelf:not(.shelf-small) { grid-template-columns: repeat(var(--zcols3), var(--zcard)); }
+  html[data-zoom] #artist-role-grid { grid-template-columns: repeat(var(--zcols), var(--zcard)) !important; gap: var(--zgap) !important; justify-content: start; }
+  /* Stories: same px hand-off; the row line is redrawn per card (abutting
+     segments, the last card's extends to the edge) so it stays continuous */
+  html[data-zoom] body[data-route="journal"] .journal-grid {
+    --jg-gap: var(--zgap);
+    grid-template-columns: repeat(var(--zcols), var(--zcard)); column-gap: var(--zgap);
+    row-gap: calc(var(--zgap) + clamp(28px, calc(4 * var(--vhb)), 48px)); justify-content: start;
+    clip-path: inset(0 0 -80px 0); overflow-x: clip;
+  }
+  html[data-zoom] body[data-route="journal"] .journal-grid .entry:nth-child(n) { position: relative; padding-top: 0; }
+  html[data-zoom] body[data-route="journal"] .journal-grid .entry:nth-child(n)::before {
+    content: ""; display: block; position: absolute; top: calc(-1 * clamp(28px, calc(4 * var(--vhb)), 48px));
+    left: calc(var(--jg-gap) / -2); right: calc(var(--jg-gap) / -2); height: 1px; background: var(--hairline);
+  }
+  html[data-zoom] body[data-route="journal"] .journal-grid .entry:nth-child(n):last-child::before { right: -100vw; }
+  html[data-zoom] .journal-grid .entry-title { font-size: clamp(22px, calc(2 * var(--vwb)), 28px); }
+
+  /* every other route: hold content at its 100% width */
+  html[data-zoom="out"] body:not([data-route="world"]):not([data-route="archive"]):not([data-route="journal"]):not([data-route="artists"]) {
+    --gutter: calc((100vw - 100vw / var(--z)) / 2 + clamp(24px, calc(5vw / var(--z)), 88px));
+  }
+  html[data-zoom="out"] .hero-brand-collage {
+    box-sizing: border-box; width: 100%; max-width: calc(100vw / var(--z)); margin-inline: auto;
+    padding-inline: clamp(24px, calc(5vw / var(--z)), 88px);
+    height: clamp(560px, calc(82vh / var(--z)), 860px);
+  }
+  html[data-zoom="out"] .hbc-wordmark { width: clamp(235px, calc(23.5vw / var(--z)), 360px); }
+}
 </style>
+<script>
+/* browser-zoom reader + px hand-off for the RESPONSIVE COMPOSITION block.
+   Zoom: z = baseline devicePixelRatio / current dpr (Chrome, Edge, Firefox — works
+   inside the preview frame too). The baseline is the dpr snapped to a real device
+   scale on the session's first load. Safari keeps dpr fixed, so a top-level page
+   there falls back to innerWidth / outerWidth. */
+(function () {
+  var root = document.documentElement, SC = [1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 3], forced = null, base = null;
+  function snap(d) { for (var i = 0; i < SC.length; i++) if (Math.abs(d - SC[i]) < 0.02) return SC[i]; return null; }
+  function baseDpr() {
+    if (base) return base;
+    var d = window.devicePixelRatio || 1, s = null;
+    try { s = parseFloat(sessionStorage.getItem("em_dpr0")); } catch (e) {}
+    if (!s) { s = snap(d) || (d < 1 ? 1 : (d < 2 ? 2 : 3)); try { sessionStorage.setItem("em_dpr0", s); } catch (e) {} }
+    return (base = s);
+  }
+  function read() {
+    if (forced) return forced;
+    var d = window.devicePixelRatio || 1, z = baseDpr() / d;
+    if (Math.abs(z - 1) < 0.03) {
+      z = 1;
+      var top = false; try { top = window.top === window.self; } catch (e) {}
+      if (top && window.outerWidth) {
+        var r = window.innerWidth / window.outerWidth;
+        if (Math.abs(r - 1) >= 0.06 && SC.some(function (x) { return Math.abs(d * r - x) < 0.06; })) z = r;
+      }
+    }
+    return z;
+  }
+  function cl(a, v, b) { return Math.max(a, Math.min(b, v)); }
+  function apply() {
+    var z = read(), st = root.style, iw = window.innerWidth, Wb = iw / z;
+    if (z === 1 || iw < 921 || Wb < 921) { root.removeAttribute("data-zoom"); return; }
+    var L = root.clientWidth, Lb = L / z, Hb = window.innerHeight / z;
+    var gut = cl(24, 0.05 * Wb, 88), cont = Lb - 2 * gut, avail = L - 2 * gut;
+    function card(n, g) { return (cont - (n - 1) * g) / n; }
+    function fit(c, g, room, max) { return cl(1, Math.floor((room + g) / (c + g) + 1e-3), max); }
+    var gS = cl(16, 0.024 * Wb, 36), gJ = cl(20, 0.026 * Wb, 40), gC = cl(16, 0.02 * Wb, 28);
+    var route = document.body ? document.body.getAttribute("data-route") : "";
+    var spec = { world: [3, gS, 5], archive: [3, gS, 5], journal: [3, gJ, 4], artists: [5, gC, 7] }[route];
+    st.setProperty("--z", z.toFixed(4));
+    st.setProperty("--vwb", (Wb / 100) + "px");
+    st.setProperty("--vhb", (Hb / 100) + "px");
+    if (spec) {
+      var c = card(spec[0], spec[1]), N = fit(c, spec[1], avail, spec[2]), W = N * c + (N - 1) * spec[1];
+      var c2 = card(4, gS), N2 = fit(c2, gS, W, 5);
+      st.setProperty("--zcard", c + "px"); st.setProperty("--zgap", spec[1] + "px");
+      st.setProperty("--zcols", N); st.setProperty("--zcols3", Math.min(N, 3));
+      st.setProperty("--zcard2", c2 + "px"); st.setProperty("--zcols2", N2);
+      st.setProperty("--zg", Math.max(gut, (L - W) / 2) + "px");
+    }
+    root.setAttribute("data-zoom", z > 1 ? "out" : "in");
+  }
+  window.EMZoom = { apply: apply, read: read, force: function (z) { forced = z || null; apply(); } };
+  apply();
+  document.addEventListener("DOMContentLoaded", apply);
+  window.addEventListener("load", apply);
+  window.addEventListener("resize", apply);
+})();
+</script>
 <script>
 /* routing is a real reload per hash change, so the browser would otherwise
    restore the previous page's scroll offset. Runs in <head> — before the
@@ -4161,14 +4366,29 @@ slow();
       <a class="hbc-img hbc-a has-img hbc-hover" href="#/world/fashion" data-cat="accessories" aria-label="Fashion — Accessories">
         <img class="hbc-base" src="assets/hero/collage-a-face.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-a-earring-detail.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Fashion&nbsp;·<br>Accessories <span aria-hidden="true">→</span></span>
       </a>
       <a class="hbc-img hbc-b has-img hbc-hover" href="#/world/vintage" data-cat="antiques" aria-label="Vintage — Antiques">
         <img class="hbc-base" src="assets/hero/collage-b-vessel-model.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-b-vessel-detail.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Vintage&nbsp;·<br>Antiques <span aria-hidden="true">→</span></span>
       </a>
       <a class="hbc-img hbc-c has-img hbc-hover" href="#/world/home" data-cat="furniture" aria-label="Home &amp; Objects — Furniture">
         <img class="hbc-base" src="assets/hero/collage-c-chair.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         <img class="hbc-alt" src="assets/hero/collage-c.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Home&nbsp;&amp;&nbsp;Objects&nbsp;·<br>Furniture <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="hbc-img hbc-d has-img" href="#/world/arts" data-cat="painting" aria-label="Art — Painting">
+        <img class="hbc-base" src="assets/category/arts-hero.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Art&nbsp;·<br>Painting <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="hbc-img hbc-e has-img" href="#/world/body" data-cat="skincare" aria-label="Body &amp; Beauty — Skincare">
+        <img class="hbc-base" src="assets/category/body-hero.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Body&nbsp;&amp;&nbsp;Beauty&nbsp;·<br>Skincare <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="hbc-img hbc-f has-img" href="#/world/food" aria-label="Food">
+        <img class="hbc-base" src="assets/category/food-tile.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <span class="hbc-cap">Food <span aria-hidden="true">→</span></span>
       </a>
       <h1 class="hbc-wordmark fade-up"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4578.39 612.28"> <defs> </defs> <polygon class="cls-1" points="86.44 534.57 86.44 412.68 308.93 412.68 308.93 341.51 86.44 341.51 86.44 221.69 334.44 221.69 334.44 149.7 0 149.7 0 606.41 342.2 606.41 342.2 534.57 86.44 534.57"></polygon> <polygon class="cls-1" points="1211.18 149.7 1060.26 450.86 907.97 149.7 808.99 149.7 808.99 606.41 887.52 606.41 887.52 268.44 888.75 271.17 1031.9 559.38 1087.39 559.38 1231.08 268.44 1231.08 606.41 1310.16 606.41 1310.16 149.7 1211.18 149.7"></polygon> <rect class="cls-1" x="1651.43" y="149.7" width="86.3" height="456.72"></rect> <path class="cls-1" d="M2416.04,418.27c-8.59-15.54-20.32-28.36-34.77-38.31-14.45-9.94-30.68-18.26-47.85-24.54-17.45-6.27-35.04-12.13-52.35-17.31-17.45-5.19-33.67-10.63-48.13-16.37-14.73-5.59-26.72-12.95-35.59-21.67-9.12-8.86-13.63-20.45-13.63-34.49,0-15.55,6.41-27.41,18.96-35.32,12.54-7.9,29.17-11.86,49.76-11.86,12.13,0,25.91,1.37,40.76,4.22,14.86,2.87,30.81,7.64,47.45,14.19,16.63,6.4,32.99,14.58,48.95,24.4l34.76-70.75c-21.54-14.05-47.03-25.63-75.52-34.22-28.92-8.73-58.9-13.08-89.16-13.08-34.22,0-64.35,5.45-89.71,15.94-25.36,10.63-45.4,25.78-59.58,45-14.31,19.22-21.54,42.26-21.54,68.57,0,23.45,4.5,42.81,13.36,57.94,8.87,15.13,20.59,27.68,35.18,37.36,14.44,9.81,30.53,17.85,47.85,24.27,17.31,6.27,35.03,11.72,52.62,16.22,17.58,4.64,33.81,9.94,48.26,15.81,14.32,5.86,26.18,13.23,35.17,22.09,9,8.73,13.63,20.59,13.63,35.17,0,17.59-7.09,31.36-20.85,41.04-13.77,9.68-33.4,14.58-58.36,14.58-16.22,0-33.67-2.72-52.22-8.17-18.54-5.46-37.08-13.36-55.48-23.72-18-9.96-34.91-22.23-50.45-36.41l-35.99,70.08c16.36,14.18,35.03,26.72,55.35,37.49,20.59,10.77,42.81,19.5,65.99,25.76,23.17,6.27,47.31,9.54,71.43,9.54,33.41,0,63.54-5.59,89.71-16.36,26.18-10.78,47.17-26.31,62.31-46.22,15.14-19.9,22.77-44.17,22.77-72.25,0-23.31-4.37-43.08-13.08-58.63"></path> <polygon class="cls-1" points="3080.56 149.7 3080.56 347.38 2850.84 347.38 2850.84 149.7 2764.41 149.7 2764.41 606.41 2850.84 606.41 2850.84 418.69 3080.56 418.69 3080.56 606.41 3167.55 606.41 3167.55 149.7 3080.56 149.7"></polygon> <polygon class="cls-1" points="3481.29 149.7 3481.29 222.36 3623.9 222.36 3623.9 606.41 3710.87 606.41 3710.87 222.36 3853.61 222.36 3853.61 149.7 3481.29 149.7"></polygon> <path class="cls-1" d="M4477.92,440.9c-8.04,19.36-19.22,36.68-33.13,51.54-14.05,14.86-30.53,26.59-49.08,34.77-18.54,8.31-38.44,12.54-59.45,12.54s-41.03-4.22-59.84-12.54c-18.68-8.18-35.59-19.91-49.9-34.77-14.45-14.86-25.91-32.18-34.22-51.54-8.31-19.5-12.41-40.76-12.41-63.53s4.09-43.89,12.13-62.98c8.04-19.22,19.36-36.4,33.81-50.98,14.32-14.59,31.22-26.05,49.91-34.22,18.81-8.05,39.12-12.14,60.52-12.14s40.91,4.09,59.45,12.14c18.54,8.17,35.03,19.63,49.08,34.22,13.91,14.58,25.09,31.76,33.13,50.98,8.04,19.09,12.13,40.36,12.13,62.98s-4.09,44.03-12.13,63.53M4559.72,285.75c-12.26-27.95-29.58-52.77-51.53-74.02-21.81-21.27-47.85-37.91-77.3-49.64-29.45-11.72-61.76-17.58-95.98-17.58s-66.25,5.86-95.57,17.58c-29.18,11.73-55.22,28.23-77.29,49.22-22.09,20.99-39.55,45.95-51.96,74.16-12.26,28.08-18.53,59.03-18.53,91.89s6.27,64.08,18.53,92.43c12.41,28.37,29.87,53.44,51.96,74.71,22.08,21.14,48.12,37.91,77.29,49.9,29.18,11.86,61.35,17.87,95.57,17.87s66.53-6.01,95.98-17.87c29.45-11.99,55.49-28.76,77.3-49.9,21.95-21.27,39.27-46.49,51.53-75.12,12.41-28.5,18.67-59.44,18.67-92.03s-6.27-63.66-18.67-91.61"></path> <path class="cls-1" d="M613.13,377.87c0,5.73-1.08,11.18-3.23,16.19-2.12,5.03-5.11,9.47-8.91,13.22-3.76,3.72-8.27,6.67-13.36,8.77-5.09,2.09-10.67,3.15-16.57,3.15s-11.48-1.06-16.52-3.15c-5.03-2.1-9.54-5.05-13.36-8.77-3.81-3.74-6.83-8.15-8.97-13.14-2.12-4.99-3.21-10.46-3.21-16.27s1.08-11.22,3.21-16.17c2.14-4.97,5.16-9.35,8.97-13.04,3.82-3.7,8.33-6.6,13.36-8.66,5.07-2.06,10.6-3.1,16.52-3.1s11.49,1.04,16.57,3.1c5.09,2.07,9.59,4.99,13.36,8.73,3.8,3.74,6.78,8.11,8.91,13.03,2.14,4.91,3.23,10.34,3.23,16.12"></path> <polygon class="cls-1" points="196.61 0 124.77 111.11 194.16 111.11 276.92 37.08 196.61 0"></polygon></svg></h1>
       <div class="hbc-text fade-up">
@@ -4188,11 +4408,11 @@ slow();
         <button type="button" class="world-row" data-world="arts" aria-expanded="false" aria-controls="world-panel-arts">
           <span class="num">01</span>
           <span class="world-name">Art</span>
-          <span class="world-meta">Painting · Sculpture · Photography · Mixed media</span>
+          <span class="world-meta">Painting · Sculpture · Photography · Mixed media</span><span class="world-thumb" aria-hidden="true"><img src="assets/category/arts-hero.png" alt="" loading="lazy"></span>
         </button>
         <div class="world-panel" id="world-panel-arts" role="region">
           <div class="world-panel-inner">
-            <div class="world-panel-head"><a class="world-view-all" href="#/world/arts">View all Arts <span>→</span></a></div>
+            <div class="world-panel-head"><a class="world-view-all" href="#/world/arts">View all Art <span>→</span></a></div>
             <div class="world-sub-grid">
               <a class="world-sub" href="#/world/arts" data-world="arts" data-cat="painting"><span class="world-sub-img"><img src="assets/shelf/arts/dusk-study-ii.png" alt="Painting"></span><span class="world-sub-name">Painting</span><span class="world-sub-go">Explore →</span></a>
               <a class="world-sub" href="#/world/arts" data-world="arts" data-cat="sculpture"><span class="world-sub-img"><img src="assets/shelf/arts/standing-form-3.png" alt="Sculpture"></span><span class="world-sub-name">Sculpture</span><span class="world-sub-go">Explore →</span></a>
@@ -4206,7 +4426,7 @@ slow();
         <button type="button" class="world-row" data-world="fashion" aria-expanded="false" aria-controls="world-panel-fashion">
           <span class="num">02</span>
           <span class="world-name">Fashion</span>
-          <span class="world-meta">Apparel · Accessories</span>
+          <span class="world-meta">Apparel · Accessories</span><span class="world-thumb" aria-hidden="true"><img src="assets/category/fashion-hero.png" alt="" loading="lazy"></span>
         </button>
         <div class="world-panel" id="world-panel-fashion" role="region">
           <div class="world-panel-inner">
@@ -4221,8 +4441,8 @@ slow();
       <li class="world-item">
         <button type="button" class="world-row" data-world="body" aria-expanded="false" aria-controls="world-panel-body">
           <span class="num">03</span>
-          <span class="world-name">Body</span>
-          <span class="world-meta">Skincare · Mindfulness · Gourmet</span>
+          <span class="world-name">Body &amp; Beauty</span>
+          <span class="world-meta">Skincare · Mindfulness</span><span class="world-thumb" aria-hidden="true"><img src="assets/category/body-hero.png" alt="" loading="lazy"></span>
         </button>
         <div class="world-panel" id="world-panel-body" role="region">
           <div class="world-panel-inner">
@@ -4230,7 +4450,6 @@ slow();
             <div class="world-sub-grid">
               <a class="world-sub" href="#/world/body" data-world="body" data-cat="skincare"><span class="world-sub-img"><img src="assets/shelf/body/clay-cleanse-bar.png" alt="Skincare"></span><span class="world-sub-name">Skincare</span><span class="world-sub-go">Explore →</span></a>
               <a class="world-sub" href="#/world/body" data-world="body" data-cat="mindfulness"><span class="world-sub-img"><img src="assets/shelf/body/stillness-incense.png" alt="Mindfulness"></span><span class="world-sub-name">Mindfulness</span><span class="world-sub-go">Explore →</span></a>
-              <a class="world-sub" href="#/world/body" data-world="body" data-cat="gourmet"><span class="world-sub-img"><img src="assets/shelf/body/morning-tisane-1.png" alt="Gourmet"></span><span class="world-sub-name">Gourmet</span><span class="world-sub-go">Explore →</span></a>
             </div>
             </div>
         </div>
@@ -4238,8 +4457,8 @@ slow();
       <li class="world-item">
         <button type="button" class="world-row" data-world="home" aria-expanded="false" aria-controls="world-panel-home">
           <span class="num">04</span>
-          <span class="world-name">Home</span>
-          <span class="world-meta">Décor · Furniture · Fragrance</span>
+          <span class="world-name">Home &amp; Objects</span>
+          <span class="world-meta">Décor · Furniture · Fragrance</span><span class="world-thumb" aria-hidden="true"><img src="assets/category/home-hero.png" alt="" loading="lazy"></span>
         </button>
         <div class="world-panel" id="world-panel-home" role="region">
           <div class="world-panel-inner">
@@ -4256,7 +4475,7 @@ slow();
         <button type="button" class="world-row" data-world="vintage" aria-expanded="false" aria-controls="world-panel-vintage">
           <span class="num">05</span>
           <span class="world-name">Vintage</span>
-          <span class="world-meta">Antiques · Jewelry · Collectibles</span>
+          <span class="world-meta">Antiques · Jewelry · Collectibles</span><span class="world-thumb" aria-hidden="true"><img src="assets/category/vintage-hero.png" alt="" loading="lazy"></span>
         </button>
         <div class="world-panel" id="world-panel-vintage" role="region">
           <div class="world-panel-inner">
@@ -4269,6 +4488,23 @@ slow();
             </div>
         </div>
       </li>
+          <li class="world-item">
+            <button type="button" class="world-row" data-world="food" aria-expanded="false" aria-controls="world-panel-food">
+              <span class="num">06</span>
+              <span class="world-name">Food</span>
+              <span class="world-meta">Tisane · Salt · Honey</span>
+            <span class="world-thumb" aria-hidden="true"><img src="assets/category/food-tile.png" alt="" loading="lazy"></span></button>
+            <div class="world-panel" id="world-panel-food" role="region">
+              <div class="world-panel-inner">
+                <div class="world-panel-head"><a class="world-view-all" href="#/world/food">View all Food <span>→</span></a></div>
+                <div class="world-sub-grid">
+                  <a class="world-sub" href="#/world/food" data-world="food"><span class="world-sub-img"><img src="assets/shelf/body/morning-tisane-1.png" alt="Morning Tisane № 1"></span><span class="world-sub-name">Morning Tisane</span><span class="world-sub-go">Explore →</span></a>
+                  <a class="world-sub" href="#/world/food" data-world="food"><span class="world-sub-img"><img src="assets/shelf/body/salt-of-the-coast.png" alt="Salt of the Coast"></span><span class="world-sub-name">Salt of the Coast</span><span class="world-sub-go">Explore →</span></a>
+                  <a class="world-sub" href="#/world/food" data-world="food"><span class="world-sub-img"><img src="assets/shelf/body/honey-wild.png" alt="Honey, Wild"></span><span class="world-sub-name">Honey, Wild</span><span class="world-sub-go">Explore →</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
     </ul>
   </section>
 
@@ -4287,7 +4523,7 @@ slow();
           <div class="ph-inner" data-speed="0.96"></div>
         </div>
         <span class="piece-name">Dusk Study II</span>
-        <span class="piece-maker">Andra Kovács · Arts</span>
+        <span class="piece-maker">Andra Kovács · Art</span>
         <span class="piece-price">€1400</span>
       </a>
       <a class="piece" href="#/object">
@@ -4568,11 +4804,11 @@ slow();
     <div class="crumbs fade-up">
       <a href="#/">É-MISHTO</a>
       <span>/</span>
-      <span id="crumb-world">Arts</span><span id="crumb-cat-sep" hidden>/</span><span id="crumb-cat" hidden></span>
+      <span id="crumb-world">Art</span><span id="crumb-cat-sep" hidden>/</span><span id="crumb-cat" hidden></span>
     </div>
     <h1 class="page-title" data-reveal-lines="" hidden>
       <span class="rv-line">Shop ·</span>
-      <span class="rv-line"><em id="world-name-em">Arts.</em></span>
+      <span class="rv-line"><em id="world-name-em">Art.</em></span>
     </h1>
     <nav class="world-cat-names fade-up" id="world-cat-names"></nav>
     <div class="page-intro fade-up" hidden>
@@ -5567,11 +5803,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -5844,11 +6088,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -5989,11 +6241,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6057,8 +6317,8 @@ slow();
       </div>
       <h3 class="co-subhead">Delivery method</h3>
       <div class="opt-list" id="ship-methods">
-        <label class="opt is-active" data-ship="standard" data-cost="60"><span class="dot"></span><span class="opt-sub" data-eta></span></label>
-        <label class="opt" data-ship="express" data-cost="120"><span class="dot"></span><span class="opt-sub" data-eta></span></label>
+        <label class="opt is-active" data-ship="standard" data-cost="60"><input class="opt-radio" type="radio" name="ship-method" value="standard" checked><span class="dot"></span><span class="opt-sub" data-eta></span></label>
+        <label class="opt" data-ship="express" data-cost="120"><input class="opt-radio" type="radio" name="ship-method" value="express"><span class="dot"></span><span class="opt-sub" data-eta></span></label>
       </div>
       <div class="co-nav"><button class="link-back" type="button" data-back="identity">← You</button><button class="btn-solid" type="button" data-next="payment">Continue to payment →</button></div>
     </div>
@@ -6195,11 +6455,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6405,11 +6673,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6432,20 +6708,21 @@ slow();
   <div class="sec-head"><h2>Our <em>creators</em></h2><span class="micro">Filter by category</span></div>
   <div class="room-filter" id="room-filter">
     <button class="room-chip is-active" type="button" data-room="all">All</button>
-    <button class="room-chip" type="button" data-room="arts">Arts</button>
+    <button class="room-chip" type="button" data-room="arts">Art</button>
     <button class="room-chip" type="button" data-room="fashion">Fashion</button>
     <button class="room-chip" type="button" data-room="body">Body</button>
     <button class="room-chip" type="button" data-room="home">Home</button>
+        <button class="room-chip" type="button" data-room="food">Food</button>
     <button class="room-chip" type="button" data-room="vintage">Vintage</button>
   </div>
   <div class="maker-grid" id="maker-grid">
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph has-img" data-label="andra kovács"><img src="assets/shelf/front/betsy-eby.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;"></div><div><span class="maker-name">Andra Kovács</span><div class="maker-disc">Painting</div><div class="maker-room">Arts · Cluj</div></div></a>
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-coffee has-img" data-label="sela marchetti"><img src="assets/shelf/front/chiara-capellini.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sela Marchetti</span><div class="maker-disc">Sculpture</div><div class="maker-room">Arts · Milan</div></div></a>
-    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-aubergine has-img" data-label="iwan roché"><img src="assets/shelf/front/lorenzo-brinati.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Iwan Roché</span><div class="maker-disc">Photography</div><div class="maker-room">Arts · Antwerp</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph has-img" data-label="andra kovács"><img src="assets/shelf/front/betsy-eby.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;"></div><div><span class="maker-name">Andra Kovács</span><div class="maker-disc">Painting</div><div class="maker-room">Art · Cluj</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-coffee has-img" data-label="sela marchetti"><img src="assets/shelf/front/chiara-capellini.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sela Marchetti</span><div class="maker-disc">Sculpture</div><div class="maker-room">Art · Milan</div></div></a>
+    <a class="maker-card" href="#/world/arts" data-room="arts"><div class="ph tone-aubergine has-img" data-label="iwan roché"><img src="assets/shelf/front/lorenzo-brinati.jpg" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Iwan Roché</span><div class="maker-disc">Photography</div><div class="maker-room">Art · Antwerp</div></div></a>
     <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-coffee has-img" data-label="atelier sou"><img src="assets/shelf/front/kai-chun-chang.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;"></div><div><span class="maker-name">Atelier Sou</span><div class="maker-disc">Apparel</div><div class="maker-room">Fashion · Kyoto</div></div></a>
     <a class="maker-card" href="#/world/fashion" data-room="fashion"><div class="ph tone-lavender has-img" data-label="nilo and wren"><img src="assets/shelf/front/kim-bartelt.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Nilo & Wren</span><div class="maker-disc">Accessories</div><div class="maker-room">Fashion · Lisbon</div></div></a>
     <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-lavender has-img" data-label="maison brume"><img src="assets/shelf/front/elise-ansel.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Maison Brume</span><div class="maker-disc">Skincare</div><div class="maker-room">Body · Grasse</div></div></a>
-    <a class="maker-card" href="#/world/body" data-room="body"><div class="ph tone-coffee has-img" data-label="sava botanica"><img src="assets/shelf/front/gabriele-cappelli.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sava Botanica</span><div class="maker-disc">Gourmet</div><div class="maker-room">Body · Ljubljana</div></div></a>
+    <a class="maker-card" href="#/world/food" data-room="food"><div class="ph tone-coffee has-img" data-label="sava botanica"><img src="assets/shelf/front/gabriele-cappelli.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Sava Botanica</span><div class="maker-disc">Gourmet</div><div class="maker-room">Food · Ljubljana</div></div></a>
     <a class="maker-card" href="#/world/home" data-room="home"><div class="ph tone-coffee has-img" data-label="templ studio"><img src="assets/shelf/front/jose-manuel-castro-lopez.webp" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Templ Studio</span><div class="maker-disc">Fragrance</div><div class="maker-room">Home · Vienna</div></div></a>
     <a class="maker-card" href="#/world/home" data-room="home"><div class="ph has-img" data-label="oda ceramics"><img src="assets/shelf/front/artist-spotlight-portrait.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;"></div><div><span class="maker-name">Oda Ceramics</span><div class="maker-disc">Décor & furniture</div><div class="maker-room">Home · Jutland</div></div></a>
     <a class="maker-card" href="#/world/vintage" data-room="vintage"><div class="ph tone-aubergine has-img" data-label="hällwyl archive"><img src="assets/shelf/front/laurence-studio-crouch.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;"></div><div><span class="maker-name">Hällwyl Archive</span><div class="maker-disc">Antiques</div><div class="maker-room">Vintage · Stockholm</div></div></a>
@@ -6575,11 +6852,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6722,11 +7007,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6861,11 +7154,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -6997,11 +7298,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -7015,7 +7324,7 @@ slow();
     <div class="crumbs fade-up">
       <a href="#/">É-MISHTO</a>
       <span>/</span>
-      <span>For artists</span>
+      <span>Creators</span>
     </div>
     <nav class="world-cat-names" id="artist-role-tabs">
       <button type="button" data-role="artist">Artist</button>
@@ -7140,11 +7449,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -7178,9 +7495,9 @@ slow();
       <p class="q-kicker">Question 02</p>
       <h2 class="q-prompt">Where does your work <em>live?</em></h2>
       <ul class="q-options" data-q="q2">
-        <li><button class="q-option" type="button" data-value="arts"><span class="tag">01</span><span><span class="opt-title">Arts</span><span class="opt-note">Painting, sculpture, photography, mixed media.</span></span><span class="opt-mark"></span></button></li>
+        <li><button class="q-option" type="button" data-value="arts"><span class="tag">01</span><span><span class="opt-title">Art</span><span class="opt-note">Painting, sculpture, photography, mixed media.</span></span><span class="opt-mark"></span></button></li>
         <li><button class="q-option" type="button" data-value="fashion"><span class="tag">02</span><span><span class="opt-title">Fashion</span><span class="opt-note">Apparel, accessories.</span></span><span class="opt-mark"></span></button></li>
-        <li><button class="q-option" type="button" data-value="body"><span class="tag">03</span><span><span class="opt-title">Body</span><span class="opt-note">Skincare, gourmet, mindfulness.</span></span><span class="opt-mark"></span></button></li>
+        <li><button class="q-option" type="button" data-value="body"><span class="tag">03</span><span><span class="opt-title">Body</span><span class="opt-note">Skincare, mindfulness.</span></span><span class="opt-mark"></span></button></li>
         <li><button class="q-option" type="button" data-value="home"><span class="tag">04</span><span><span class="opt-title">Home</span><span class="opt-note">Décor, furniture, fragrance, light.</span></span><span class="opt-mark"></span></button></li>
         <li><button class="q-option" type="button" data-value="vintage"><span class="tag">05</span><span><span class="opt-title">Vintage</span><span class="opt-note">Antiques, jewellery, collectibles.</span></span><span class="opt-mark"></span></button></li>
       </ul>
@@ -7337,11 +7654,19 @@ slow();
       <button type="button" class="head-search-btn" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.2" y2="16.2"></line></svg>
       </button>
+      <div class="head-search-scrim"></div>
       <div class="head-search-box">
+        <button type="button" class="head-search-close" aria-label="Close search">Close ✕</button>
         <input type="text" id="head-search-input" placeholder="Search objects, creators, stories">
+        <div class="head-search-quick">
+          <button type="button" class="hsq" data-cat="objects">Objects</button>
+          <button type="button" class="hsq" data-cat="creators">Creators</button>
+          <button type="button" class="hsq" data-cat="stories">Stories</button>
+        </div>
+        <div class="head-search-results" id="head-search-results" hidden></div>
       </div>
-      <div class="head-search-results" id="head-search-results" hidden></div>
     </div>
+    <script>(function(){var w=document.getElementById("head-search");if(!w)return;function close(){w.classList.remove("is-open");}var scrim=w.querySelector(".head-search-scrim");var closeBtn=w.querySelector(".head-search-close");if(scrim)scrim.addEventListener("click",close);if(closeBtn)closeBtn.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});var chips=w.querySelectorAll(".head-search-quick .hsq");var input=document.getElementById("head-search-input");chips.forEach(function(c){c.addEventListener("click",function(e){e.preventDefault();if(w.dataset.cat===c.dataset.cat){delete w.dataset.cat;c.classList.remove("is-active");if(input){input.placeholder="Search objects, creators, stories";}}else{chips.forEach(function(o){o.classList.remove("is-active");});c.classList.add("is-active");w.dataset.cat=c.dataset.cat;if(input){input.placeholder="Search "+c.textContent.toLowerCase();input.focus();}}if(window.__EM_SEARCH_RUN)window.__EM_SEARCH_RUN();});});})();</script>
     <a class="acct acct-extra" href="#/about">Why sell on É-MISHTO</a>
     <a class="acct acct-extra" href="#/journal">Stories</a>
     <a class="acct acct-extra" href="#/account">Account</a>
@@ -7373,7 +7698,7 @@ slow();
         <span>/</span>
         <span>Creator workspace</span>
         <span>/</span>
-        <span data-world-label="">Arts</span>
+        <span data-world-label="">Art</span>
       </div>
 
       <div class="ws-stepnav" role="tablist" aria-label="Workspace steps">
@@ -7467,9 +7792,7 @@ slow();
           </div>
         </div>
 
-        <p class="field-hint" style="margin-top: 22px;">
-          Not a producer? <button id="producer-toggle" type="button" aria-pressed="false" class="quiz-back" style="color: var(--coffee);">Toggle producer block</button> — shown automatically when your world is Body.
-        </p>
+        
 
       <div class="ws-step-nextwrap" style="margin-top:40px;"><button type="button" class="btn-solid" data-goto-step="2">Business &amp; legal →</button></div>
       </div>
@@ -7543,7 +7866,7 @@ slow();
             </div>
             <div class="field">
               <div class="field-label"><span>World / category</span><span class="vis vis-public">Public</span></div>
-              <div class="field-input filled" data-world-pill="">Arts</div>
+              <div class="field-input filled" data-world-pill="">Art</div>
               <span class="field-hint">Pre-filled from your application, editable.</span>
             </div>
             <div class="field">
@@ -7621,44 +7944,61 @@ slow();
           </div>
         </div>
 
-        <!-- draft listings -->
+        <!-- submissions: status reflects the real state (Draft → Submit → In review → team approval → Public).
+             The creator cannot set a state here — only Submit moves Draft to In review. -->
+        <div class="room-filter ws-status-filter" role="group" aria-label="Filter submissions">
+          <button class="room-chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="room-chip" type="button" data-filter="draft" aria-pressed="false">Drafts</button>
+          <button class="room-chip" type="button" data-filter="review" aria-pressed="false">In review</button>
+          <button class="room-chip" type="button" data-filter="public" aria-pressed="false">Public</button>
+        </div>
         <div class="draft-strip">
-          <div class="draft-row">
+          <div class="draft-row" data-state="draft" data-current="true">
             <div class="ph" data-label=""></div>
             <span class="draft-name">Dusk Study II</span>
-            <div class="status-seg" role="tablist" aria-label="Visibility">
-              <button type="button" data-status="draft">Draft</button>
-              <button type="button" data-status="private">Private</button>
-              <button type="button" data-status="published" class="is-active">Published</button>
+            <div class="status-seg" role="status" aria-label="Status">
+              <span data-status="draft" class="is-active" aria-current="true">Draft</span>
+              <span data-status="review">In review</span>
+              <span data-status="public">Public</span>
             </div>
-            <span class="micro status-hint" style="color: var(--ink-38);">live on your spotlight</span>
+            <span class="micro status-hint" style="color: var(--ink-38);">private — in progress</span>
           </div>
-          <div class="draft-row">
+          <div class="draft-row" data-state="draft">
+            <div class="ph tone-ink" data-label=""></div>
+            <span class="draft-name">Vessel Study, Ash Glaze</span>
+            <div class="status-seg" role="status" aria-label="Status">
+              <span data-status="draft" class="is-active" aria-current="true">Draft</span>
+              <span data-status="review">In review</span>
+              <span data-status="public">Public</span>
+            </div>
+            <span class="micro status-hint" style="color: var(--ink-38);">private — in progress</span>
+          </div>
+          <div class="draft-row" data-state="review">
             <div class="ph tone-coffee" data-label=""></div>
             <span class="draft-name">The Empty Room, Morning</span>
-            <div class="status-seg" role="tablist" aria-label="Visibility">
-              <button type="button" data-status="draft" class="is-active">Draft</button>
-              <button type="button" data-status="private">Private</button>
-              <button type="button" data-status="published">Published</button>
+            <div class="status-seg" role="status" aria-label="Status">
+              <span data-status="draft">Draft</span>
+              <span data-status="review" class="is-active" aria-current="true">In review</span>
+              <span data-status="public">Public</span>
             </div>
             <span class="micro status-hint" style="color: var(--ink-38);">private until we approve</span>
           </div>
-          <div class="draft-row">
+          <div class="draft-row" data-state="public">
             <div class="ph tone-lavender" data-label=""></div>
             <span class="draft-name">Untitled (no. 9)</span>
-            <div class="status-seg" role="tablist" aria-label="Visibility">
-              <button type="button" data-status="draft">Draft</button>
-              <button type="button" data-status="private" class="is-active">Private</button>
-              <button type="button" data-status="published">Published</button>
+            <div class="status-seg" role="status" aria-label="Status">
+              <span data-status="draft">Draft</span>
+              <span data-status="review">In review</span>
+              <span data-status="public" class="is-active" aria-current="true">Public</span>
             </div>
-            <span class="micro status-hint" style="color: var(--ink-38);">private</span>
+            <span class="micro status-hint" style="color: var(--ink-38);">live on your spotlight</span>
           </div>
         </div>
 
-        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="2">← Back</button><button type="button" class="btn-solid" id="ws-submit">Done</button></div>
+        <div class="ws-step-nextwrap"><button type="button" class="link-back" data-goto-step="2">← Back</button><button type="button" class="btn-solid" id="ws-submit">Submit</button></div>
       </div>
 
-      <!-- submitted for review: shown after Done, reuses the checkout seal treatment -->
+      <!-- submitted for review: shown after Submit, reuses the checkout seal treatment -->
       <div class="ws-section ws-review" data-ws-step="4">
         <svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor" role="img" aria-label="É-MISHTO"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg>
         <h2>With <em>our editors.</em></h2>
@@ -7874,35 +8214,35 @@ slow();
      product name. Replace wholesale when real catalogue data arrives. */
   var DATA = {
     /* home · this week we love */
-    "Dusk Study II":            { creator: "Andra Kovács",      category: "Arts · Painting" },
+    "Dusk Study II":            { creator: "Andra Kovács",      category: "Art · Painting" },
     "Vessel № 7":               { creator: "Ilinca Moraru",     category: "Home · Décor" },
     "The Linen Wrap Coat":      { creator: "Atelier Domn",      category: "Fashion · Apparel" },
     "Brass Pocket Mirror":      { creator: "Hällwyl Archive",   category: "Vintage · Antiques" },
     /* home · small shelf */
-    "Small Dusk":               { creator: "Andra Kovács",      category: "Arts · Painting" },
+    "Small Dusk":               { creator: "Andra Kovács",      category: "Art · Painting" },
     "Antique Opera Glasses":    { creator: "Hällwyl Archive",   category: "Vintage · Collectibles" },
     "Dawn Scarf":               { creator: "Atelier Domn",      category: "Fashion · Accessories" },
     "The Waxed Canvas Tote":    { creator: "Atelier Domn",      category: "Fashion · Accessories" },
     "Garnet Signet Ring":       { creator: "Vera Lune",         category: "Vintage · Jewelry" },
     /* spotlight · laurence leenaert */
-    "Palmiers sur la route":    { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
-    "Vagues d’argiles IV":      { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
-    "COSMO 2":                  { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
-    "Cubi":                     { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
-    "Indy":                     { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
-    "Montagnes d’argiles":      { creator: "Laurence Leenaert", category: "Arts · Mixed Media" },
+    "Palmiers sur la route":    { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
+    "Vagues d’argiles IV":      { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
+    "COSMO 2":                  { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
+    "Cubi":                     { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
+    "Indy":                     { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
+    "Montagnes d’argiles":      { creator: "Laurence Leenaert", category: "Art · Mixed Media" },
     /* creator workspace preview — authored without imagery */
-    "The Lavender Hour":        { creator: "Laurence Leenaert", category: "Arts · Painting",
+    "The Lavender Hour":        { creator: "Laurence Leenaert", category: "Art · Painting",
                                   img: "assets/shelf/arts/threshold-north-window.png" },
     /* other authored cards */
     /* creator-less catalogue products — placeholder creators */
-    "Threshold Sketch":         { creator: "Andra Kovács",      category: "Arts · Painting" },
-    "Print № 4 / 50":           { creator: "Andra Kovács",      category: "Arts · Mixed Media" },
-    "Studio Offcut II":         { creator: "Andra Kovács",      category: "Arts · Mixed Media" },
+    "Threshold Sketch":         { creator: "Andra Kovács",      category: "Art · Painting" },
+    "Print № 4 / 50":           { creator: "Andra Kovács",      category: "Art · Mixed Media" },
+    "Studio Offcut II":         { creator: "Andra Kovács",      category: "Art · Mixed Media" },
     "Brass Pin":                { creator: "Vera Lune",         category: "Fashion · Accessories" },
     "Cord Bracelet":            { creator: "Vera Lune",         category: "Fashion · Accessories" },
     "Lip Balm № 3":             { creator: "Grádina",           category: "Body · Skincare" },
-    "Honey, Wild":              { creator: "Grádina",           category: "Body · Gourmet" },
+    "Honey, Wild":              { creator: "Grádina",           category: "Food" },
     "Soap Dish":                { creator: "Oda Ceramics",      category: "Body · Skincare" },
     "Cup № 12 / 30":            { creator: "Oda Ceramics",      category: "Home · Décor" },
     "Brass Hook":               { creator: "Templ Studio",      category: "Home · Décor" },
@@ -7917,15 +8257,15 @@ slow();
     "Travel Chess Set":         { creator: "Hällwyl Archive",   category: "Vintage · Collectibles" },
     "Silk Opera Gloves":        { creator: "Hällwyl Archive",   category: "Vintage · Antiques" },
     "Mantel Clock, Walnut":     { creator: "Hällwyl Archive",   category: "Vintage · Antiques" },
-    "Morning Tisane № 1":       { creator: "Grádina",           category: "Body · Gourmet" },
-    "Salt of the Coast":        { creator: "Grádina",           category: "Body · Gourmet" },
+    "Morning Tisane № 1":       { creator: "Grádina",           category: "Food" },
+    "Salt of the Coast":        { creator: "Grádina",           category: "Food" },
     /* creator workspace · sold-works band (authored without image or price) */
-    "The Empty Room, Morning":  { creator: "Laurence Leenaert", category: "Arts · Painting",
+    "The Empty Room, Morning":  { creator: "Laurence Leenaert", category: "Art · Painting",
                                   img: "assets/shelf/arts/empty-chair.png", price: "€1600" },
-    "Dawn Fragment":            { creator: "Laurence Leenaert", category: "Arts · Painting",
+    "Dawn Fragment":            { creator: "Laurence Leenaert", category: "Art · Painting",
                                   img: "assets/shelf/arts/studio-offcut-ii.png", price: "€620" },
     "The Aster Vessel":         { creator: "É-MISHTO Atelier", category: "Home · Décor" },
-    "Postcard Suite":           { creator: "Andra Kovács",      category: "Arts · Mixed Media" },
+    "Postcard Suite":           { creator: "Andra Kovács",      category: "Art · Mixed Media" },
     "Glass Inkwell":            { creator: "Hällwyl Archive",   category: "Vintage · Collectibles" }
   };
   /* workspace cards that need stand-in imagery, by product name */
@@ -8274,7 +8614,7 @@ slow();
     if (st.type !== "unique") return;
     if (st.key !== "sold" && st.key !== "private") return;
     if (items.some(function (x) { return x.p.name === p.name; })) return;
-    items.push({ p: p, world: "arts", crumb: "Arts" });
+    items.push({ p: p, world: "arts", crumb: "Art" });
   });
   if (!items.length) {
     var empty = document.createElement("div");
@@ -8326,7 +8666,7 @@ const EM_WORLDS = {
     quote: "\u201CNothing here is restocked. When it arrives, it arrives once.\u201D",
     shelfTitle: "Just arrived",
     shelf: [
-      { name: "The Aster Vessel", cat: "Home & Objects", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/shelf/vintage/aster-vessel-cover.png", img2: "assets/shelf/vintage/aster-vessel-detail.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
+      { name: "The Aster Vessel", cat: "Home & Objects", maker: "É-MISHTO Atelier", price: "€980", tone: "tone-coffee", label: "hand-thrown ceramic vessel", img: "assets/shelf/newin/aster-vessel-cover.png", img2: "assets/shelf/vintage/aster-vessel-detail.png", img3: "assets/aster/aster-06-neck-rim.png", slug: "aster-vessel" },
       { name: "Palmiers sur la route", cat: "Art", maker: "Laurence Leenaert", price: "€1450", tone: "", label: "clay, textiles and acrylic on handwoven canvas", img: "assets/shelf/front/palmiers-sur-la-route.png", slug: "palmiers-sur-la-route" },
       { name: "The Cassian Keepsake Box", cat: "Vintage", maker: "É-MISHTO Atelier", price: "€220", tone: "tone-ink", label: "hand-carved walnut box", img: "assets/shelf/vintage/cassian-keepsake-box-cover.png", img2: "assets/products/cassian-box/02-back.png", img3: "assets/products/cassian-box/03-grain.png", slug: "cassian-box" },
       { name: "COSMO 2", cat: "Art", maker: "Laurence Leenaert", price: "€2400", tone: "", label: "oilstick, acrylic, handwoven cotton and wool", img: "assets/shelf/front/cosmo-2.png", slug: "cosmo-2" },
@@ -8359,8 +8699,8 @@ const EM_WORLDS = {
   },
   arts: {
     num: "01",
-    name: "Arts.",
-    crumb: "Arts",
+    name: "Art.",
+    crumb: "Art",
     intro: "Painting, sculpture, photography, mixed media. Original works only, each signed by its creator and chosen one at a time — never in bulk.",
     sign: "curated by hand · 23 works this season",
     chips: ["All", "Painting", "Sculpture", "Photography", "Mixed media"],
@@ -8413,24 +8753,21 @@ const EM_WORLDS = {
   },
   body: {
     num: "03",
-    name: "Body.",
-    crumb: "Body",
-    intro: "Skincare, mindfulness, gourmet. Small-batch rituals for the slowest hours of the day, blended and poured by hand.",
-    sign: "curated by hand · 14 rituals this season",
-    chips: ["All", "Skincare", "Mindfulness", "Gourmet"],
+    name: "Body & Beauty.",
+    crumb: "Body & Beauty",
+    intro: "Skincare and mindfulness. Small-batch rituals for the slowest hours of the day, blended and poured by hand.",
+    sign: "curated by hand · small-batch rituals this season",
+    chips: ["All", "Skincare", "Mindfulness"],
     quote: "\u201CA ritual is just an object you return to until it becomes a habit of care.\u201D",
     shelfTitle: "The slow hours",
     shelf: [
       { name: "Evening Ritual Oil", maker: "Saru Botanics", price: "€56", tone: "", label: "ritual oil — amber glass", img: "assets/shelf/body/evening-ritual-oil-clean.png", img2: "assets/body-angles/evening-ritual-oil-2.png", img3: "assets/body-angles/evening-ritual-oil-3.png", slug: "evening-ritual-oil" },
       { name: "Clay Cleanse Bar", maker: "Saru Botanics", price: "€24", tone: "tone-coffee", label: "cold-process bar", img: "assets/shelf/body/clay-cleanse-bar.png", img2: "assets/body-angles/clay-cleanse-bar-2.png", img3: "assets/body-angles/clay-cleanse-bar-3.png", slug: "clay-cleanse-bar" },
       { name: "Stillness Incense", maker: "Templ Studio", price: "€38", tone: "tone-ink", label: "hand-rolled incense", img: "assets/shelf/body/stillness-incense.png", img2: "assets/body-angles/stillness-incense-2.png", img3: "assets/body-angles/stillness-incense-3.png", slug: "stillness-incense" },
-      { name: "Morning Tisane № 1", maker: "Grádina", price: "€22", tone: "tone-lavender", label: "loose herbal blend", img: "assets/shelf/body/morning-tisane-1.png", img2: "assets/body-angles/morning-tisane-1-2.png", img3: "assets/body-angles/morning-tisane-1-3.png", slug: "morning-tisane-1" },
-      { name: "Salt of the Coast", maker: "Grádina", price: "€18", tone: "", label: "flaked sea salt", img: "assets/shelf/body/salt-of-the-coast.png", img2: "assets/body-angles/salt-of-the-coast-2.png", img3: "assets/body-angles/salt-of-the-coast-3.png", slug: "salt-of-the-coast" },
       { name: "The Quiet Journal", maker: "Templ Studio", price: "€44", tone: "tone-aubergine", label: "linen-bound journal", img: "assets/shelf/body/quiet-journal.png", img2: "assets/body-angles/quiet-journal-2.png", img3: "assets/body-angles/quiet-journal-3.png", slug: "quiet-journal" },
     ],
     small: [
       { name: "Lip Balm № 3", price: "€14", tone: "", label: "beeswax balm", img: "assets/shelf/body/lip-balm-3.png", img2: "assets/body-angles/lip-balm-3-2.png", img3: "assets/body-angles/lip-balm-3-3.png", slug: "lip-balm-3" },
-      { name: "Honey, Wild", price: "€19", tone: "", label: "raw honey jar", img: "assets/shelf/body/honey-wild.png", img2: "assets/body-angles/honey-wild-2.png", img3: "assets/body-angles/honey-wild-3.png", slug: "honey-wild" },
       { name: "Soap Dish", price: "€26", tone: "tone-lavender", label: "carved dish", img: "assets/shelf/body/soap-dish.png", img2: "assets/body-angles/soap-dish-2.png", img3: "assets/body-angles/soap-dish-3.png", slug: "soap-dish" },
     ],
   },
@@ -8493,7 +8830,7 @@ window.EM_WORLDS = EM_WORLDS;
   const key = window.__EM_WORLD || "arts";
   const w = EM_WORLDS[key] || EM_WORLDS.arts;
   const COLORS = { "": {key:"natural",name:"Natural",hex:"#EAE2D1"}, "tone-aubergine":{key:"aubergine",name:"Aubergine",hex:"#401020"}, "tone-coffee":{key:"coffee",name:"Coffee",hex:"#755940"}, "tone-ink":{key:"ink",name:"Ink",hex:"#1C1C1C"}, "tone-lavender":{key:"lavender",name:"Lavender",hex:"#D4BAD1"} };
-  const CAT_KW = { painting:["oil","paint","pigment","dusk","study","canvas","panel","tryptich","sketch"], sculpture:["carved","sculpture","form","oak","bronze","stone","vessel"], photography:["print","gelatin","photo","postcard"], "mixed media":["mixed","paper","graphite","fragment","offcut","suite"], apparel:["coat","shirt","trouser","dress","knit","tunic"], accessories:["scarf","belt","tote","bag","square","glove","pocket"], skincare:["oil","bar","balm","cleanse","serum","cream","soap"], mindfulness:["incense","journal","match","still","ritual"], gourmet:["tisane","salt","honey","tea","blend","chocolate","olive"], "décor":["vessel","vase","mirror","bowl","object","dish","print"], furniture:["chair","stool","table","bench","shelf","stand"], fragrance:["candle","scent","perfume","fragrance","incense","mist"], antiques:["opener","brass","antique","archive","bone","key"], jewelry:["ring","necklace","brooch","bracelet","jewel","pendant"], collectibles:["card","coin","stamp","suite"] };
+  const CAT_KW = { painting:["oil","paint","pigment","dusk","study","canvas","panel","tryptich","sketch"], sculpture:["carved","sculpture","form","oak","bronze","stone","vessel"], photography:["print","gelatin","photo","postcard"], "mixed media":["mixed","paper","graphite","fragment","offcut","suite"], apparel:["coat","shirt","trouser","dress","knit","tunic"], accessories:["scarf","belt","tote","bag","square","glove","pocket"], skincare:["oil","bar","balm","cleanse","serum","cream","soap"], mindfulness:["incense","journal","match","still","ritual"], "décor":["vessel","vase","mirror","bowl","object","dish","print"], furniture:["chair","stool","table","bench","shelf","stand"], fragrance:["candle","scent","perfume","fragrance","incense","mist"], antiques:["opener","brass","antique","archive","bone","key"], jewelry:["ring","necklace","brooch","bracelet","jewel","pendant"], collectibles:["card","coin","stamp","suite"] };
   function priceNum(s){ return parseInt(String(s).replace(/[^0-9]/g,""),10) || 0; }
   function catOf(p, idx){ if(p.cat) return p.cat; const text=((p.name||"")+" "+(p.label||"")).toLowerCase(); const cats=w.chips.slice(1); for(let ci=0;ci<cats.length;ci++){ const kws=CAT_KW[cats[ci].toLowerCase()]||[]; for(let ki=0;ki<kws.length;ki++){ if(text.indexOf(kws[ki])>=0) return cats[ci]; } } return cats[idx % cats.length] || "All"; }
   /* availability comes from EMCard's explicit status data, never the name */
@@ -9340,7 +9677,7 @@ window.addEventListener("em-tweaks", (e) => {
     stopView.hidden = outcome.pass;
 
     if (outcome.pass) {
-      const worldLabel = { arts: "Arts", fashion: "Fashion", body: "Body", home: "Home", vintage: "Vintage" }[outcome.world] || "";
+      const worldLabel = { arts: "Art", fashion: "Fashion", body: "Body", home: "Home", vintage: "Vintage" }[outcome.world] || "";
       const wl = passView.querySelector("[data-worldline]");
       if (wl) wl.textContent = worldLabel ? "Your world — " + worldLabel + "." : "";
       const startBtn = passView.querySelector("[data-start]");
@@ -9377,12 +9714,12 @@ window.addEventListener("em-tweaks", (e) => {
   const world = params.get("world") || window.__EM_CREATOR_WORLD || "arts";
   const flagged = params.get("flag") === "1" || window.__EM_CREATOR_FLAG === true;
 
-  const WORLD_LABEL = { arts: "Arts", fashion: "Fashion", body: "Body", home: "Home", vintage: "Vintage" };
+  const WORLD_LABEL = { arts: "Art", fashion: "Fashion", body: "Body", home: "Home", vintage: "Vintage" };
   const isProducer = world === "body";
 
   /* prefill world wherever marked */
-  document.querySelectorAll("[data-world-label]").forEach((el) => { el.textContent = WORLD_LABEL[world] || "Arts"; });
-  document.querySelectorAll("[data-world-pill]").forEach((el) => { el.textContent = WORLD_LABEL[world] || "Arts"; });
+  document.querySelectorAll("[data-world-label]").forEach((el) => { el.textContent = WORLD_LABEL[world] || "Art"; });
+  document.querySelectorAll("[data-world-pill]").forEach((el) => { el.textContent = WORLD_LABEL[world] || "Art"; });
 
   /* flag ribbon (internal aid) */
   const ribbon = document.getElementById("flag-ribbon");
@@ -9452,14 +9789,31 @@ window.addEventListener("em-tweaks", (e) => {
 
   window.__creator = { setView, world, flagged, isProducer };
 
-  var HINTS = { draft: "private — in progress", private: "private until we approve", published: "live on your spotlight" };
-  document.querySelectorAll(".status-seg").forEach(function(seg){
-    seg.addEventListener("click", function(e){
-      var btn = e.target.closest("button[data-status]"); if (!btn) return;
-      seg.querySelectorAll("button").forEach(function(b){ b.classList.remove("is-active"); });
-      btn.classList.add("is-active");
-      var hint = seg.parentElement.querySelector(".status-hint");
-      if (hint) hint.textContent = HINTS[btn.getAttribute("data-status")];
+  /* submission status — Draft → (Submit) → In review → (team approval) → Public.
+     The creator never sets a state directly: Submit is the only transition here.
+     Public is set by the É-MISHTO team, so nothing on this page can make work public. */
+  var HINTS = { draft: "private — in progress", review: "private until we approve", public: "live on your spotlight" };
+  function setState(row, st){
+    row.setAttribute("data-state", st);
+    row.querySelectorAll(".status-seg > span").forEach(function(s){
+      var on = s.getAttribute("data-status") === st;
+      s.classList.toggle("is-active", on);
+      if (on) s.setAttribute("aria-current", "true"); else s.removeAttribute("aria-current");
+    });
+    var hint = row.querySelector(".status-hint"); if (hint) hint.textContent = HINTS[st];
+  }
+  var activeFilter = "all";
+  function applyFilter(){
+    document.querySelectorAll(".draft-strip .draft-row").forEach(function(r){
+      r.hidden = !(activeFilter === "all" || r.getAttribute("data-state") === activeFilter);
+    });
+  }
+  document.querySelectorAll(".ws-status-filter").forEach(function(f){
+    f.addEventListener("click", function(e){
+      var b = e.target.closest("button[data-filter]"); if (!b) return;
+      activeFilter = b.getAttribute("data-filter");
+      f.querySelectorAll("button").forEach(function(x){ var on = x === b; x.classList.toggle("is-active", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+      applyFilter();
     });
   });
 
@@ -9473,7 +9827,12 @@ window.addEventListener("em-tweaks", (e) => {
   }
   stepBtns.forEach(function(b){ b.addEventListener("click", function(){ goStep(b.getAttribute("data-goto-step")); }); });
   var submit = document.getElementById("ws-submit");
-  if (submit) submit.addEventListener("click", function(){ goStep(4); });
+  if (submit) submit.addEventListener("click", function(){
+    /* the submission being edited leaves Draft and goes to the team */
+    var cur = document.querySelector('.draft-row[data-current="true"][data-state="draft"]');
+    if (cur){ setState(cur, "review"); cur.removeAttribute("data-current"); applyFilter(); }
+    goStep(4);
+  });
   if (stepPanels.length) goStep(1);
 })();
 
@@ -9498,13 +9857,51 @@ window.addEventListener("em-tweaks", (e) => {
   })();
   function totalQty(){ var n=0; cart.forEach(function(i){ n+=i.qty; }); return n; }
   function subtotal(){ var n=0; cart.forEach(function(i){ n+=i.price*i.qty; }); return n; }
-  function setQty(id,q){ cart.forEach(function(i){ if(i.id===id){ i.qty=Math.max(1,Math.min(99,q)); } }); save(cart); sync(); }
+  /* max quantity per bag item. One-of-one objects are capped at 1: the status
+     model (EMCard.STATUS) is the source of truth when it knows the object; an
+     explicit item.max is used otherwise (e.g. the object page's data-add-max). */
+  function capOf(it){
+    var S = window.EMCard && window.EMCard.STATUS;
+    var nm = String(it.name || '').replace(/&amp;/g, '&');
+    if (S && S[nm]) return S[nm][0] === 'unique' ? 1 : 99;
+    var m = parseInt(it.max, 10); return m > 0 ? m : 99;
+  }
+  function normalize(){
+    var changed = false;
+    cart.forEach(function(i){ var m = capOf(i); if (i.max !== m){ i.max = m; changed = true; } if (i.qty > m){ i.qty = m; changed = true; } });
+    if (changed) save(cart);
+  }
+  function setQty(id,q){ cart.forEach(function(i){ if(i.id===id){ i.max=capOf(i); i.qty=Math.max(1,Math.min(i.max,q)); } }); save(cart); sync(); }
   function remove(id){ cart=cart.filter(function(i){ return i.id!==id; }); save(cart); sync(); }
-  function add(item){ var ex=null; cart.forEach(function(i){ if(i.id===item.id){ ex=i; } }); if(ex){ ex.qty=Math.min(99, ex.qty+1); if(item.img && !ex.img) ex.img=item.img; } else { cart.push(item); } save(cart); sync(); }
+  function add(item){ var ex=null; cart.forEach(function(i){ if(i.id===item.id){ ex=i; } }); if(ex){ ex.max=capOf(ex); ex.qty=Math.min(ex.max, ex.qty+1); if(item.img && !ex.img) ex.img=item.img; } else { item.max=capOf(item); item.qty=Math.max(1, Math.min(item.max, item.qty||1)); cart.push(item); } save(cart); sync(); }
   function badges(){ var t=totalQty(); document.querySelectorAll('.bag sup').forEach(function(s){ s.textContent=t; }); }
   function sync(){ badges(); listeners.forEach(function(f){ try{ f(); }catch(e){} }); }
-  window.EMCart={ items:function(){ return cart; }, setQty:setQty, remove:remove, add:add, totalQty:totalQty, subtotal:subtotal, onChange:function(f){ listeners.push(f); }, sync:sync };
+  window.EMCart={ items:function(){ normalize(); return cart; }, has:function(id){ return cart.some(function(i){ return i.id===id; }); }, maxOf:capOf, setQty:setQty, remove:remove, add:add, totalQty:totalQty, subtotal:subtotal, onChange:function(f){ listeners.push(f); }, sync:sync };
   badges();
+  /* minimal required-field validation, shared by checkout and account.
+     Marks each empty field with an inline "Required" under it, focuses the first,
+     and clears the mark as soon as the field has a value. No backend. */
+  var errSeq = 0;
+  function mark(el, bad){
+    var host = el.closest('.field') || el.parentNode; if (!host) return;
+    var msg = host.querySelector('.field-error');
+    if (bad){
+      if (!msg){ msg = document.createElement('span'); msg.className = 'field-error'; msg.id = 'fe-' + (++errSeq); msg.textContent = 'Required'; el.insertAdjacentElement('afterend', msg); }
+      el.setAttribute('aria-invalid', 'true'); el.setAttribute('aria-describedby', msg.id);
+      if (!el.__emClear){ el.__emClear = true; var clr = function(){ if ((el.value || '').trim()) mark(el, false); }; el.addEventListener('input', clr); el.addEventListener('change', clr); }
+    } else {
+      el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); if (msg) msg.remove();
+    }
+  }
+  window.EMForm = {
+    empty: function(fields){ return fields.filter(function(el){ return el && !(el.value || '').trim(); }); },
+    check: function(fields){
+      var first = null;
+      fields.forEach(function(el){ if (!el) return; var bad = !(el.value || '').trim(); mark(el, bad); if (bad && !first) first = el; });
+      if (first){ try { first.focus(); } catch(e){} }
+      return !first;
+    }
+  };
 })();</script>
 <script type="text/plain" id="src-notify">(function(){
   if (window.__emNotifyBound) return; window.__emNotifyBound = true;
@@ -9523,6 +9920,40 @@ window.addEventListener("em-tweaks", (e) => {
       btn.classList.remove("is-noted");
       delete btn.dataset.done;
     }, 2200);
+  }, true);
+  /* newsletter — prototype only, no backend. Same in-place register as
+     "We’ll write ✓": the submit button answers, the page never reloads.
+     The button's width is pinned for the moment so the field doesn't shift. */
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (!form || !form.classList || !form.classList.contains("subscribe-form")) return;
+    e.preventDefault();
+    var input = form.querySelector("input[type=email]");
+    var btn = form.querySelector("button[type=submit], button");
+    if (!input || !btn) return;
+    if (!(input.value || "").trim() || (input.checkValidity && !input.checkValidity())) { input.focus(); return; }
+    if (btn.dataset.done === "1") return;
+    /* "Subscribed ✓" is a few px wider than "Subscribe →". Rather than let the
+       button grow (and the field shrink), the original label keeps the button's
+       width but goes transparent, and the confirmation sits over it, right-aligned,
+       running into the existing gap. Zero layout shift. */
+    btn.dataset.done = "1";
+    var ink = getComputedStyle(btn).color;
+    var tag = document.createElement("span");
+    tag.className = "sub-done";
+    tag.textContent = "Subscribed ✓";
+    tag.style.cssText = "position:absolute;top:0;bottom:0;right:0;display:flex;align-items:center;justify-content:flex-end;white-space:nowrap;pointer-events:none;color:" + ink;
+    btn.style.position = "relative";
+    btn.style.color = "transparent";
+    btn.appendChild(tag);
+    btn.setAttribute("aria-live", "polite");
+    setTimeout(function () {
+      if (tag.parentNode) tag.parentNode.removeChild(tag);
+      btn.style.color = "";
+      btn.style.position = "";
+      btn.removeAttribute("aria-live");
+      delete btn.dataset.done;
+    }, 2400);
   }, true);
 })();</script>
 <script type="text/plain" id="src-quickadd">(function(){
@@ -9559,12 +9990,14 @@ window.addEventListener("em-tweaks", (e) => {
   function render(){
     var items=C.items();
     if(titleEl){ titleEl.innerHTML = items.length ? ('<span class="rv-line">'+(items.length===1?'One object,':(words(items.length)+' objects,'))+'</span><span class="rv-line"><em>chosen well.</em></span>') : '<span class="rv-line"><em>An empty bag.</em></span>'; }
-    if(!items.length){ itemsEl.innerHTML='<div class="bag-empty"><p>Nothing here yet — every object is one of one, and worth the wander.</p></div>'; if(sumEl){ sumEl.style.display='none'; } vis(itemsEl); return; }
+    if(!items.length){ itemsEl.innerHTML='<div class="bag-empty"><p>Nothing here yet — every object is one of one, and worth the wander.</p><div class="fe-acts"><a href="#/world/newin">Explore New In →</a></div></div>'; if(sumEl){ sumEl.style.display='none'; } vis(itemsEl); return; }
     if(sumEl){ sumEl.style.display=''; }
     itemsEl.innerHTML=items.map(function(i){
       var dec='<button type="button" data-d="-1" aria-label="Fewer"'+(i.qty<=1?' disabled':'')+'>–</button>';
-      var inc='<button type="button" data-d="1" aria-label="More"'+((i.qty>=99)?' disabled':'')+'>+</button>';
-      var control='<div class="qty" data-id="'+i.id+'">'+dec+'<span class="qty-val">'+i.qty+'</span>'+inc+'</div>';
+      var mx=C.maxOf?C.maxOf(i):99;
+      var inc='<button type="button" data-d="1" aria-label="More"'+((i.qty>=mx)?' disabled':'')+'>+</button>';
+      /* one of one: quantity is always 1, so no stepper that implies otherwise */
+      var control=(mx<=1)?'':'<div class="qty" data-id="'+i.id+'">'+dec+'<span class="qty-val">'+i.qty+'</span>'+inc+'</div>';
       return '<div class="bag-item"><div class="ph '+(i.img?"has-img":(i.tone||""))+'" data-label="">'+(i.img?('<img src="'+i.img+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">'):'')+'</div><div class="bag-actions"><span class="bag-item-name">'+i.name+'</span><p class="bag-item-meta">'+i.maker+' · '+i.meta+'</p>'+control+'<button class="bag-item-remove" type="button" data-rm="'+i.id+'">Remove</button></div><span class="bag-item-price">'+eur(i.price*i.qty)+'</span></div>';
     }).join('');
     var sub=C.subtotal(), ship=60;
@@ -9601,6 +10034,19 @@ window.addEventListener("em-tweaks", (e) => {
   var stageEl={}; STAGES.forEach(function(s){ stageEl[s]=root.querySelector('[data-stage="'+s+'"]'); });
   var steps=root.querySelectorAll('.co-step');
   var ship={ method:'standard', cost:60 };
+  /* required user-input fields for a step: visible fields only (the active identity
+     pane, the active payment method), skipping passwords and fields marked
+     Optional / For delivery only. */
+  function required(s){
+    var root=stageEl[s]; if(!root){ return []; }
+    return [].slice.call(root.querySelectorAll('input.field-input, select.field-input')).filter(function(el){
+      if(el.type==='password'||el.id==='sh-apt'||el.id==='sh-phone'){ return false; }
+      var lab=el.closest('.field') && el.closest('.field').querySelector('.field-label');
+      if(lab && /optional/i.test(lab.textContent)){ return false; }
+      for(var p=el.parentElement; p && p!==root; p=p.parentElement){ if(p.hidden){ return false; } }
+      return true;
+    });
+  }
   function goStage(s){
     STAGES.forEach(function(x){ if(stageEl[x]){ stageEl[x].hidden=(x!==s); } });
     var idx=STAGES.indexOf(s);
@@ -9609,7 +10055,7 @@ window.addEventListener("em-tweaks", (e) => {
     try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); }
   }
   root.addEventListener('click', function(e){
-    var n=e.target.closest('[data-next]'); if(n){ goStage(n.getAttribute('data-next')); return; }
+    var n=e.target.closest('[data-next]'); if(n){ var st=n.closest('[data-stage]'); var F=window.EMForm; if(st && F && !F.check(required(st.getAttribute('data-stage')))){ return; } goStage(n.getAttribute('data-next')); return; }
     var b=e.target.closest('[data-back]'); if(b){ goStage(b.getAttribute('data-back')); return; }
   });
   var idSeg=document.getElementById('id-seg');
@@ -9623,7 +10069,9 @@ window.addEventListener("em-tweaks", (e) => {
   function updateEtas(){ var z=zoneOf(); root.querySelectorAll('#ship-methods .opt').forEach(function(opt){ var m=opt.getAttribute('data-ship'); var e=opt.querySelector('[data-eta]'); if(e){ e.textContent='Arrives in '+etaText(m,z); } }); }
   if(country){ country.addEventListener('change', function(){ updateEtas(); renderSummary(); }); }
   var shipMethods=document.getElementById('ship-methods');
-  if(shipMethods){ shipMethods.addEventListener('click', function(e){ var opt=e.target.closest('.opt'); if(!opt){ return; } shipMethods.querySelectorAll('.opt').forEach(function(x){ x.classList.toggle('is-active', x===opt); }); ship.method=opt.getAttribute('data-ship'); ship.cost=parseInt(opt.getAttribute('data-cost'),10); updateEtas(); renderSummary(); }); }
+  if(shipMethods){ function pickShip(opt){ if(!opt){ return; } shipMethods.querySelectorAll('.opt').forEach(function(x){ x.classList.toggle('is-active', x===opt); var r=x.querySelector('.opt-radio'); if(r){ r.checked=(x===opt); } }); ship.method=opt.getAttribute('data-ship'); ship.cost=parseInt(opt.getAttribute('data-cost'),10); updateEtas(); renderSummary(); }
+    shipMethods.addEventListener('click', function(e){ pickShip(e.target.closest('.opt')); });
+    shipMethods.addEventListener('change', function(e){ if(e.target.classList && e.target.classList.contains('opt-radio')){ pickShip(e.target.closest('.opt')); } }); }
   var sumEl=document.getElementById('co-summary');
   function renderSummary(){
     if(!sumEl){ return; }
@@ -9658,10 +10106,15 @@ window.addEventListener("em-tweaks", (e) => {
   }
   var place=document.getElementById('place-order');
   if(place){ place.addEventListener('click', function(){
+    /* the order cannot be placed with required details missing: jump back to the
+       first incomplete step and mark it */
+    var F=window.EMForm;
+    if(F){ var miss=['identity','shipping','payment'].filter(function(s){ return F.empty(required(s)).length; })[0];
+      if(miss){ goStage(miss); F.check(required(miss)); return; } }
     var order='ÉM-'+Math.random().toString(36).slice(2,7).toUpperCase();
     var eta=etaText(ship.method, zoneOf());
     var items=C.items().slice();
-    var done='<section class="co-done" data-screen-label="Order placed"><svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg><h1 class="page-title">It’s <em>yours.</em></h1><p class="co-sec-note">Order '+order+' is with us.<br>A receipt is on its way to your inbox, and each maker has been told their work has found a home.</p><div class="steps" style="justify-content:center;margin-top:30px;flex-wrap:wrap;gap:20px;"><span>Packed with care</span><span>Arrives in '+eta+'</span></div><a class="btn-solid" href="#/" style="margin-top:34px;">Keep wandering →</a></section>';
+    var done='<section class="co-done" data-screen-label="Order placed"><svg class="seal-star" viewBox="0 0 242.39 242.39" fill="currentColor"><path d="M233.07,111.87H147.72a22.82,22.82,0,0,0-1-3l60.18-60.18a9.33,9.33,0,0,0-13.19-13.19L134.15,95.05a30.89,30.89,0,0,0-3.63-1.54V9.32a9.33,9.33,0,0,0-18.65,0V93.51a25.53,25.53,0,0,0-3.63,1.58L48.66,35.52A9.33,9.33,0,0,0,35.47,48.71l60.14,60.13a27.54,27.54,0,0,0-1,3H9.32a9.33,9.33,0,0,0,0,18.65H95.74c.33.7.61,1.35.94,2L35.47,193.73a9.33,9.33,0,1,0,13.19,13.19l61.81-61.81c.47.19.94.37,1.4.51v87.45a9.33,9.33,0,0,0,18.65,0V145.62c.46-.14.93-.32,1.4-.46l61.76,61.76a9.33,9.33,0,0,0,13.19-13.19l-61.25-61.25c.33-.66.65-1.31.93-2h86.52a9.33,9.33,0,0,0,0-18.65Z"></path></svg><h1 class="page-title">It’s <em>yours.</em></h1><p class="co-sec-note">Order '+order+' is with us.</p><p class="co-sec-note">A receipt is on its way to your inbox, and each maker has been told their work has found a home.</p><div class="steps" style="justify-content:center;margin-top:30px;flex-wrap:wrap;gap:20px;"><span>Packed with care</span><span>Arrives in '+eta+'</span></div><a class="btn-solid" href="#/" style="margin-top:34px;">Keep wandering →</a></section>';
     root.outerHTML=done;
     items.forEach(function(i){ C.remove(i.id); });
   }); }
@@ -9670,12 +10123,14 @@ window.addEventListener("em-tweaks", (e) => {
 <script type="text/plain" id="src-object">(function(){
   var C=window.EMCart; if(!C){ return; }
   var btn=document.querySelector('.commerce .btn-solid'); if(!btn){ return; }
-  btn.addEventListener('click', function(){
+  function inBagLink(){ var a=document.createElement('a'); a.className='btn-solid'; a.href='#/bag'; a.textContent='In your bag — view →'; return a; }
+  /* reload-safe: a one-of-one object already in the bag never offers Take it home again */
+  if(C.has && C.has(btn.getAttribute('data-add-id'))){ btn.replaceWith(inBagLink()); }
+  else btn.addEventListener('click', function(){
     var item={ id:btn.getAttribute('data-add-id'), name:btn.getAttribute('data-add-name'), maker:btn.getAttribute('data-add-maker'), meta:btn.getAttribute('data-add-meta'), price:parseFloat(btn.getAttribute('data-add-price'))||0, qty:1, tone:btn.getAttribute('data-add-tone')||'', img:(document.getElementById('obj-hero-img')?document.getElementById('obj-hero-img').src:''), max:parseInt(btn.getAttribute('data-add-max'),10)||99 };
     if(!item.id){ return; }
     C.add(item);
-    var a=document.createElement('a'); a.className='btn-solid'; a.href='#/bag'; a.textContent='In your bag — view →';
-    btn.replaceWith(a);
+    btn.replaceWith(inBagLink());
   });
   /* one of one = what the object is · availability = its current status.
      Both read from EMCard's explicit status data, never from the markup. */
@@ -9738,9 +10193,9 @@ window.addEventListener("em-tweaks", (e) => {
   if(seg){ seg.addEventListener('click', function(e){ var b=e.target.closest('button[data-amode]'); if(!b){ return; } seg.querySelectorAll('button').forEach(function(x){ x.classList.toggle('is-active', x===b); }); var m=b.getAttribute('data-amode'); root.querySelectorAll('[data-apane]').forEach(function(p){ p.hidden=(p.getAttribute('data-apane')!==m); }); var t=document.getElementById('auth-title'); if(t){ t.innerHTML=(m==='register')?'Make it <em>yours.</em>':'Welcome <em>back.</em>'; } }); }
   function val(id){ var el=document.getElementById(id); return el?(el.value||'').trim():''; }
   var si=document.getElementById('do-signin');
-  if(si){ si.addEventListener('click', function(){ var em=val('li-email')||'you@studio.com'; setUser({ name:em.split('@')[0], email:em }); renderDash(); show('dash'); }); }
+  if(si){ si.addEventListener('click', function(){ var F=window.EMForm; if(F && !F.check([document.getElementById('li-email')])){ return; } var em=val('li-email')||'you@studio.com'; setUser({ name:em.split('@')[0], email:em }); renderDash(); show('dash'); }); }
   var rg=document.getElementById('do-register');
-  if(rg){ rg.addEventListener('click', function(){ var nm=(val('rg-first')+' '+val('rg-last')).trim()||'Collector'; var em=val('rg-em')||'you@studio.com'; setUser({ name:nm, email:em }); renderDash(); show('dash'); }); }
+  if(rg){ rg.addEventListener('click', function(){ var F=window.EMForm; if(F && !F.check(['rg-first','rg-last','rg-em'].map(function(id){ return document.getElementById(id); }))){ return; } var nm=(val('rg-first')+' '+val('rg-last')).trim()||'Collector'; var em=val('rg-em')||'you@studio.com'; setUser({ name:nm, email:em }); renderDash(); show('dash'); }); }
   var lo=document.getElementById('do-logout');
   if(lo){ lo.addEventListener('click', function(){ clearUser(); show('gate'); }); }
   var nav=document.getElementById('dash-nav');
