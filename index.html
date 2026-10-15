@@ -102,6 +102,16 @@ body[data-grain="off"] .grain { display: none; }
   justify-content: space-between;
   padding: 20px var(--gutter);
   mix-blend-mode: normal;
+  transition: padding var(--t) var(--ease);
+}
+/* scrolled: a slimmer bar (70 → 58px), desktop and phone. The phone sticky
+   filter row follows it so no gap opens between the two. */
+.site-head.scrolled { padding-top: 12px; padding-bottom: 12px; }
+body:has(.site-head.scrolled) .world-controls { top: 54px; }
+/* phone: slimmer still (70 → 50px) */
+@media (max-width: 560px) {
+  .site-head.scrolled { padding-top: 10px; padding-bottom: 10px; }
+  body:has(.site-head.scrolled) .world-controls { top: 50px; }
 }
 /* brand logo — inline SVG injected by JS; fill inherits currentColor so it inverts */
 .brand-logo {
